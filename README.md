@@ -6,11 +6,11 @@ Supported functions are
 
 * Create project
 * Delete project
+* Export rows
 
 Currently missing functions are
 
 * Apply operations
-* Export rows
 * Check status of async processes
 * Get all project metadata
 * Expression Preview
