@@ -29,9 +29,7 @@ public class MinimalRefineClientTest {
 
    private URL url;
    private RefineClient refineClient;
-
-   @Mock
-   private HttpClient mockHttpClient;
+   @Mock private HttpClient mockHttpClient;
 
    @Before
    public void setUp() throws MalformedURLException {

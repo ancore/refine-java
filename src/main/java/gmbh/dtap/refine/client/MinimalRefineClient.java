@@ -1,9 +1,6 @@
 package gmbh.dtap.refine.client;
 
-import gmbh.dtap.refine.api.RefineClient;
-import gmbh.dtap.refine.api.RefineProject;
-import gmbh.dtap.refine.api.UploadFormat;
-import gmbh.dtap.refine.api.UploadOptions;
+import gmbh.dtap.refine.api.*;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -18,6 +15,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -64,6 +62,9 @@ public class MinimalRefineClient implements RefineClient {
 
    @Override
    public RefineProject createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException {
+      notNull("name", "name");
+      notNull("file", "file");
+
       URL url = new URL(baseUrl, "/command/core/create-project-from-upload");
 
       MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
@@ -94,6 +95,8 @@ public class MinimalRefineClient implements RefineClient {
 
    @Override
    public void deleteProject(String id) throws IOException {
+      notNull("id", "id");
+
       URL url = new URL(baseUrl, "/command/core/delete-project");
 
       List<NameValuePair> form = new ArrayList<>();
@@ -107,6 +110,30 @@ public class MinimalRefineClient implements RefineClient {
             .build();
 
       httpClient.execute(request, new JsonResponseHandler());
+   }
+
+   @Override
+   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException {
+      notNull("id", "id");
+      notNull("format", "format");
+      notNull("outputStream", "outputStream");
+
+      URL url = new URL(baseUrl, "/command/core/export-rows");
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("project", id));
+      if (engine != null) {
+         form.add(new BasicNameValuePair("engine", engine.asJson()));
+      }
+      form.add(new BasicNameValuePair("format", format.getFormat()));
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+            .post(url.toString())
+            .setEntity(entity)
+            .build();
+
+      return httpClient.execute(request, new StreamResponseHandler(outputStream));
    }
 
    @Override
