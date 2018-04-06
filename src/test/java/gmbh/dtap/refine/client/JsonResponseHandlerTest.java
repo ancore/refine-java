@@ -30,15 +30,9 @@ import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
 public class JsonResponseHandlerTest {
 
    private JsonResponseHandler jsonResponseHandler;
-
-   @Mock
-   private HttpResponse httpResponse;
-
-   @Mock
-   private HttpEntity httpEntity;
-
-   @Mock
-   private StatusLine statusLine;
+   @Mock private HttpResponse httpResponse;
+   @Mock private HttpEntity httpEntity;
+   @Mock private StatusLine statusLine;
 
    @Before
    public void setUp() throws MalformedURLException {
@@ -50,9 +44,9 @@ public class JsonResponseHandlerTest {
       String expectedResponseBody = "{ \"code\" : \"ok\" }";
 
       when(statusLine.getStatusCode()).thenReturn(200);
-      when(httpEntity.getContent()).thenReturn(toInputStream(expectedResponseBody, "UTF-8"));
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
       when(httpResponse.getEntity()).thenReturn(httpEntity);
+      when(httpEntity.getContent()).thenReturn(toInputStream(expectedResponseBody, "UTF-8"));
 
       String actualResponseBody = jsonResponseHandler.handleResponse(httpResponse);
       assertEquals(expectedResponseBody, actualResponseBody, STRICT);
@@ -81,9 +75,10 @@ public class JsonResponseHandlerTest {
             "}";
 
       when(statusLine.getStatusCode()).thenReturn(200);
-      when(httpEntity.getContent()).thenReturn(toInputStream(expectedResponseBody, "UTF-8"));
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
       when(httpResponse.getEntity()).thenReturn(httpEntity);
+      when(httpEntity.getContent()).thenReturn(toInputStream(expectedResponseBody, "UTF-8"));
+
       try {
          jsonResponseHandler.handleResponse(httpResponse);
          fail("expected exception not thrown");

@@ -27,15 +27,9 @@ import static org.mockito.Mockito.when;
 public class LocationResponseHandlerTest {
 
    private LocationResponseHandler locationResponseHandler;
-
-   @Mock
-   private HttpResponse httpResponse;
-
-   @Mock
-   private StatusLine statusLine;
-
-   @Mock
-   private Header header;
+   @Mock private HttpResponse httpResponse;
+   @Mock private StatusLine statusLine;
+   @Mock private Header header;
 
    @Before
    public void setUp() throws MalformedURLException {

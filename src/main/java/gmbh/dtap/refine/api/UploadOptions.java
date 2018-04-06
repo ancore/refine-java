@@ -9,7 +9,7 @@ import java.util.Map;
 import static org.apache.http.util.Asserts.notNull;
 
 /**
- * The {@link UploadOptions} can be added when creating a {@link RefineProject} with the {@link RefineClient}.
+ * These options are added when creating a {@link RefineProject} with the {@link RefineClient}.
  * Options are used to give additional information on some {@link UploadFormat}s.
  *
  * @since 0.1.0

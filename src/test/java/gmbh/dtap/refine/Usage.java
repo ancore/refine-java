@@ -1,9 +1,6 @@
 package gmbh.dtap.refine;
 
-import gmbh.dtap.refine.api.RefineClient;
-import gmbh.dtap.refine.api.RefineProject;
-import gmbh.dtap.refine.api.UploadFormat;
-import gmbh.dtap.refine.api.UploadOptions;
+import gmbh.dtap.refine.api.*;
 
 import java.io.File;
 
@@ -32,10 +29,20 @@ public class Usage {
       }
    }
 
+   private void createProjectAndExportRows() throws Exception {
+      try (RefineClient client = RefineClients.create(url)) {
+         RefineProject project = client.createProject("Addresses", file,
+               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
+         client.exportRows(project.getId(), Engine.from("{\"facets\":[]}"), ExportFormat.html, System.out);
+         client.deleteProject(project.getId());
+      }
+   }
+
    public static void main(String... args) throws Exception {
       Usage usage = new Usage();
       usage.createAndDeleteProject();
       usage.createAndDeleteExtendedProject();
+      usage.createProjectAndExportRows();
    }
 
 }
