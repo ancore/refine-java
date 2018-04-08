@@ -22,9 +22,9 @@ String url = "http://localhost:3333/";
 File file = ...;
    
 try (RefineClient client = RefineClients.create(url)) {
-         RefineProject project = client.createProject("Project name", file);
+         RefineProjectLocation location = client.createProject("Project name", file);
          // ...
-         client.deleteProject(project.getId());
+         client.deleteProject(location.getId());
 }
 ```
 
