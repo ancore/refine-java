@@ -14,6 +14,14 @@ import java.net.URL;
 public class RefineClients {
 
    /**
+    * Prevent instantiation.
+    *
+    * @since 0.1.2
+    */
+   private RefineClients() {
+   }
+
+   /**
     * Created a new instance of a {@link RefineClient}.
     *
     * @param url the URL of the OpenRefine server

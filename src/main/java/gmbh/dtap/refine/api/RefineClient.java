@@ -25,12 +25,12 @@ public interface RefineClient extends AutoCloseable {
     *
     * @param name the project name
     * @param file the file containing the data to upload
-    * @return the refine project containing information on the created project
+    * @return the location of the created refine project
     * @throws IOException             in case of a connection problem
     * @throws ClientProtocolException in case the server responses with an error
     * @since 0.1.0
     */
-   RefineProject createProject(String name, File file) throws IOException;
+   RefineProjectLocation createProject(String name, File file) throws IOException;
 
    /**
     * Creates a project at the OpenRefine server.
@@ -39,12 +39,12 @@ public interface RefineClient extends AutoCloseable {
     * @param file    the file containing the data to upload
     * @param format  the format, {@code null} for the refine server to guess
     * @param options the options, {@code null} for none
-    * @return the refine project containing information on the created project
+    * @return the location of the created refine project
     * @throws IOException             in case of a connection problem
     * @throws ClientProtocolException in case the server responses with an error
     * @since 0.1.0
     */
-   RefineProject createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException;
+   RefineProjectLocation createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException;
 
    /**
     * Deletes a project at the OpenRefine server.

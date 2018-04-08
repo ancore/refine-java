@@ -9,7 +9,6 @@ public enum ExportFormat {
 
    csv("csv"), tsv("tsv"), xls("xls"), xlsx("xlsx"), ods("ods"), html("html");
 
-
    private String format;
 
    ExportFormat(String format) {

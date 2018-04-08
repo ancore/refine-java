@@ -22,7 +22,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.apache.http.entity.ContentType.TEXT_PLAIN;
 import static org.apache.http.util.Asserts.notNull;
@@ -57,12 +56,12 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public RefineProject createProject(String name, File file) throws IOException {
+   public RefineProjectLocation createProject(String name, File file) throws IOException {
       return createProject(name, file, null, null);
    }
 
    @Override
-   public RefineProject createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException {
+   public RefineProjectLocation createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException {
       notNull(name, "name");
       notNull(file, "file");
 
@@ -89,9 +88,7 @@ public class MinimalRefineClient implements RefineClient {
             .setEntity(entity)
             .build();
 
-      String location = httpClient.execute(request, new LocationResponseHandler());
-      String id = substringAfterLast(location, "=");
-      return new MinimalRefineProject(id, name, new URL(location));
+      return httpClient.execute(request, new LocationResponseHandler());
    }
 
    @Override
@@ -117,7 +114,8 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException {
+   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws
+         IOException {
       notNull("id", "id");
       notNull("format", "format");
       notNull("outputStream", "outputStream");

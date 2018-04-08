@@ -17,47 +17,47 @@ public class Usage {
 
    private void createAndDeleteProject() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
-         RefineProject project = client.createProject("Addresses", file);
-         client.deleteProject(project.getId());
+         RefineProjectLocation location = client.createProject("Addresses", file);
+         client.deleteProject(location.getId());
       }
    }
 
    private void createAndDeleteExtendedProject() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
-         RefineProject project = client.createProject("Addresses", file,
+         RefineProjectLocation location = client.createProject("Addresses", file,
                UploadFormat.separatorBased, UploadOptions.create("separator", ","));
-         client.deleteProject(project.getId());
+         client.deleteProject(location.getId());
       }
    }
 
    private void createProjectAndExportRows() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
-         RefineProject project = client.createProject("Addresses", file,
+         RefineProjectLocation location = client.createProject("Addresses", file,
                UploadFormat.separatorBased, UploadOptions.create("separator", ","));
-         client.exportRows(project.getId(), Engine.from("{\"facets\":[]}"), ExportFormat.html, System.out);
-         client.deleteProject(project.getId());
+         client.exportRows(location.getId(), Engine.from("{\"facets\":[]}"), ExportFormat.html, System.out);
+         client.deleteProject(location.getId());
       }
    }
 
    private void createProjectAndGetMetadata() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
-         RefineProject project1 = client.createProject("Addresses1", file,
+         RefineProjectLocation location1 = client.createProject("Addresses1", file,
                UploadFormat.separatorBased, UploadOptions.create("separator", ","));
-         RefineProject project2 = client.createProject("Addresses2", file,
+         RefineProjectLocation location2 = client.createProject("Addresses2", file,
                UploadFormat.separatorBased, UploadOptions.create("separator", ","));
          List<RefineProject> projects = client.getAllProjectMetadata();
          System.out.println(projects);
-         client.deleteProject(project1.getId());
-         client.deleteProject(project2.getId());
+         client.deleteProject(location1.getId());
+         client.deleteProject(location2.getId());
       }
    }
 
    public static void main(String... args) throws Exception {
       Usage usage = new Usage();
-      //usage.createAndDeleteProject();
-      //usage.createAndDeleteExtendedProject();
+      usage.createAndDeleteProject();
+      usage.createAndDeleteExtendedProject();
       usage.createProjectAndExportRows();
-      //usage.createProjectAndGetMetadata();
+      usage.createProjectAndGetMetadata();
    }
 
 }

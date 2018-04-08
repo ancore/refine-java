@@ -1,7 +1,7 @@
 package gmbh.dtap.refine.client;
 
 import gmbh.dtap.refine.api.RefineClient;
-import gmbh.dtap.refine.api.RefineProject;
+import gmbh.dtap.refine.api.RefineProjectLocation;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.junit.Before;
@@ -29,14 +29,14 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MinimalRefineClientTest {
 
-   private URL url;
+   private URL baseUrl;
    private RefineClient refineClient;
    @Mock private HttpClient mockHttpClient;
 
    @Before
    public void setUp() throws MalformedURLException {
-      url = new URL("http://localhost:3333/");
-      refineClient = new MinimalRefineClient(url, mockHttpClient);
+      baseUrl = new URL("http://localhost:3333/");
+      refineClient = new MinimalRefineClient(baseUrl, mockHttpClient);
    }
 
    @Test
@@ -44,17 +44,17 @@ public class MinimalRefineClientTest {
       String projectId = "123456789";
       String projectName = "JUnit Test";
       File file = new File("names.csv");
-      URL expectedLocation = new URL(url, "project?project=" + projectId);
+
+      URL expectedUrl = new URL(baseUrl, "project?project=" + projectId);
+      RefineProjectLocation expectedLocation = MinimalRefineProjectLocation.from(expectedUrl);
 
       LocationResponseHandler anyLocationResponseHandler = Mockito.any(LocationResponseHandler.class);
-      when(mockHttpClient.execute(any(), anyLocationResponseHandler)).thenReturn(expectedLocation.toExternalForm());
+      when(mockHttpClient.execute(any(), anyLocationResponseHandler)).thenReturn(expectedLocation);
 
-      RefineProject project = refineClient.createProject(projectName, file);
-      assertThat(project).isNotNull();
-      assertThat(project.getId()).isNotEmpty();
-      assertThat(project.getName()).isEqualTo(projectName);
-      assertThat(project.getUrl()).isNotNull();
-      assertThat(project.getUrl()).isEqualTo(expectedLocation);
+      RefineProjectLocation actualLocation = refineClient.createProject(projectName, file);
+      assertThat(actualLocation).isEqualTo(expectedLocation);
+      assertThat(actualLocation.getId()).isEqualTo(projectId);
+      assertThat(actualLocation.getUrl()).isEqualTo(expectedUrl);
    }
 
    @Test
