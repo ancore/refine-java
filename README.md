@@ -7,14 +7,13 @@ Supported functions are
 * Create project
 * Delete project
 * Export rows
+* Get all project metadata
 
 Currently missing functions are
 
 * Apply operations
 * Check status of async processes
-* Get all project metadata
 * Expression Preview
-
 
 ## Usage
 
