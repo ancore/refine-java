@@ -18,6 +18,8 @@ import static java.time.OffsetDateTime.parse;
 
 /**
  * This class is shared by all response handlers to allow reuse of the unmarshaller instance.
+ * <p>
+ * All JSON parsing of OpenRefine responses is done here.
  *
  * @since 0.1.2
  */
@@ -43,7 +45,7 @@ class ResponseParser {
       }
    }
 
-   public ProjectMetadataResponse parseAllProjectMetadataResponse(String json) throws IOException {
+   ProjectMetadataResponse parseAllProjectMetadataResponse(String json) throws IOException {
       JsonNode node = parseJson(json);
       JsonNode projectsNode = node.path("projects");
       if (projectsNode.isMissingNode()) {

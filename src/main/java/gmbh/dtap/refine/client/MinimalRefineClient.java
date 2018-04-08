@@ -93,7 +93,7 @@ public class MinimalRefineClient implements RefineClient {
 
    @Override
    public void deleteProject(String id) throws IOException {
-      notNull("id", "id");
+      notNull(id, "id");
 
       URL url = new URL(baseUrl, "/command/core/delete-project");
 
@@ -114,11 +114,10 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws
-         IOException {
-      notNull("id", "id");
-      notNull("format", "format");
-      notNull("outputStream", "outputStream");
+   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException {
+      notNull(id, "id");
+      notNull(format, "format");
+      notNull(outputStream, "outputStream");
 
       URL url = new URL(baseUrl, "/command/core/export-rows");
 

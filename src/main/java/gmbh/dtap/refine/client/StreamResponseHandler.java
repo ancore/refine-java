@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * This class implements a {@link ResponseHandler} that streams the response body.
+ * This class implements a {@link ResponseHandler} that copies the response body to an {@link OutputStream}.
  *
  * @since 0.1.1
  */
@@ -17,7 +17,7 @@ public class StreamResponseHandler implements ResponseHandler<Integer> {
 
    private final OutputStream outputStream;
 
-   public StreamResponseHandler(OutputStream outputStream) {
+   StreamResponseHandler(OutputStream outputStream) {
       this.outputStream = outputStream;
    }
 

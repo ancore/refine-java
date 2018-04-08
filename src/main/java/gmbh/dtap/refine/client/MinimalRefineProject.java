@@ -13,7 +13,7 @@ import static org.apache.http.util.Asserts.notEmpty;
 import static org.apache.http.util.Asserts.notNull;
 
 /**
- * This class implements a minimal {@link RefineProject}.
+ * A minimal implementations of {@link RefineProject}.
  *
  * @since 0.1.0
  */

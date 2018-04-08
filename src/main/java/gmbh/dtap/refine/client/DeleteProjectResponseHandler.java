@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @since 0.1.0
  */
-public class DeleteProjectResponseHandler implements ResponseHandler<DeleteProjectResponse> {
+class DeleteProjectResponseHandler implements ResponseHandler<DeleteProjectResponse> {
 
    private ResponseParser responseParser;
 

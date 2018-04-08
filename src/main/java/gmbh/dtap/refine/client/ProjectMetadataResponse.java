@@ -8,11 +8,11 @@ import java.util.List;
 import static org.apache.http.util.Asserts.notNull;
 
 /**
- * This class represents the response from the project metadata request.
+ * This class represents the response from the <tt>get all project metadata</tt> request.
  *
  * @since 0.1.2
  */
-public class ProjectMetadataResponse {
+class ProjectMetadataResponse {
 
    private final List<RefineProject> refineProjects;
 
@@ -20,12 +20,12 @@ public class ProjectMetadataResponse {
       refineProjects = new ArrayList<>();
    }
 
-   public void add(RefineProject refineProject) {
+   void add(RefineProject refineProject) {
       notNull(refineProject, "refineProject");
       refineProjects.add(refineProject);
    }
 
-   public List<RefineProject> getRefineProjects() {
+   List<RefineProject> getRefineProjects() {
       return refineProjects;
    }
 

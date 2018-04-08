@@ -3,11 +3,11 @@ package gmbh.dtap.refine.client;
 import gmbh.dtap.refine.api.ImportOptionMetadata;
 
 /**
- * This is a minimal implementation of {@link ImportOptionMetadata}.
+ * A minimal implementation of {@link ImportOptionMetadata}.
  *
  * @since 0.1.2
  */
-public class MinimalImportOptionMetadata implements ImportOptionMetadata {
+class MinimalImportOptionMetadata implements ImportOptionMetadata {
 
    private boolean storeBlankRows;
    private boolean includeFileSources;
@@ -26,7 +26,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return storeBlankRows;
    }
 
-   public void setStoreBlankRows(boolean storeBlankRows) {
+   void setStoreBlankRows(boolean storeBlankRows) {
       this.storeBlankRows = storeBlankRows;
    }
 
@@ -35,7 +35,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return includeFileSources;
    }
 
-   public void setIncludeFileSources(boolean includeFileSources) {
+   void setIncludeFileSources(boolean includeFileSources) {
       this.includeFileSources = includeFileSources;
    }
 
@@ -44,7 +44,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return skipDataLines;
    }
 
-   public void setSkipDataLines(int skipDataLines) {
+   void setSkipDataLines(int skipDataLines) {
       this.skipDataLines = skipDataLines;
    }
 
@@ -53,7 +53,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return guessCellValueType;
    }
 
-   public void setGuessCellValueType(boolean guessCellValueType) {
+   void setGuessCellValueType(boolean guessCellValueType) {
       this.guessCellValueType = guessCellValueType;
    }
 
@@ -62,7 +62,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return headerLines;
    }
 
-   public void setHeaderLines(int headerLines) {
+   void setHeaderLines(int headerLines) {
       this.headerLines = headerLines;
    }
 
@@ -71,7 +71,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return ignoreLines;
    }
 
-   public void setIgnoreLines(int ignoreLines) {
+   void setIgnoreLines(int ignoreLines) {
       this.ignoreLines = ignoreLines;
    }
 
@@ -80,7 +80,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return processQuotes;
    }
 
-   public void setProcessQuotes(boolean processQuotes) {
+   void setProcessQuotes(boolean processQuotes) {
       this.processQuotes = processQuotes;
    }
 
@@ -89,7 +89,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return fileSource;
    }
 
-   public void setFileSource(String fileSource) {
+   void setFileSource(String fileSource) {
       this.fileSource = fileSource;
    }
 
@@ -98,7 +98,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return projectName;
    }
 
-   public void setProjectName(String projectName) {
+   void setProjectName(String projectName) {
       this.projectName = projectName;
    }
 
@@ -107,7 +107,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return separator;
    }
 
-   public void setSeparator(String separator) {
+   void setSeparator(String separator) {
       this.separator = separator;
    }
 
@@ -116,7 +116,7 @@ public class MinimalImportOptionMetadata implements ImportOptionMetadata {
       return storeBlankCellsAsNulls;
    }
 
-   public void setStoreBlankCellsAsNulls(boolean storeBlankCellsAsNulls) {
+   void setStoreBlankCellsAsNulls(boolean storeBlankCellsAsNulls) {
       this.storeBlankCellsAsNulls = storeBlankCellsAsNulls;
    }
 
