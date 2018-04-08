@@ -12,8 +12,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static gmbh.dtap.refine.client.DeleteProjectResponse.error;
-import static gmbh.dtap.refine.client.DeleteProjectResponse.ok;
 import static java.time.OffsetDateTime.parse;
 
 /**
@@ -36,10 +34,10 @@ class ResponseParser {
       JsonNode node = parseJson(json);
       String code = findExistingPath(node, "code").asText();
       if ("ok".equals(code)) {
-         return ok();
+         return DeleteProjectResponse.ok();
       } else if ("error".equals(code)) {
          String message = findExistingPath(node, "message").asText();
-         return error(message);
+         return DeleteProjectResponse.error(message);
       } else {
          throw new RefineException("Unexpected code: " + code);
       }
@@ -113,6 +111,21 @@ class ResponseParser {
          metadataList.add(metadata);
       }
       return metadataList;
+   }
+
+
+   ApplyOperationsResponse parseApplyOperationsResponse(String json) throws IOException {
+      JsonNode node = parseJson(json);
+      String code = findExistingPath(node, "code").asText();
+      if ("ok".equals(code)) {
+         return ApplyOperationsResponse.ok();
+      } else if ("error".equals(code)) {
+         String message = findExistingPath(node, "message").asText();
+         return ApplyOperationsResponse.error(message);
+      } else {
+         throw new RefineException("Unexpected code: " + code);
+      }
+
    }
 
    private JsonNode parseJson(String json) throws IOException {

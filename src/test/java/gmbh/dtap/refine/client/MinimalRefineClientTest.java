@@ -1,6 +1,5 @@
 package gmbh.dtap.refine.client;
 
-import gmbh.dtap.refine.api.RefineClient;
 import gmbh.dtap.refine.api.RefineException;
 import gmbh.dtap.refine.api.RefineProjectLocation;
 import org.apache.http.client.HttpClient;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class MinimalRefineClientTest {
 
    private URL baseUrl;
-   private RefineClient refineClient;
+   private MinimalRefineClient refineClient;
    @Mock private HttpClient mockHttpClient;
 
    @Before
@@ -81,6 +80,66 @@ public class MinimalRefineClientTest {
 
       try {
          refineClient.deleteProject(projectId);
+         fail("expected exception not thrown");
+      } catch (RefineException expectedException) {
+         assertThat(expectedException.getMessage()).isEqualTo(expectedErrorMessage);
+      }
+   }
+
+   @Test
+   public void should_not_throw_exception_on_apply_operations_request() throws IOException {
+      String projectId = "123456789";
+      String operationJson = "{\n" +
+            "    \"op\": \"core/column-split\",\n" +
+            "    \"description\": \"Split column ID by separator\",\n" +
+            "    \"engineConfig\": {\n" +
+            "      \"facets\": [],\n" +
+            "      \"mode\": \"row-based\"\n" +
+            "    },\n" +
+            "    \"columnName\": \"ID\",\n" +
+            "    \"guessCellType\": true,\n" +
+            "    \"removeOriginalColumn\": true,\n" +
+            "    \"mode\": \"separator\",\n" +
+            "    \"separator\": \"-\",\n" +
+            "    \"regex\": false,\n" +
+            "    \"maxColumns\": 0\n" +
+            "  }";
+
+      ApplyOperationsResponse applyOperationsResponse = ApplyOperationsResponse.ok();
+
+      ApplyOperationsResponseHandler anyApplyOperationsResponseHandler = Mockito.any(ApplyOperationsResponseHandler.class);
+      when(mockHttpClient.execute(any(), anyApplyOperationsResponseHandler)).thenReturn(applyOperationsResponse);
+
+      refineClient.applyOperations(projectId, JsonOperation.from(operationJson));
+   }
+
+   @Test
+   public void should_throw_exception_on_error_response() throws IOException {
+      String projectId = "123456789";
+      String operationJson = "{\n" +
+            "    \"op\": \"core/column-split\",\n" +
+            "    \"description\": \"Split column ID by separator\",\n" +
+            "    \"engineConfig\": {\n" +
+            "      \"facets\": [],\n" +
+            "      \"mode\": \"row-based\"\n" +
+            "    },\n" +
+            "    \"columnName\": \"ID\",\n" +
+            "    \"guessCellType\": true,\n" +
+            "    \"removeOriginalColumn\": true,\n" +
+            "    \"mode\": \"separator\",\n" +
+            "    \"separator\": \"-\",\n" +
+            "    \"regex\": false,\n" +
+            "    \"maxColumns\": 0\n" +
+            "  }";
+      String expectedErrorMessage = "Error message.";
+
+      ApplyOperationsResponse applyOperationsResponse = ApplyOperationsResponse.error(expectedErrorMessage);
+
+      ApplyOperationsResponseHandler anyApplyOperationsResponseHandler = Mockito.any(ApplyOperationsResponseHandler.class);
+      when(mockHttpClient.execute(any(), anyApplyOperationsResponseHandler)).thenReturn(applyOperationsResponse);
+
+      try {
+         refineClient.applyOperations(projectId, JsonOperation.from(operationJson));
          fail("expected exception not thrown");
       } catch (RefineException expectedException) {
          assertThat(expectedException.getMessage()).isEqualTo(expectedErrorMessage);

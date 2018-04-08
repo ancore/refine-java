@@ -20,6 +20,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -151,8 +152,33 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public void applyOperations(String projectId, Operation... operations) throws IOException {
-      throw new UnsupportedOperationException("not implemented yet");
+   public void applyOperations(String id, Operation... operations) throws IOException {
+      notNull(id, "id");
+      notNull(operations, "operations");
+
+      URL url = new URL(baseUrl, "/command/core/apply-operations");
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("project", id));
+      StringJoiner operationsJoiner = new StringJoiner(",");
+      for (Operation operation : operations) {
+         operationsJoiner.add(operation.asJson());
+      }
+      String operationsJsonArray = "[" + operationsJoiner.toString() + "]";
+      form.add(new BasicNameValuePair("operations", operationsJsonArray));
+
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+            .post(url.toString())
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+            .setEntity(entity)
+            .build();
+
+      ApplyOperationsResponse response = httpClient.execute(request, new ApplyOperationsResponseHandler(responseParser));
+      if (!response.isSuccessful()) {
+         throw new RefineException(response.getMessage());
+      }
    }
 
    @Override
