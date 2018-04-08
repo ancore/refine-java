@@ -6,6 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * This interface defines access to the <a href="https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API"></a>OpenRefine API</a>.
@@ -62,9 +63,18 @@ public interface RefineClient extends AutoCloseable {
     * @param engine optional restrictions
     * @param format the file format
     * @return the number of bytes written
-    * @throws IOException
+    * @throws IOException             in case of a connection problem
     * @throws ClientProtocolException in case the server responses with an error
     * @since 0.1.1
     */
    int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException;
+
+   /**
+    * Returns the metadata of all projects, including project's ID, name and timestamps.
+    *
+    * @return a list of all available projects
+    * @throws IOException             in case of a connection problem
+    * @throws ClientProtocolException in case the server responses with an error
+    */
+   List<RefineProject> getAllProjectMetadata() throws IOException;
 }

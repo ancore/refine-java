@@ -2,6 +2,7 @@ package gmbh.dtap.refine.client;
 
 import gmbh.dtap.refine.api.RefineClient;
 import gmbh.dtap.refine.api.RefineProject;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +35,7 @@ public class MinimalRefineClientTest {
 
    @Before
    public void setUp() throws MalformedURLException {
-      url = new URL("http://127.0.0.1:3333/");
+      url = new URL("http://localhost:3333/");
       refineClient = new MinimalRefineClient(url, mockHttpClient);
    }
 
@@ -56,13 +58,32 @@ public class MinimalRefineClientTest {
    }
 
    @Test
-   public void should_delete_project() throws IOException {
+   public void should_not_throw_exception_on_delete_project() throws IOException {
       String projectId = "123456789";
-      String expectedJsonResponse = "{ \"code\" : \"ok\" }";
 
-      JsonResponseHandler anyJsonResponseHandler = Mockito.any(JsonResponseHandler.class);
-      when(mockHttpClient.execute(any(), anyJsonResponseHandler)).thenReturn(expectedJsonResponse);
+      DeleteProjectResponse deleteProjectResponse = DeleteProjectResponse.ok();
+
+      DeleteProjectResponseHandler anyDeleteProjectResponseHandler = Mockito.any(DeleteProjectResponseHandler.class);
+      when(mockHttpClient.execute(any(), anyDeleteProjectResponseHandler)).thenReturn(deleteProjectResponse);
 
       refineClient.deleteProject(projectId);
+   }
+
+   @Test
+   public void should_throw_exception_on_delete_project() throws IOException {
+      String projectId = "123456789";
+      String expectedErrorMessage = "Error message.";
+
+      DeleteProjectResponse deleteProjectResponse = DeleteProjectResponse.error(expectedErrorMessage);
+
+      DeleteProjectResponseHandler anyDeleteProjectResponseHandler = Mockito.any(DeleteProjectResponseHandler.class);
+      when(mockHttpClient.execute(any(), anyDeleteProjectResponseHandler)).thenReturn(deleteProjectResponse);
+
+      try {
+         refineClient.deleteProject(projectId);
+         fail("expected exception not thrown");
+      } catch (ClientProtocolException expectedException) {
+         assertThat(expectedException.getMessage()).isEqualTo(expectedErrorMessage);
+      }
    }
 }

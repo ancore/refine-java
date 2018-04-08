@@ -4,6 +4,7 @@ import gmbh.dtap.refine.api.*;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -41,11 +42,10 @@ public class MinimalRefineClient implements RefineClient {
 
    private final URL baseUrl;
    private final HttpClient httpClient;
+   private final ResponseParser responseParser;
 
    public MinimalRefineClient(URL baseUrl) {
-      notNull(baseUrl, "baseUrl");
-      this.baseUrl = baseUrl;
-      this.httpClient = HttpClients.createDefault();
+      this(baseUrl, HttpClients.createDefault());
    }
 
    public MinimalRefineClient(URL baseUrl, HttpClient httpClient) {
@@ -53,6 +53,7 @@ public class MinimalRefineClient implements RefineClient {
       notNull(httpClient, "httpClient");
       this.baseUrl = baseUrl;
       this.httpClient = httpClient;
+      this.responseParser = new ResponseParser(baseUrl);
    }
 
    @Override
@@ -62,8 +63,8 @@ public class MinimalRefineClient implements RefineClient {
 
    @Override
    public RefineProject createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException {
-      notNull("name", "name");
-      notNull("file", "file");
+      notNull(name, "name");
+      notNull(file, "file");
 
       URL url = new URL(baseUrl, "/command/core/create-project-from-upload");
 
@@ -109,7 +110,10 @@ public class MinimalRefineClient implements RefineClient {
             .setEntity(entity)
             .build();
 
-      httpClient.execute(request, new JsonResponseHandler());
+      DeleteProjectResponse response = httpClient.execute(request, new DeleteProjectResponseHandler(responseParser));
+      if (!response.isSuccessful()) {
+         throw new ClientProtocolException(response.getMessage());
+      }
    }
 
    @Override
@@ -134,6 +138,19 @@ public class MinimalRefineClient implements RefineClient {
             .build();
 
       return httpClient.execute(request, new StreamResponseHandler(outputStream));
+   }
+
+   @Override
+   public List<RefineProject> getAllProjectMetadata() throws IOException {
+      URL url = new URL(baseUrl, "/command/core/get-all-project-metadata");
+
+      HttpUriRequest request = RequestBuilder
+            .get(url.toString())
+            .setHeader("Accept", "application/json")
+            .build();
+
+      ProjectMetadataResponse response = httpClient.execute(request, new ProjectMetadataResponseHandler(responseParser));
+      return response.getRefineProjects();
    }
 
    @Override

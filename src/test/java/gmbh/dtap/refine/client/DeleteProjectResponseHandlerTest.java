@@ -13,43 +13,45 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
-import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
 
 /**
- * Unit Tests for {@link JsonResponseHandler}.
+ * Unit Tests for {@link DeleteProjectResponseHandler}.
  *
- * @since 0.1.0
+ * @since 0.1.2
  */
 @RunWith(MockitoJUnitRunner.class)
-public class JsonResponseHandlerTest {
+public class DeleteProjectResponseHandlerTest {
 
-   private JsonResponseHandler jsonResponseHandler;
+   private DeleteProjectResponseHandler responseHandler;
    @Mock private HttpResponse httpResponse;
    @Mock private HttpEntity httpEntity;
    @Mock private StatusLine statusLine;
 
    @Before
    public void setUp() throws MalformedURLException {
-      jsonResponseHandler = new JsonResponseHandler();
+      URL baseUrl = new URL("http://localhost:3333/");
+      responseHandler = new DeleteProjectResponseHandler(new ResponseParser(baseUrl));
    }
 
    @Test
    public void should_return_response_body() throws IOException, JSONException {
-      String expectedResponseBody = "{ \"code\" : \"ok\" }";
+      String responseBody = "{ \"code\" : \"ok\" }";
 
       when(statusLine.getStatusCode()).thenReturn(200);
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
       when(httpResponse.getEntity()).thenReturn(httpEntity);
-      when(httpEntity.getContent()).thenReturn(toInputStream(expectedResponseBody, "UTF-8"));
+      when(httpEntity.getContent()).thenReturn(toInputStream(responseBody, "UTF-8"));
 
-      String actualResponseBody = jsonResponseHandler.handleResponse(httpResponse);
-      assertEquals(expectedResponseBody, actualResponseBody, STRICT);
+      DeleteProjectResponse deleteProjectResponse = responseHandler.handleResponse(httpResponse);
+      assertThat(deleteProjectResponse).isNotNull();
+      assertThat(deleteProjectResponse.isSuccessful()).isTrue();
+      assertThat(deleteProjectResponse.getMessage()).isNull();
    }
 
    @Test
@@ -58,7 +60,7 @@ public class JsonResponseHandlerTest {
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
 
       try {
-         jsonResponseHandler.handleResponse(httpResponse);
+         responseHandler.handleResponse(httpResponse);
          fail("expected exception not thrown");
       } catch (ClientProtocolException expectedException) {
          assertThat(expectedException.getMessage()).isEqualTo("Unexpected response status: 500");
@@ -68,7 +70,7 @@ public class JsonResponseHandlerTest {
    @Test
    public void should_throw_exception_on_error_response() throws IOException, JSONException {
       String expectedMessage = "For input string: \"foo\"";
-      String expectedResponseBody = "{\n" +
+      String responseBody = "{\n" +
             "    \"code\": \"error\",\n" +
             "    \"message\": \"For input string: \\\"foo\\\"\",\n" +
             "    \"stack\": \"java.lang.NumberFormatException: For input string: \\\"ss\\\"\\n\\tat java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)\\n\\tat java.lang.Long.parseLong(Long.java:589)\\n\\tat java.lang.Long.parseLong(Long.java:631)\\n\\tat com.google.refine.commands.project.DeleteProjectCommand.doPost(DeleteProjectCommand.java:51)\\n\\tat com.google.refine.RefineServlet.service(RefineServlet.java:177)\\n\\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:820)\\n\\tat org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:511)\\n\\tat org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1166)\\n\\tat org.mortbay.servlet.UserAgentFilter.doFilter(UserAgentFilter.java:81)\\n\\tat org.mortbay.servlet.GzipFilter.doFilter(GzipFilter.java:132)\\n\\tat org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)\\n\\tat org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:388)\\n\\tat org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)\\n\\tat org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)\\n\\tat org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:765)\\n\\tat org.mortbay.jetty.webapp.WebAppContext.handle(WebAppContext.java:418)\\n\\tat org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)\\n\\tat org.mortbay.jetty.Server.handle(Server.java:326)\\n\\tat org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)\\n\\tat org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:938)\\n\\tat org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:755)\\n\\tat org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:218)\\n\\tat org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)\\n\\tat org.mortbay.jetty.bio.SocketConnector$Connection.run(SocketConnector.java:228)\\n\\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\\n\\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\\n\\tat java.lang.Thread.run(Thread.java:745)\\n\"\n" +
@@ -77,14 +79,12 @@ public class JsonResponseHandlerTest {
       when(statusLine.getStatusCode()).thenReturn(200);
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
       when(httpResponse.getEntity()).thenReturn(httpEntity);
-      when(httpEntity.getContent()).thenReturn(toInputStream(expectedResponseBody, "UTF-8"));
+      when(httpEntity.getContent()).thenReturn(toInputStream(responseBody, "UTF-8"));
 
-      try {
-         jsonResponseHandler.handleResponse(httpResponse);
-         fail("expected exception not thrown");
-      } catch (ClientProtocolException expectedException) {
-         assertThat(expectedException.getMessage()).isEqualTo(expectedMessage);
-      }
+      DeleteProjectResponse deleteProjectResponse = responseHandler.handleResponse(httpResponse);
+      assertThat(deleteProjectResponse).isNotNull();
+      assertThat(deleteProjectResponse.isSuccessful()).isFalse();
+      assertThat(deleteProjectResponse.getMessage()).isEqualTo(expectedMessage);
    }
 
    @Test
@@ -96,7 +96,7 @@ public class JsonResponseHandlerTest {
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
       when(httpResponse.getEntity()).thenReturn(httpEntity);
       try {
-         jsonResponseHandler.handleResponse(httpResponse);
+         responseHandler.handleResponse(httpResponse);
          fail("expected exception not thrown");
       } catch (ClientProtocolException expectedException) {
          assertThat(expectedException.getMessage()).startsWith("Parser error:");

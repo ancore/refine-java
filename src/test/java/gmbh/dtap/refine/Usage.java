@@ -3,6 +3,7 @@ package gmbh.dtap.refine;
 import gmbh.dtap.refine.api.*;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Sample usage of the Refine API Java client.
@@ -38,11 +39,25 @@ public class Usage {
       }
    }
 
+   private void createProjectAndGetMetadata() throws Exception {
+      try (RefineClient client = RefineClients.create(url)) {
+         RefineProject project1 = client.createProject("Addresses1", file,
+               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
+         RefineProject project2 = client.createProject("Addresses2", file,
+               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
+         List<RefineProject> projects = client.getAllProjectMetadata();
+         System.out.println(projects);
+         client.deleteProject(project1.getId());
+         client.deleteProject(project2.getId());
+      }
+   }
+
    public static void main(String... args) throws Exception {
       Usage usage = new Usage();
-      usage.createAndDeleteProject();
-      usage.createAndDeleteExtendedProject();
+      //usage.createAndDeleteProject();
+      //usage.createAndDeleteExtendedProject();
       usage.createProjectAndExportRows();
+      //usage.createProjectAndGetMetadata();
    }
 
 }
