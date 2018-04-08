@@ -6,9 +6,6 @@ import java.util.List;
 
 /**
  * This interface defines a project representation of the <a href="https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API"></a>OpenRefine API</a>.
- * <p>
- * <p>
- * #getCustomerMetadata();
  *
  * @since 0.1.0
  */

@@ -1,6 +1,8 @@
 package gmbh.dtap.refine;
 
 import gmbh.dtap.refine.api.*;
+import gmbh.dtap.refine.client.MinimalEngine;
+import gmbh.dtap.refine.client.MinimalUploadOptions;
 
 import java.io.File;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Usage {
    private void createAndDeleteExtendedProject() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
          RefineProjectLocation location = client.createProject("Addresses", file,
-               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
+               UploadFormat.SEPARATOR_BASED, MinimalUploadOptions.create("separator", ","));
          client.deleteProject(location.getId());
       }
    }
@@ -33,8 +35,8 @@ public class Usage {
    private void createProjectAndExportRows() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
          RefineProjectLocation location = client.createProject("Addresses", file,
-               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
-         client.exportRows(location.getId(), Engine.from("{\"facets\":[]}"), ExportFormat.html, System.out);
+               UploadFormat.SEPARATOR_BASED, MinimalUploadOptions.create("separator", ","));
+         client.exportRows(location.getId(), MinimalEngine.from("{\"facets\":[]}"), ExportFormat.HTML, System.out);
          client.deleteProject(location.getId());
       }
    }
@@ -42,9 +44,9 @@ public class Usage {
    private void createProjectAndGetMetadata() throws Exception {
       try (RefineClient client = RefineClients.create(url)) {
          RefineProjectLocation location1 = client.createProject("Addresses1", file,
-               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
+               UploadFormat.SEPARATOR_BASED, MinimalUploadOptions.create("separator", ","));
          RefineProjectLocation location2 = client.createProject("Addresses2", file,
-               UploadFormat.separatorBased, UploadOptions.create("separator", ","));
+               UploadFormat.SEPARATOR_BASED, MinimalUploadOptions.create("separator", ","));
          List<RefineProject> projects = client.getAllProjectMetadata();
          System.out.println(projects);
          client.deleteProject(location1.getId());

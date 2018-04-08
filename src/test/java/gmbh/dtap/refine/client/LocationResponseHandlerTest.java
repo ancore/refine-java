@@ -1,10 +1,10 @@
 package gmbh.dtap.refine.client;
 
+import gmbh.dtap.refine.api.RefineException;
 import gmbh.dtap.refine.api.RefineProjectLocation;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class LocationResponseHandlerTest {
       try {
          locationResponseHandler.handleResponse(httpResponse);
          fail("expected exception not thrown");
-      } catch (ClientProtocolException expectedException) {
+      } catch (RefineException expectedException) {
          assertThat(expectedException.getMessage()).isEqualTo("Unexpected response status: 200");
       }
    }
@@ -76,7 +76,7 @@ public class LocationResponseHandlerTest {
       try {
          locationResponseHandler.handleResponse(httpResponse);
          fail("expected exception not thrown");
-      } catch (ClientProtocolException expectedException) {
+      } catch (RefineException expectedException) {
          assertThat(expectedException.getMessage()).isEqualTo("No location header found.");
       }
    }

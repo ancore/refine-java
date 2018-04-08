@@ -3,11 +3,7 @@ package gmbh.dtap.refine.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gmbh.dtap.refine.api.CustomMetadata;
-import gmbh.dtap.refine.api.ImportOptionMetadata;
-import gmbh.dtap.refine.api.RefineProject;
-import gmbh.dtap.refine.api.RefineProjectLocation;
-import org.apache.http.client.ClientProtocolException;
+import gmbh.dtap.refine.api.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,7 +39,7 @@ class ResponseParser {
          String message = findExistingPath(node, "message").asText();
          return error(message);
       } else {
-         throw new ClientProtocolException("Unexpected code: " + code);
+         throw new RefineException("Unexpected code: " + code);
       }
    }
 
@@ -84,7 +80,7 @@ class ResponseParser {
          if (importOptionMetadataNode.isArray()) {
             project.setImportOptionMetadata(toImportOptionMetadata(importOptionMetadataNode));
          } else {
-            throw new ClientProtocolException("Node with path '\" + path + \"' is not any array: " + importOptionMetadataNode);
+            throw new RefineException("Node with path '\" + path + \"' is not any array: " + importOptionMetadataNode);
          }
       }
       return project;
@@ -121,14 +117,14 @@ class ResponseParser {
       try {
          return objectMapper.readTree(json);
       } catch (JsonProcessingException e) {
-         throw new ClientProtocolException("Parser error: " + e.getMessage(), e);
+         throw new RefineException("Parser error: " + e.getMessage(), e);
       }
    }
 
    private JsonNode findExistingPath(JsonNode jsonNode, String path) throws IOException {
       JsonNode node = jsonNode.path(path);
       if (node.isMissingNode()) {
-         throw new ClientProtocolException("Node with path '" + path + "' is missing: " + jsonNode);
+         throw new RefineException("Node with path '" + path + "' is missing: " + jsonNode);
       }
       return node;
    }

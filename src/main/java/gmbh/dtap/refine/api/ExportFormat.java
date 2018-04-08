@@ -7,14 +7,20 @@ package gmbh.dtap.refine.api;
  */
 public enum ExportFormat {
 
-   csv("csv"), tsv("tsv"), xls("xls"), xlsx("xlsx"), ods("ods"), html("html");
+   CSV("csv"), TSV("tsv"), XLS("xls"), XLSX("xlsx"), ODS("ods"), HTML("html");
 
-   private String format;
+   private final String format;
 
    ExportFormat(String format) {
       this.format = format;
    }
 
+   /**
+    * Returns the textual value as expected by OpenRefine.
+    *
+    * @return the value to submit
+    * @since 0.1.1
+    */
    public String getFormat() {
       return format;
    }
