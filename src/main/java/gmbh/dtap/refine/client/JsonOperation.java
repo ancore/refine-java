@@ -1,17 +1,17 @@
 package gmbh.dtap.refine.client;
 
-import gmbh.dtap.refine.api.Engine;
+import gmbh.dtap.refine.api.Operation;
 
 /**
- * A minimal implementation of {@link Engine}.
+ * A minimal implementation of {@link Operation}.
  *
- * @since 0.1.3
+ * @since 0.1.4
  */
-public class JsonEngine implements Engine {
+public class JsonOperation implements Operation {
 
    private final String json;
 
-   private JsonEngine(String json) {
+   private JsonOperation(String json) {
       this.json = json;
    }
 
@@ -21,10 +21,10 @@ public class JsonEngine implements Engine {
     *
     * @param json the JSON document
     * @return the engine instance
-    * @since 0.1.3
+    * @since 0.1.4
     */
-   public static Engine from(String json) {
-      return new JsonEngine(json);
+   public static Operation from(String json) {
+      return new JsonOperation(json);
    }
 
    @Override
