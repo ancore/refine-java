@@ -9,6 +9,11 @@ import static org.apache.commons.lang.StringUtils.substringAfterLast;
 import static org.apache.http.util.Asserts.notEmpty;
 import static org.apache.http.util.Asserts.notNull;
 
+/**
+ * A minimal implementation of {@link RefineProjectLocation}.
+ *
+ * @since 0.1.3
+ */
 public class MinimalRefineProjectLocation implements RefineProjectLocation {
 
    private final String id;
@@ -19,6 +24,14 @@ public class MinimalRefineProjectLocation implements RefineProjectLocation {
       this.url = url;
    }
 
+   /**
+    * Factory method based on the location header value (URL).
+    *
+    * @param location the location header value
+    * @return the instance
+    * @throws MalformedURLException in case the location is not a valild URL
+    * @since 0.1.3
+    */
    public static MinimalRefineProjectLocation from(String location) throws MalformedURLException {
       notNull(location, "location");
       String id = substringAfterLast(location, "=");
@@ -26,6 +39,12 @@ public class MinimalRefineProjectLocation implements RefineProjectLocation {
       return new MinimalRefineProjectLocation(id, new URL(location));
    }
 
+   /**
+    * Factory method based on an URL.
+    *
+    * @param url the URL
+    * @return the instance
+    */
    public static MinimalRefineProjectLocation from(URL url) {
       notNull(url, "url");
       String id = substringAfterLast(url.getQuery(), "=");

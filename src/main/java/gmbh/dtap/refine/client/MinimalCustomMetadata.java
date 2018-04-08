@@ -9,5 +9,5 @@ import gmbh.dtap.refine.api.CustomMetadata;
  *
  * @since 0.1.2
  */
-public class MinimalCustomMetadata implements CustomMetadata {
+class MinimalCustomMetadata implements CustomMetadata {
 }

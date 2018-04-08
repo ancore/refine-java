@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @since 0.1.0
  */
-public class LocationResponseHandler implements ResponseHandler<RefineProjectLocation> {
+class LocationResponseHandler implements ResponseHandler<RefineProjectLocation> {
 
    /**
     * Validates the response and extracts necessary data.
