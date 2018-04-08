@@ -6,24 +6,13 @@ package gmbh.dtap.refine.api;
  *
  * @since 0.1.1
  */
-public class Engine {
+public interface Engine {
 
-   private final String json;
-
-   private Engine(String json) {
-      this.json = json;
-   }
-
-   public static Engine from(String json) {
-      return new Engine(json);
-   }
-
-   public String asJson() {
-      return json;
-   }
-
-   @Override
-   public String toString() {
-      return asJson();
-   }
+   /**
+    * Returns the options as JSON in the format expected by OpenRefine.
+    *
+    * @return the options as JSON
+    * @since 0.1.1
+    */
+   String asJson();
 }

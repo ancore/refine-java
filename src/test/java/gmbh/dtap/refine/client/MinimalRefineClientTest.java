@@ -1,8 +1,8 @@
 package gmbh.dtap.refine.client;
 
 import gmbh.dtap.refine.api.RefineClient;
+import gmbh.dtap.refine.api.RefineException;
 import gmbh.dtap.refine.api.RefineProjectLocation;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +82,7 @@ public class MinimalRefineClientTest {
       try {
          refineClient.deleteProject(projectId);
          fail("expected exception not thrown");
-      } catch (ClientProtocolException expectedException) {
+      } catch (RefineException expectedException) {
          assertThat(expectedException.getMessage()).isEqualTo(expectedErrorMessage);
       }
    }

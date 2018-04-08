@@ -4,7 +4,6 @@ import gmbh.dtap.refine.api.*;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -22,6 +21,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.apache.http.entity.ContentType.TEXT_PLAIN;
 import static org.apache.http.util.Asserts.notNull;
@@ -69,7 +69,7 @@ public class MinimalRefineClient implements RefineClient {
 
       MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
       if (format != null) {
-         multipartEntityBuilder.addTextBody("format", format.getFormat(),
+         multipartEntityBuilder.addTextBody("format", format.getValue(),
                TEXT_PLAIN.withCharset(charset));
       }
       if (options != null) {
@@ -84,7 +84,7 @@ public class MinimalRefineClient implements RefineClient {
 
       HttpUriRequest request = RequestBuilder
             .post(url.toString())
-            .setHeader("Accept", "application/json")
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
             .setEntity(entity)
             .build();
 
@@ -103,13 +103,13 @@ public class MinimalRefineClient implements RefineClient {
 
       HttpUriRequest request = RequestBuilder
             .post(url.toString())
-            .setHeader("Accept", "application/json")
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
             .setEntity(entity)
             .build();
 
       DeleteProjectResponse response = httpClient.execute(request, new DeleteProjectResponseHandler(responseParser));
       if (!response.isSuccessful()) {
-         throw new ClientProtocolException(response.getMessage());
+         throw new RefineException(response.getMessage());
       }
    }
 
@@ -144,11 +144,26 @@ public class MinimalRefineClient implements RefineClient {
 
       HttpUriRequest request = RequestBuilder
             .get(url.toString())
-            .setHeader("Accept", "application/json")
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
             .build();
 
       ProjectMetadataResponse response = httpClient.execute(request, new ProjectMetadataResponseHandler(responseParser));
       return response.getRefineProjects();
+   }
+
+   @Override
+   public void applyOperations(String projectId, Operation... operations) throws IOException {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override
+   public List<ProcessStatus> checkStatusOfAsyncProcesses() throws IOException {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override
+   public ExpressionPreview expressionPreview(String projectId, long cellIndex, String expression, boolean repeat, int repearCount) throws IOException {
+      throw new UnsupportedOperationException("not implemented yet");
    }
 
    @Override

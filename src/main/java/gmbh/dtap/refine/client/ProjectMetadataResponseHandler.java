@@ -1,7 +1,7 @@
 package gmbh.dtap.refine.client;
 
+import gmbh.dtap.refine.api.RefineException;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
 
@@ -25,8 +25,8 @@ public class ProjectMetadataResponseHandler implements ResponseHandler<ProjectMe
     *
     * @param response the response to extract data from
     * @return a wrapper for the response data
-    * @throws IOException             in case of a connection problem
-    * @throws ClientProtocolException in case the server responses with an error or is not understood
+    * @throws IOException in case of a connection problem
+    * @throws RefineException in case the server responses with an error or is not understood
     * @since 0.1.2
     */
    @Override
@@ -39,7 +39,7 @@ public class ProjectMetadataResponseHandler implements ResponseHandler<ProjectMe
    private void checkStatusCode(HttpResponse response) throws IOException {
       int status = response.getStatusLine().getStatusCode();
       if (status != 200) {
-         throw new ClientProtocolException("Unexpected response status: " + status);
+         throw new RefineException("Unexpected response status: " + status);
       }
    }
 }
