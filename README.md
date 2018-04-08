@@ -8,10 +8,10 @@ Supported functions are
 * Delete project
 * Export rows
 * Get all project metadata
+* Apply operations
 
 Currently missing functions are
 
-* Apply operations
 * Check status of async processes
 * Expression Preview
 
