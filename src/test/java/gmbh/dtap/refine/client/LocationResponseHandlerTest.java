@@ -1,5 +1,6 @@
 package gmbh.dtap.refine.client;
 
+import gmbh.dtap.refine.api.RefineProjectLocation;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -38,16 +39,19 @@ public class LocationResponseHandlerTest {
 
    @Test
    public void should_return_location() throws IOException, JSONException {
-      String expectedLocation = "http://localhost:8080/project?project=foo";
+      String projectId = "617613761";
+      String locationHeaderValue = "http://localhost:8080/project?project=" + projectId;
+      RefineProjectLocation expectedLocation = MinimalRefineProjectLocation.from(locationHeaderValue);
 
       when(statusLine.getStatusCode()).thenReturn(302);
       when(httpResponse.getStatusLine()).thenReturn(statusLine);
-      when(header.getValue()).thenReturn(expectedLocation);
+      when(header.getValue()).thenReturn(locationHeaderValue);
       when(httpResponse.getFirstHeader("Location")).thenReturn(header);
 
-      String actualLocation = locationResponseHandler.handleResponse(httpResponse);
+      RefineProjectLocation actualLocation = locationResponseHandler.handleResponse(httpResponse);
       assertThat(actualLocation).isNotNull();
-      assertThat(actualLocation).isEqualTo(expectedLocation);
+      assertThat(actualLocation.getId()).isEqualTo(expectedLocation.getId());
+      assertThat(actualLocation.getUrl()).isEqualTo(expectedLocation.getUrl());
    }
 
    @Test

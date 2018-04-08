@@ -4,6 +4,7 @@ import gmbh.dtap.refine.api.*;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -21,7 +22,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.apache.http.entity.ContentType.TEXT_PLAIN;
 import static org.apache.http.util.Asserts.notNull;
@@ -41,11 +41,10 @@ public class MinimalRefineClient implements RefineClient {
 
    private final URL baseUrl;
    private final HttpClient httpClient;
+   private final ResponseParser responseParser;
 
    public MinimalRefineClient(URL baseUrl) {
-      notNull(baseUrl, "baseUrl");
-      this.baseUrl = baseUrl;
-      this.httpClient = HttpClients.createDefault();
+      this(baseUrl, HttpClients.createDefault());
    }
 
    public MinimalRefineClient(URL baseUrl, HttpClient httpClient) {
@@ -53,17 +52,18 @@ public class MinimalRefineClient implements RefineClient {
       notNull(httpClient, "httpClient");
       this.baseUrl = baseUrl;
       this.httpClient = httpClient;
+      this.responseParser = new ResponseParser(baseUrl);
    }
 
    @Override
-   public RefineProject createProject(String name, File file) throws IOException {
+   public RefineProjectLocation createProject(String name, File file) throws IOException {
       return createProject(name, file, null, null);
    }
 
    @Override
-   public RefineProject createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException {
-      notNull("name", "name");
-      notNull("file", "file");
+   public RefineProjectLocation createProject(String name, File file, UploadFormat format, UploadOptions options) throws IOException {
+      notNull(name, "name");
+      notNull(file, "file");
 
       URL url = new URL(baseUrl, "/command/core/create-project-from-upload");
 
@@ -88,9 +88,7 @@ public class MinimalRefineClient implements RefineClient {
             .setEntity(entity)
             .build();
 
-      String location = httpClient.execute(request, new LocationResponseHandler());
-      String id = substringAfterLast(location, "=");
-      return new MinimalRefineProject(id, name, new URL(location));
+      return httpClient.execute(request, new LocationResponseHandler());
    }
 
    @Override
@@ -109,11 +107,15 @@ public class MinimalRefineClient implements RefineClient {
             .setEntity(entity)
             .build();
 
-      httpClient.execute(request, new JsonResponseHandler());
+      DeleteProjectResponse response = httpClient.execute(request, new DeleteProjectResponseHandler(responseParser));
+      if (!response.isSuccessful()) {
+         throw new ClientProtocolException(response.getMessage());
+      }
    }
 
    @Override
-   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException {
+   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws
+         IOException {
       notNull("id", "id");
       notNull("format", "format");
       notNull("outputStream", "outputStream");
@@ -134,6 +136,19 @@ public class MinimalRefineClient implements RefineClient {
             .build();
 
       return httpClient.execute(request, new StreamResponseHandler(outputStream));
+   }
+
+   @Override
+   public List<RefineProject> getAllProjectMetadata() throws IOException {
+      URL url = new URL(baseUrl, "/command/core/get-all-project-metadata");
+
+      HttpUriRequest request = RequestBuilder
+            .get(url.toString())
+            .setHeader("Accept", "application/json")
+            .build();
+
+      ProjectMetadataResponse response = httpClient.execute(request, new ProjectMetadataResponseHandler(responseParser));
+      return response.getRefineProjects();
    }
 
    @Override

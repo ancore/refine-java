@@ -1,0 +1,41 @@
+{
+  "projects": {
+    "2329924354543": {
+      "name": "project name 1",
+      "created": "2018-04-07T12:05:00Z",
+      "modified": "2018-04-07T12:05:53Z",
+      "creator": "creator 1",
+      "contributors": "contributors 1",
+      "subject": "subject 1",
+      "description": "description 1",
+      "rowCount": 101,
+      "customMetadata": {},
+      "importOptionMetadata": [
+        {
+          "storeBlankRows": true,
+          "includeFileSources": false,
+          "skipDataLines": 0,
+          "guessCellValueTypes": false,
+          "headerLines": 1,
+          "ignoreLines": -1,
+          "processQuotes": true,
+          "fileSource": "file1.csv",
+          "projectName": "meta project name 1",
+          "separator": ",",
+          "storeBlankCellsAsNulls": true
+        }
+      ]
+    },
+    "1659896150788": {
+      "name": "project name 2",
+      "created": "2018-04-07T12:05:05Z",
+      "modified": "2018-04-07T12:05:53Z",
+      "creator": "creator 2",
+      "contributors": "contributors 2",
+      "subject": "subject 2",
+      "description": "description 2",
+      "rowCount": 102,
+      "customMetadata": {}
+    }
+  }
+}
