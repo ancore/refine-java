@@ -80,7 +80,7 @@ class ResponseParser {
          if (importOptionMetadataNode.isArray()) {
             project.setImportOptionMetadata(toImportOptionMetadata(importOptionMetadataNode));
          } else {
-            throw new RefineException("Node with path '\" + path + \"' is not any array: " + importOptionMetadataNode);
+            throw new RefineException("Node with path 'importOptionMetadata' is not any array: " + importOptionMetadataNode);
          }
       }
       return project;
@@ -113,7 +113,6 @@ class ResponseParser {
       return metadataList;
    }
 
-
    ApplyOperationsResponse parseApplyOperationsResponse(String json) throws IOException {
       JsonNode node = parseJson(json);
       String code = findExistingPath(node, "code").asText();
@@ -125,7 +124,38 @@ class ResponseParser {
       } else {
          throw new RefineException("Unexpected code: " + code);
       }
+   }
 
+   ExpressionPreviewResponse parsePreviewExpressionResponse(String json) throws IOException {
+      JsonNode node = parseJson(json);
+      String code = findExistingPath(node, "code").asText();
+      if ("ok".equals(code)) {
+         JsonNode resultsNode = findExistingPath(node, "results");
+         if (resultsNode.isMissingNode()) {
+            return ExpressionPreviewResponse.ok(Collections.emptyList());
+         }
+         if (resultsNode.isArray()) {
+            List<String> results = toResults(resultsNode);
+            return ExpressionPreviewResponse.ok(results);
+         } else {
+            throw new RefineException("Node with path 'results' is not any array: " + resultsNode);
+         }
+      } else if ("error".equals(code)) {
+         String message = findExistingPath(node, "message").asText();
+         return ExpressionPreviewResponse.error(message);
+      } else {
+         throw new RefineException("Unexpected code: " + code);
+      }
+   }
+
+   private List<String> toResults(JsonNode arrayNode) {
+      List<String> resultList = new ArrayList<>();
+      Iterator<JsonNode> iterator = arrayNode.elements();
+      while (iterator.hasNext()) {
+         JsonNode node = iterator.next();
+         resultList.add(node.asText());
+      }
+      return resultList;
    }
 
    private JsonNode parseJson(String json) throws IOException {

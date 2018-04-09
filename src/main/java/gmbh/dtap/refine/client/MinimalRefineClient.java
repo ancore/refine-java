@@ -48,7 +48,7 @@ public class MinimalRefineClient implements RefineClient {
       this(baseUrl, HttpClients.createDefault());
    }
 
-   public MinimalRefineClient(URL baseUrl, HttpClient httpClient) {
+   MinimalRefineClient(URL baseUrl, HttpClient httpClient) {
       notNull(baseUrl, "baseUrl");
       notNull(httpClient, "httpClient");
       this.baseUrl = baseUrl;
@@ -93,13 +93,13 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public void deleteProject(String id) throws IOException {
-      notNull(id, "id");
+   public void deleteProject(String projectId) throws IOException {
+      notNull(projectId, "projectId");
 
       URL url = new URL(baseUrl, "/command/core/delete-project");
 
       List<NameValuePair> form = new ArrayList<>();
-      form.add(new BasicNameValuePair("project", id));
+      form.add(new BasicNameValuePair("project", projectId));
       UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
       HttpUriRequest request = RequestBuilder
@@ -115,15 +115,15 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException {
-      notNull(id, "id");
+   public int exportRows(String projectId, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException {
+      notNull(projectId, "projectId");
       notNull(format, "format");
       notNull(outputStream, "outputStream");
 
       URL url = new URL(baseUrl, "/command/core/export-rows");
 
       List<NameValuePair> form = new ArrayList<>();
-      form.add(new BasicNameValuePair("project", id));
+      form.add(new BasicNameValuePair("project", projectId));
       if (engine != null) {
          form.add(new BasicNameValuePair("engine", engine.asJson()));
       }
@@ -152,14 +152,14 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public void applyOperations(String id, Operation... operations) throws IOException {
-      notNull(id, "id");
+   public void applyOperations(String projectId, Operation... operations) throws IOException {
+      notNull(projectId, "projectId");
       notNull(operations, "operations");
 
       URL url = new URL(baseUrl, "/command/core/apply-operations");
 
       List<NameValuePair> form = new ArrayList<>();
-      form.add(new BasicNameValuePair("project", id));
+      form.add(new BasicNameValuePair("project", projectId));
       StringJoiner operationsJoiner = new StringJoiner(",");
       for (Operation operation : operations) {
          operationsJoiner.add(operation.asJson());
@@ -187,8 +187,39 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public ExpressionPreview expressionPreview(String projectId, long cellIndex, String expression, boolean repeat, int repearCount) throws IOException {
-      throw new UnsupportedOperationException("not implemented yet");
+   public List<String> expressionPreview(String projectId, long cellIndex, long[] rowIndices, String expression, boolean repeat, int repeatCount) throws IOException {
+      notNull(projectId, "projectId");
+      notNull(expression, "expression");
+
+      URL url = new URL(baseUrl, "/command/core/preview-expression");
+
+      StringJoiner joiner = new StringJoiner(",");
+      for (long rowIndex : rowIndices) {
+         joiner.add(String.valueOf(rowIndex));
+      }
+      String rowIndicesJson = "[" + joiner + "]";
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("cellIndex", String.valueOf(cellIndex)));
+      form.add(new BasicNameValuePair("rowIndices", rowIndicesJson));
+      form.add(new BasicNameValuePair("expression", expression));
+      form.add(new BasicNameValuePair("project", projectId));
+      form.add(new BasicNameValuePair("repeat", String.valueOf(repeat)));
+      form.add(new BasicNameValuePair("repeatCount", String.valueOf(repeatCount)));
+
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+            .post(url.toString())
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+            .setEntity(entity)
+            .build();
+
+      ExpressionPreviewResponse response = httpClient.execute(request, new ExpressionPreviewResponseHandler(responseParser));
+      if (!response.isSuccessful()) {
+         throw new RefineException(response.getMessage());
+      }
+      return response.getExpressionPreviews();
    }
 
    @Override

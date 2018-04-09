@@ -74,13 +74,25 @@ public class Usage {
       }
    }
 
+   private void createProjectAndExpressioPreview() throws Exception {
+      try (RefineClient client = RefineClients.create(url)) {
+         RefineProjectLocation location = client.createProject("Addresses", file);
+         List<String> expressionPreviews = client.expressionPreview(location.getId(),
+               2, new long[]{0, 1, 2, 3},
+               "grel:length(value);", false, 0);
+         System.out.println(expressionPreviews);
+         client.deleteProject(location.getId());
+      }
+   }
+
    public static void main(String... args) throws Exception {
       Usage usage = new Usage();
-      usage.createAndDeleteProject();
-      usage.createAndDeleteExtendedProject();
-      usage.createProjectAndExportRows();
-      usage.createProjectAndGetMetadata();
-      usage.createProjectAndApplyOperations();
+//      usage.createAndDeleteProject();
+//      usage.createAndDeleteExtendedProject();
+//      usage.createProjectAndExportRows();
+//      usage.createProjectAndGetMetadata();
+//      usage.createProjectAndApplyOperations();
+      usage.createProjectAndExpressioPreview();
    }
 
 }
