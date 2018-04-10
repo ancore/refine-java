@@ -9,11 +9,11 @@ Supported functions are
 * Export rows
 * Get all project metadata
 * Apply operations
+* Expression Preview
 
 Currently missing functions are
 
 * Check status of async processes
-* Expression Preview
 
 ## Usage
 
