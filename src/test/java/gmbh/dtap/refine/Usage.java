@@ -74,6 +74,17 @@ public class Usage {
       }
    }
 
+   private void createProjectAndExpressioPreview() throws Exception {
+      try (RefineClient client = RefineClients.create(url)) {
+         RefineProjectLocation location = client.createProject("Addresses", file);
+         List<String> expressionPreviews = client.expressionPreview(location.getId(),
+               4, new long[]{0, 1},
+               "grel:toLowercase(value);", false, 0);
+         System.out.println(expressionPreviews);
+         client.deleteProject(location.getId());
+      }
+   }
+
    public static void main(String... args) throws Exception {
       Usage usage = new Usage();
       usage.createAndDeleteProject();
@@ -81,6 +92,7 @@ public class Usage {
       usage.createProjectAndExportRows();
       usage.createProjectAndGetMetadata();
       usage.createProjectAndApplyOperations();
+      usage.createProjectAndExpressioPreview();
    }
 
 }

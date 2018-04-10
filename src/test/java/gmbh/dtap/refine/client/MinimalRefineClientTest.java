@@ -14,7 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
+import static gmbh.dtap.refine.client.MinimalRefineProjectLocation.from;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Matchers.any;
@@ -45,7 +48,7 @@ public class MinimalRefineClientTest {
       File file = new File("names.csv");
 
       URL expectedUrl = new URL(baseUrl, "project?project=" + projectId);
-      RefineProjectLocation expectedLocation = MinimalRefineProjectLocation.from(expectedUrl);
+      RefineProjectLocation expectedLocation = from(expectedUrl);
 
       LocationResponseHandler anyLocationResponseHandler = Mockito.any(LocationResponseHandler.class);
       when(mockHttpClient.execute(any(), anyLocationResponseHandler)).thenReturn(expectedLocation);
@@ -57,7 +60,7 @@ public class MinimalRefineClientTest {
    }
 
    @Test
-   public void should_not_throw_exception_on_delete_project() throws IOException {
+   public void should_delete_project() throws IOException {
       String projectId = "123456789";
 
       DeleteProjectResponse deleteProjectResponse = DeleteProjectResponse.ok();
@@ -87,7 +90,7 @@ public class MinimalRefineClientTest {
    }
 
    @Test
-   public void should_not_throw_exception_on_apply_operations_request() throws IOException {
+   public void should_apply_operations() throws IOException {
       String projectId = "123456789";
       String operationJson = "{\n" +
             "    \"op\": \"core/column-split\",\n" +
@@ -114,7 +117,7 @@ public class MinimalRefineClientTest {
    }
 
    @Test
-   public void should_throw_exception_on_error_response() throws IOException {
+   public void should_throw_exception_on_apply_operation() throws IOException {
       String projectId = "123456789";
       String operationJson = "{\n" +
             "    \"op\": \"core/column-split\",\n" +
@@ -140,6 +143,38 @@ public class MinimalRefineClientTest {
 
       try {
          refineClient.applyOperations(projectId, JsonOperation.from(operationJson));
+         fail("expected exception not thrown");
+      } catch (RefineException expectedException) {
+         assertThat(expectedException.getMessage()).isEqualTo(expectedErrorMessage);
+      }
+   }
+
+   @Test
+   public void should_expression_preview() throws IOException {
+      String projectId = "123456789";
+      List<String> expectedExpressionPreviews = Arrays.asList("monaco", "denmark");
+
+      ExpressionPreviewResponse expressionPreviewResponse = ExpressionPreviewResponse.ok(expectedExpressionPreviews);
+
+      ExpressionPreviewResponseHandler anyExpressionPreviewResponseHandler = Mockito.any(ExpressionPreviewResponseHandler.class);
+      when(mockHttpClient.execute(any(), anyExpressionPreviewResponseHandler)).thenReturn(expressionPreviewResponse);
+
+      List<String> actualExpressionPreview = refineClient.expressionPreview(projectId, 4, new long[]{0, 1}, "grel:toLowercase(value);", false, 0);
+      assertThat(actualExpressionPreview).isEqualTo(expectedExpressionPreviews);
+   }
+
+   @Test
+   public void should_throw_exception_on_expression_preview() throws IOException {
+      String projectId = "123456789";
+      String expectedErrorMessage = "Server error";
+
+      ExpressionPreviewResponse expressionPreviewResponse = ExpressionPreviewResponse.error(expectedErrorMessage);
+
+      ExpressionPreviewResponseHandler anyExpressionPreviewResponseHandler = Mockito.any(ExpressionPreviewResponseHandler.class);
+      when(mockHttpClient.execute(any(), anyExpressionPreviewResponseHandler)).thenReturn(expressionPreviewResponse);
+
+      try {
+         refineClient.expressionPreview(projectId, 4, new long[]{0, 1}, "grel:toLowercase(value);", false, 0);
          fail("expected exception not thrown");
       } catch (RefineException expectedException) {
          assertThat(expectedException.getMessage()).isEqualTo(expectedErrorMessage);

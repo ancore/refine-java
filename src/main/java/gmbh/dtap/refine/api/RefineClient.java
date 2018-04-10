@@ -104,15 +104,16 @@ public interface RefineClient extends AutoCloseable {
     *
     * @param projectId   the project ID
     * @param cellIndex   the cell/column to execute the expression on
+    * @param rowIndices  the rows to execute the expression on
     * @param expression  the expression to execute. The language can either be <tt>grel</tt>, <tt>jython</tt> or <tt>clojure</tt>,
     *                    e.g.: {@code grel:value.toLowercase()}
     * @param repeat      indicating whether or not this command should be repeated multiple times. A repeated command will be executed
     *                    until the result of the current iteration equals the result of the previous iteration.
-    * @param repearCount the maximum amount of times a command will be repeated
-    * @return the expression preview
+    * @param repeatCount the maximum amount of times a command will be repeated
+    * @return the list of expression previews
     * @throws IOException     in case of a connection problem
     * @throws RefineException in case the request failed
     * @since 0.1.3
     */
-   ExpressionPreview expressionPreview(String projectId, long cellIndex, String expression, boolean repeat, int repearCount) throws IOException;
+   List<String> expressionPreview(String projectId, long cellIndex, long[] rowIndices, String expression, boolean repeat, int repeatCount) throws IOException;
 }

@@ -20,7 +20,7 @@ class DeleteProjectResponse {
    /**
     * Returns an instance to represent a success.
     *
-    * @return the sucessful instance
+    * @return the successful instance
     * @since 0.1.0
     */
    static DeleteProjectResponse ok() {
