@@ -31,14 +31,14 @@ try (RefineClient client = RefineClients.create(url)) {
 
 ### Create Project and Preview Expression
 ```java
- try (RefineClient client = RefineClients.create(url)) {
-         RefineProjectLocation location = client.createProject("Addresses", file);
-         List<String> expressionPreviews = client.expressionPreview(location.getId(),
-               4, new long[]{0, 1},
-               "grel:toLowercase(value);", false, 0);
-         System.out.println(expressionPreviews);
-         client.deleteProject(location.getId());
-      }
+try (RefineClient client = RefineClients.create(url)) {
+   RefineProjectLocation location = client.createProject("Addresses", file);
+   List<String> expressionPreviews = client.expressionPreview(location.getId(),
+         4, new long[]{0, 1},
+         "grel:toLowercase(value);", false, 0);
+   System.out.println(expressionPreviews);
+   client.deleteProject(location.getId());
+}
 ```
 
 ### In development: RequestBuilder 
@@ -53,7 +53,7 @@ try (RefineClient client = RefineClients.create(url)) {
          .rowIndices(0, 1)
          .expression("grel:toLowercase(value)")
          .repeat(false)
-         .reapeatCount(0)
+         .repeatCount(0)
          .execute(client);
 
    System.out.println(expressionPreviews);
