@@ -1,21 +1,24 @@
 package gmbh.dtap.refine.client;
 
-import org.apache.http.HttpEntity;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
-import static org.apache.commons.io.IOUtils.toInputStream;
+import static gmbh.dtap.refine.test.HttpMock.mockHttpResponse;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit Tests for {@link StreamResponseHandler}.
@@ -25,11 +28,12 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class StreamResponseHandlerTest {
 
+   private static final URI BASE_URL = URI.create("http://localhost:3333/");
+   private static final Charset UTF_8 = Charset.forName("UTF-8");
+
+   @Rule public ExpectedException thrown = ExpectedException.none();
    private StreamResponseHandler streamResponseHandler;
    private ByteArrayOutputStream byteArrayOutputStream;
-   @Mock private HttpResponse httpResponse;
-   @Mock private HttpEntity httpEntity;
-   @Mock private StatusLine statusLine;
 
    @Before
    public void setUp() throws MalformedURLException {
@@ -38,17 +42,11 @@ public class StreamResponseHandlerTest {
    }
 
    @Test
-   public void should_stream_rows() throws IOException {
-      String expectedRows = "ID,Street,Zip,City,Country\n" +
-            "ROW-1,7442 At Rd.,7638 BW,Cavallino,Mona×o\n" +
-            "ROW-2,Ap #877-4799 Nibh. Rd.,63568,Virginia Beach,Denmark\n";
-
-      when(statusLine.getStatusCode()).thenReturn(200);
-      when(httpResponse.getStatusLine()).thenReturn(statusLine);
-      when(httpResponse.getEntity()).thenReturn(httpEntity);
-      when(httpEntity.getContent()).thenReturn(toInputStream(expectedRows, "UTF-8"));
+   public void should_stream_rows() throws IOException, URISyntaxException {
+      String responseBody = IOUtils.toString(getClass().getResource("/responseBody/export-rows.csv").toURI(), UTF_8);
+      HttpResponse httpResponse = mockHttpResponse(200, APPLICATION_JSON, responseBody);
 
       streamResponseHandler.handleResponse(httpResponse);
-      assertThat(byteArrayOutputStream.toString("UTF-8")).isEqualTo(expectedRows);
+      assertThat(byteArrayOutputStream.toString(UTF_8.name())).isEqualTo(responseBody);
    }
 }

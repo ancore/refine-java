@@ -1,0 +1,5 @@
+{
+  "code": "error",
+  "message": "This is the error message.",
+  "stack": "java.lang.IllegalArgumentException: This is the\\nmultiline\\nstack trace."
+}
