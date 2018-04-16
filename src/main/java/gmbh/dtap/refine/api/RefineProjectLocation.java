@@ -6,7 +6,7 @@ import java.net.URL;
  * Defines the project URL. THe ID is part of the URL and provided additionally by its onw getter.
  * <p>
  * When creating a project, the server only responds with the location (URL) of the new project.
- * More project meta data can be acquired with {@link RefineClient#getAllProjectMetadata()}.
+ * More project meta data can be acquired with {@link RefineClient#allProjectMetadata()}.
  *
  * @since 0.1.2
  */

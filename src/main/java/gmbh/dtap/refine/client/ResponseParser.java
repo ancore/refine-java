@@ -30,6 +30,24 @@ class ResponseParser {
       this.baseUrl = baseUrl;
    }
 
+   ApplyOperationsResponse parseApplyOperationsResponse(String json) throws IOException {
+      JsonNode node = parseJson(json);
+      String code = findExistingPath(node, "code").asText();
+      if ("ok".equals(code)) {
+         return ApplyOperationsResponse.ok();
+      } else if ("error".equals(code)) {
+         String message = findExistingPath(node, "message").asText();
+         return ApplyOperationsResponse.error(message);
+      } else {
+         throw new RefineException("Unexpected code: " + code);
+      }
+   }
+
+   public AsynchProcessesResponse parseAsynchProcessesResponse(String json) {
+      // TODO: https://github.com/dtap-gmbh/refine-java/issues/12
+      return new AsynchProcessesResponse();
+   }
+
    DeleteProjectResponse parseDeleteProjectResponse(String json) throws IOException {
       JsonNode node = parseJson(json);
       String code = findExistingPath(node, "code").asText();
@@ -43,7 +61,7 @@ class ResponseParser {
       }
    }
 
-   ProjectMetadataResponse parseAllProjectMetadataResponse(String json) throws IOException {
+   ProjectMetadataResponse parseProjectMetadataResponse(String json) throws IOException {
       JsonNode node = parseJson(json);
       JsonNode projectsNode = node.path("projects");
       if (projectsNode.isMissingNode()) {
@@ -111,19 +129,6 @@ class ResponseParser {
          metadataList.add(metadata);
       }
       return metadataList;
-   }
-
-   ApplyOperationsResponse parseApplyOperationsResponse(String json) throws IOException {
-      JsonNode node = parseJson(json);
-      String code = findExistingPath(node, "code").asText();
-      if ("ok".equals(code)) {
-         return ApplyOperationsResponse.ok();
-      } else if ("error".equals(code)) {
-         String message = findExistingPath(node, "message").asText();
-         return ApplyOperationsResponse.error(message);
-      } else {
-         throw new RefineException("Unexpected code: " + code);
-      }
    }
 
    ExpressionPreviewResponse parsePreviewExpressionResponse(String json) throws IOException {

@@ -12,24 +12,29 @@ import java.io.IOException;
 import static org.mockito.Mockito.verify;
 
 /**
- * Unit Tests for {@link ProjectMetadataExecutor}.
+ * Unit Tests for {@link AsynchProcessesExecutor}.
  *
- * @since 0.1.7
+ * @since 0.1.8
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ProjectMetadataExecutorTest {
+public class AsynchProcessesExecutorTest {
 
    @Mock private RefineClient refineClientMock;
-   private ProjectMetadataExecutor projectMetadataExecutor;
+   private AsynchProcessesExecutor asynchProcessesExecutor;
 
    @Before
    public void setUp() {
-      projectMetadataExecutor = new ProjectMetadataExecutor();
+      asynchProcessesExecutor = new AsynchProcessesExecutor();
    }
 
    @Test
    public void should_execute() throws IOException {
-      projectMetadataExecutor.execute(refineClientMock);
-      verify(refineClientMock).allProjectMetadata();
+      String projectId = "1234567890";
+
+      asynchProcessesExecutor
+            .project(projectId)
+            .execute(refineClientMock);
+
+      verify(refineClientMock).asyncProcesses(projectId);
    }
 }

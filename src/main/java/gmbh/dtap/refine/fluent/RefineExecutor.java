@@ -18,6 +18,16 @@ public interface RefineExecutor {
    }
 
    /**
+    * Creates and returns a fluent executor for statuses of asynchronous processes of a project.
+    *
+    * @return the request executor
+    * @since 0.1.8
+    */
+   static AsynchProcessesExecutor asynchProcesses() {
+      return new AsynchProcessesExecutor();
+   }
+
+   /**
     * Creates and returns a fluent executor for the creation of a project.
     *
     * @return the request executor
@@ -26,7 +36,6 @@ public interface RefineExecutor {
    static CreateProjectExecutor createProject() {
       return new CreateProjectExecutor();
    }
-
 
    /**
     * Creates and returns fluent executor for the deletion of a project.

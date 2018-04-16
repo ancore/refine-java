@@ -12,7 +12,7 @@ import java.util.List;
  * A fluent interface is not necessary as there are no parameters.
  *
  * @see RefineExecutor#projectMetadata()
- * @see RefineClient#getAllProjectMetadata()
+ * @see RefineClient#allProjectMetadata()
  * @since 0.1.7
  */
 public class ProjectMetadataExecutor {
@@ -27,6 +27,6 @@ public class ProjectMetadataExecutor {
     * @since 0.1.7
     */
    public List<RefineProject> execute(RefineClient client) throws IOException {
-      return client.getAllProjectMetadata();
+      return client.allProjectMetadata();
    }
 }
