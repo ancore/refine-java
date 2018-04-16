@@ -12,13 +12,13 @@ import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 
 /**
- * A fluent request executor for expression previews.
+ * A fluent executor for expression previews.
  *
  * @see RefineExecutor#expressionPreview()
  * @see RefineClient#expressionPreview(String, long, long[], String, boolean, int)
  * @since 0.1.7
  */
-public class ExpressionPreviewRequestExecutor {
+public class ExpressionPreviewExecutor {
 
    private String projectId;
    private Integer cellIndex;
@@ -34,7 +34,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor project(String projectId) {
+   public ExpressionPreviewExecutor project(String projectId) {
       this.projectId = projectId;
       return this;
    }
@@ -46,7 +46,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor project(RefineProjectLocation projectLocation) {
+   public ExpressionPreviewExecutor project(RefineProjectLocation projectLocation) {
       notNull(projectLocation, "projectLocation");
       this.projectId = projectLocation.getId();
       return this;
@@ -59,7 +59,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor project(RefineProject project) {
+   public ExpressionPreviewExecutor project(RefineProject project) {
       notNull(project, "project");
       this.projectId = project.getId();
       return this;
@@ -72,7 +72,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor cellIndex(int cellIndex) {
+   public ExpressionPreviewExecutor cellIndex(int cellIndex) {
       this.cellIndex = cellIndex;
       return this;
    }
@@ -84,7 +84,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor rowIndices(long[] rowIndices) {
+   public ExpressionPreviewExecutor rowIndices(long... rowIndices) {
       this.rowIndices = rowIndices;
       return this;
    }
@@ -97,7 +97,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor expression(String expression) {
+   public ExpressionPreviewExecutor expression(String expression) {
       this.expression = expression;
       return this;
    }
@@ -109,7 +109,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor grel(String expression) {
+   public ExpressionPreviewExecutor grel(String expression) {
       this.expression = "grel:" + expression;
       return this;
    }
@@ -121,7 +121,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor jython(String expression) {
+   public ExpressionPreviewExecutor jython(String expression) {
       this.expression = "jython:" + expression;
       return this;
    }
@@ -133,7 +133,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor clojure(String expression) {
+   public ExpressionPreviewExecutor clojure(String expression) {
       this.expression = "clojure:" + expression;
       return this;
    }
@@ -145,7 +145,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor repeat(boolean repeat) {
+   public ExpressionPreviewExecutor repeat(boolean repeat) {
       this.repeat = repeat;
       return this;
    }
@@ -157,7 +157,7 @@ public class ExpressionPreviewRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExpressionPreviewRequestExecutor repeatCount(int repeatCount) {
+   public ExpressionPreviewExecutor repeatCount(int repeatCount) {
       this.repeatCount = repeatCount;
       return this;
    }

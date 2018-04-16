@@ -1,22 +1,25 @@
 package gmbh.dtap.refine.fluent;
 
-import gmbh.dtap.refine.api.*;
+import gmbh.dtap.refine.api.RefineClient;
+import gmbh.dtap.refine.api.RefineException;
+import gmbh.dtap.refine.api.RefineProject;
+import gmbh.dtap.refine.api.RefineProjectLocation;
 
 import java.io.IOException;
 
-import static org.apache.commons.lang3.Validate.*;
+import static org.apache.commons.lang3.Validate.notEmpty;
+import static org.apache.commons.lang3.Validate.notNull;
 
 /**
- * A fluent request executor for applying an operation on a project.
+ * A fluent request executor for the deletion of a project.
  *
- * @see RefineExecutor#applyOperation()
- * @see RefineClient#applyOperations(String, Operation...)
+ * @see RefineExecutor#deleteProject()
+ * @see RefineClient#deleteProject(String)
  * @since 0.1.7
  */
-public class ApplyOperationRequestExecutor {
+public class DeleteProjectExecutor {
 
    private String projectId;
-   private Operation[] operations;
 
    /**
     * Sets the project ID.
@@ -25,7 +28,7 @@ public class ApplyOperationRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ApplyOperationRequestExecutor project(String projectId) {
+   public DeleteProjectExecutor project(String projectId) {
       this.projectId = projectId;
       return this;
    }
@@ -37,7 +40,7 @@ public class ApplyOperationRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ApplyOperationRequestExecutor project(RefineProjectLocation projectLocation) {
+   public DeleteProjectExecutor project(RefineProjectLocation projectLocation) {
       notNull(projectLocation, "projectLocation");
       this.projectId = projectLocation.getId();
       return this;
@@ -50,21 +53,9 @@ public class ApplyOperationRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ApplyOperationRequestExecutor project(RefineProject project) {
+   public DeleteProjectExecutor project(RefineProject project) {
       notNull(project, "project");
       this.projectId = project.getId();
-      return this;
-   }
-
-   /**
-    * Sets one or more operations.
-    *
-    * @param operations the operations
-    * @return the executor for fluent usage
-    * @since 0.1.7
-    */
-   public ApplyOperationRequestExecutor operations(Operation... operations) {
-      this.operations = operations;
       return this;
    }
 
@@ -79,9 +70,6 @@ public class ApplyOperationRequestExecutor {
    public void execute(RefineClient client) throws IOException {
       notNull(projectId, "projectId");
       notEmpty(projectId, "projectId is empty");
-      notNull(operations, "operations");
-      notEmpty(operations, "operations is empty");
-      noNullElements(operations, "operations contains null");
-      client.applyOperations(projectId, operations);
+      client.deleteProject(projectId);
    }
 }

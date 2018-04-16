@@ -16,7 +16,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @see RefineClient#createProject(String, File, UploadFormat, UploadOptions)
  * @since 0.1.7
  */
-public class CreateProjectRequestExecutor {
+public class CreateProjectExecutor {
 
    private String name;
    private File file;
@@ -30,7 +30,7 @@ public class CreateProjectRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public CreateProjectRequestExecutor name(String name) {
+   public CreateProjectExecutor name(String name) {
       this.name = name;
       return this;
    }
@@ -42,7 +42,7 @@ public class CreateProjectRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public CreateProjectRequestExecutor file(File file) {
+   public CreateProjectExecutor file(File file) {
       this.file = file;
       return this;
    }
@@ -54,7 +54,7 @@ public class CreateProjectRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public CreateProjectRequestExecutor format(UploadFormat format) {
+   public CreateProjectExecutor format(UploadFormat format) {
       this.format = format;
       return this;
    }
@@ -66,7 +66,7 @@ public class CreateProjectRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public CreateProjectRequestExecutor options(UploadOptions options) {
+   public CreateProjectExecutor options(UploadOptions options) {
       this.options = options;
       return this;
    }
