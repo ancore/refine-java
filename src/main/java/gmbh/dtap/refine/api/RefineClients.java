@@ -1,6 +1,5 @@
-package gmbh.dtap.refine;
+package gmbh.dtap.refine.api;
 
-import gmbh.dtap.refine.api.RefineClient;
 import gmbh.dtap.refine.client.MinimalRefineClient;
 
 import java.net.MalformedURLException;

@@ -12,11 +12,11 @@ import java.io.IOException;
  *
  * @since 0.1.5
  */
-public class ExpressionPreviewResponseHandler implements ResponseHandler<ExpressionPreviewResponse> {
+class ExpressionPreviewResponseHandler implements ResponseHandler<ExpressionPreviewResponse> {
 
    private ResponseParser responseParser;
 
-   public ExpressionPreviewResponseHandler(ResponseParser responseParser) {
+   ExpressionPreviewResponseHandler(ResponseParser responseParser) {
       this.responseParser = responseParser;
    }
 

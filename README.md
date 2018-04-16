@@ -47,7 +47,7 @@ try (RefineClient client = RefineClients.create(url)) {
 
    RefineProjectLocation location = client.createProject("Addresses", file);
 
-   List<String> expressionPreviews = RequestBuilder.expressionPreview()
+   List<String> expressionPreviews = RequestExecutor.expressionPreview()
          .forProject(location)
          .cellIndex(4)
          .rowIndices(0, 1)

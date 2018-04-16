@@ -1,7 +1,5 @@
 package gmbh.dtap.refine.api;
 
-import gmbh.dtap.refine.RefineClients;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,6 +16,17 @@ import java.util.List;
  * @since 0.1.0
  */
 public interface RefineClient extends AutoCloseable {
+
+   /**
+    * Applies operations on the specific project.
+    *
+    * @param projectId  the project ID
+    * @param operations the operations, at least one operation has to be provided
+    * @throws IOException     in case of a connection problem
+    * @throws RefineException in case the request failed
+    * @since 0.1.3
+    */
+   void applyOperations(String projectId, Operation... operations) throws IOException;
 
    /**
     * Creates a project at the OpenRefine server.
@@ -61,6 +70,7 @@ public interface RefineClient extends AutoCloseable {
     * @param id     the project ID
     * @param engine optional restrictions
     * @param format the file format
+    * @param outputStream the output stream to export to
     * @return the number of bytes written
     * @throws IOException in case of a connection problem
     * @throws RefineException in case the request failed
@@ -77,17 +87,6 @@ public interface RefineClient extends AutoCloseable {
     * @since 0.1.2
     */
    List<RefineProject> getAllProjectMetadata() throws IOException;
-
-   /**
-    * Applies operations on the specific project.
-    *
-    * @param projectId  the project ID
-    * @param operations the operations, at least one operation has to be provided
-    * @throws IOException     in case of a connection problem
-    * @throws RefineException in case the request failed
-    * @since 0.1.3
-    */
-   void applyOperations(String projectId, Operation... operations) throws IOException;
 
    /**
     * Returns the statuses of asynchronous processes running on the OpenRefine server.

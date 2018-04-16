@@ -57,6 +57,41 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
+   public void applyOperations(String projectId, Operation... operations) throws IOException {
+      notNull(projectId, "projectId");
+      notNull(operations, "operations");
+
+      URL url = new URL(baseUrl, "/command/core/apply-operations");
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("project", projectId));
+      StringJoiner operationsJoiner = new StringJoiner(",");
+      for (Operation operation : operations) {
+         operationsJoiner.add(operation.asJson());
+      }
+      String operationsJsonArray = "[" + operationsJoiner.toString() + "]";
+      form.add(new BasicNameValuePair("operations", operationsJsonArray));
+
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+            .post(url.toString())
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+            .setEntity(entity)
+            .build();
+
+      ApplyOperationsResponse response = httpClient.execute(request, new ApplyOperationsResponseHandler(responseParser));
+      if (!response.isSuccessful()) {
+         throw new RefineException(response.getMessage());
+      }
+   }
+
+   @Override
+   public List<ProcessStatus> checkStatusOfAsyncProcesses() throws IOException {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override
    public RefineProjectLocation createProject(String name, File file) throws IOException {
       return createProject(name, file, null, null);
    }
@@ -138,53 +173,6 @@ public class MinimalRefineClient implements RefineClient {
       return httpClient.execute(request, new StreamResponseHandler(outputStream));
    }
 
-   @Override
-   public List<RefineProject> getAllProjectMetadata() throws IOException {
-      URL url = new URL(baseUrl, "/command/core/get-all-project-metadata");
-
-      HttpUriRequest request = RequestBuilder
-            .get(url.toString())
-            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-            .build();
-
-      ProjectMetadataResponse response = httpClient.execute(request, new ProjectMetadataResponseHandler(responseParser));
-      return response.getRefineProjects();
-   }
-
-   @Override
-   public void applyOperations(String projectId, Operation... operations) throws IOException {
-      notNull(projectId, "projectId");
-      notNull(operations, "operations");
-
-      URL url = new URL(baseUrl, "/command/core/apply-operations");
-
-      List<NameValuePair> form = new ArrayList<>();
-      form.add(new BasicNameValuePair("project", projectId));
-      StringJoiner operationsJoiner = new StringJoiner(",");
-      for (Operation operation : operations) {
-         operationsJoiner.add(operation.asJson());
-      }
-      String operationsJsonArray = "[" + operationsJoiner.toString() + "]";
-      form.add(new BasicNameValuePair("operations", operationsJsonArray));
-
-      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
-
-      HttpUriRequest request = RequestBuilder
-            .post(url.toString())
-            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-            .setEntity(entity)
-            .build();
-
-      ApplyOperationsResponse response = httpClient.execute(request, new ApplyOperationsResponseHandler(responseParser));
-      if (!response.isSuccessful()) {
-         throw new RefineException(response.getMessage());
-      }
-   }
-
-   @Override
-   public List<ProcessStatus> checkStatusOfAsyncProcesses() throws IOException {
-      throw new UnsupportedOperationException("not implemented yet");
-   }
 
    @Override
    public List<String> expressionPreview(String projectId, long cellIndex, long[] rowIndices, String expression, boolean repeat, int repeatCount) throws IOException {
@@ -220,6 +208,19 @@ public class MinimalRefineClient implements RefineClient {
          throw new RefineException(response.getMessage());
       }
       return response.getExpressionPreviews();
+   }
+
+   @Override
+   public List<RefineProject> getAllProjectMetadata() throws IOException {
+      URL url = new URL(baseUrl, "/command/core/get-all-project-metadata");
+
+      HttpUriRequest request = RequestBuilder
+            .get(url.toString())
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+            .build();
+
+      ProjectMetadataResponse response = httpClient.execute(request, new ProjectMetadataResponseHandler(responseParser));
+      return response.getRefineProjects();
    }
 
    @Override

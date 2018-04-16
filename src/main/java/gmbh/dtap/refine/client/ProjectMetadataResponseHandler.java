@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @since 0.1.2
  */
-public class ProjectMetadataResponseHandler implements ResponseHandler<ProjectMetadataResponse> {
+class ProjectMetadataResponseHandler implements ResponseHandler<ProjectMetadataResponse> {
 
    private ResponseParser responseParser;
 
