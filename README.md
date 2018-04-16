@@ -41,14 +41,14 @@ try (RefineClient client = RefineClients.create(url)) {
 }
 ```
 
-### In development: RequestBuilder 
+### In development: RequestExeuctor 
 ```java
 try (RefineClient client = RefineClients.create(url)) {
 
    RefineProjectLocation location = client.createProject("Addresses", file);
 
-   List<String> expressionPreviews = RequestExecutor.expressionPreview()
-         .forProject(location)
+   List<String> expressionPreviews = RequestExeuctor.expressionPreview()
+         .project(location)
          .cellIndex(4)
          .rowIndices(0, 1)
          .expression("grel:toLowercase(value)")
