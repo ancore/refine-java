@@ -13,7 +13,7 @@ Supported functions are
 
 Currently missing functions are
 
-* Check status of async processes
+* Check status of async processes (see https://github.com/dtap-gmbh/refine-java/issues/12)
 
 ## Usage
 
