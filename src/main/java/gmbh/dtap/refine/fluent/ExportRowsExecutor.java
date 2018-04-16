@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @see RefineClient#exportRows(String, Engine, ExportFormat, OutputStream)
  * @since 0.1.7
  */
-public class ExportRowsRequestExecutor {
+public class ExportRowsExecutor {
 
    private String projectId;
    private Engine engine;
@@ -29,7 +29,7 @@ public class ExportRowsRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExportRowsRequestExecutor project(String projectId) {
+   public ExportRowsExecutor project(String projectId) {
       this.projectId = projectId;
       return this;
    }
@@ -41,7 +41,7 @@ public class ExportRowsRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExportRowsRequestExecutor project(RefineProjectLocation projectLocation) {
+   public ExportRowsExecutor project(RefineProjectLocation projectLocation) {
       notNull(projectLocation, "projectLocation");
       this.projectId = projectLocation.getId();
       return this;
@@ -54,7 +54,7 @@ public class ExportRowsRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExportRowsRequestExecutor project(RefineProject project) {
+   public ExportRowsExecutor project(RefineProject project) {
       notNull(project, "project");
       this.projectId = project.getId();
       return this;
@@ -67,7 +67,7 @@ public class ExportRowsRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExportRowsRequestExecutor engine(Engine engine) {
+   public ExportRowsExecutor engine(Engine engine) {
       this.engine = engine;
       return this;
    }
@@ -79,7 +79,7 @@ public class ExportRowsRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExportRowsRequestExecutor format(ExportFormat format) {
+   public ExportRowsExecutor format(ExportFormat format) {
       this.format = format;
       return this;
    }
@@ -92,7 +92,7 @@ public class ExportRowsRequestExecutor {
     * @return the executor for fluent usage
     * @since 0.1.7
     */
-   public ExportRowsRequestExecutor outputStream(OutputStream outputStream) {
+   public ExportRowsExecutor outputStream(OutputStream outputStream) {
       this.outputStream = outputStream;
       return this;
    }

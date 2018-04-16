@@ -8,63 +8,63 @@ package gmbh.dtap.refine.fluent;
 public interface RefineExecutor {
 
    /**
-    * Creates and returns a fluent request executor for applying an operation on a project.
+    * Creates and returns a fluent executor for applying an operation on a project.
     *
     * @return the request executor
     * @since 0.1.7
     */
-   static ApplyOperationRequestExecutor applyOperation() {
-      return new ApplyOperationRequestExecutor();
+   static ApplyOperationExecutor applyOperation() {
+      return new ApplyOperationExecutor();
    }
 
    /**
-    * Creates and returns a fluent request executor for the creation of a project.
+    * Creates and returns a fluent executor for the creation of a project.
     *
     * @return the request executor
     * @since 0.1.7
     */
-   static CreateProjectRequestExecutor createProject() {
-      return new CreateProjectRequestExecutor();
+   static CreateProjectExecutor createProject() {
+      return new CreateProjectExecutor();
    }
 
 
    /**
-    * Creates and returns fluent request executor for the deletion of a project.
+    * Creates and returns fluent executor for the deletion of a project.
     *
     * @return the request executor
     * @since 0.1.7
     */
-   static DeleteProjectRequestExecutor deleteProject() {
-      return new DeleteProjectRequestExecutor();
+   static DeleteProjectExecutor deleteProject() {
+      return new DeleteProjectExecutor();
    }
 
    /**
-    * Creates and returns a fluent request executor to export (download) rows from a project.
+    * Creates and returns a fluent executor to export (download) rows from a project.
     *
     * @return the request executor
     * @since 0.1.7
     */
-   static ExportRowsRequestExecutor exportRows() {
-      return new ExportRowsRequestExecutor();
+   static ExportRowsExecutor exportRows() {
+      return new ExportRowsExecutor();
    }
 
    /**
-    * Creates and returns a fluent  executor for the <tt>expression preview</tt> request.
+    * Creates and returns a fluent executor for expression previews.
     *
     * @return the request executor
     * @since 0.1.7
     */
-   static ExpressionPreviewRequestExecutor expressionPreview() {
-      return new ExpressionPreviewRequestExecutor();
+   static ExpressionPreviewExecutor expressionPreview() {
+      return new ExpressionPreviewExecutor();
    }
 
    /**
-    * Creates and returns a request executor to get the metadata of all projects
+    * Creates and returns an executor to get the metadata of all projects.
     *
     * @return the request executor
     * @since 0.1.7
     */
-   static ProjectMetadataRequestExecutor projectMetadata() {
-      return new ProjectMetadataRequestExecutor();
+   static ProjectMetadataExecutor projectMetadata() {
+      return new ProjectMetadataExecutor();
    }
 }

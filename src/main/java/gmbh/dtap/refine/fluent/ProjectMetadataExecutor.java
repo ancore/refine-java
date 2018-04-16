@@ -15,7 +15,7 @@ import java.util.List;
  * @see RefineClient#getAllProjectMetadata()
  * @since 0.1.7
  */
-public class ProjectMetadataRequestExecutor {
+public class ProjectMetadataExecutor {
 
    /**
     * Executes the request.
