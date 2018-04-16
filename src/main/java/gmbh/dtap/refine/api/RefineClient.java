@@ -29,6 +29,17 @@ public interface RefineClient extends AutoCloseable {
    void applyOperations(String projectId, Operation... operations) throws IOException;
 
    /**
+    * Returns the statuses of asynchronous processes running on the OpenRefine server.
+    *
+    * @param projectId the project ID
+    * @return the process statuses, never {@code null}
+    * @throws IOException     in case of a connection problem
+    * @throws RefineException in case the request failed
+    * @since 0.1.3
+    */
+   List<ProcessStatus> asyncProcesses(String projectId) throws IOException;
+
+   /**
     * Creates a project at the OpenRefine server.
     *
     * @param name the project name
@@ -79,26 +90,6 @@ public interface RefineClient extends AutoCloseable {
    int exportRows(String id, Engine engine, ExportFormat format, OutputStream outputStream) throws IOException;
 
    /**
-    * Returns the metadata of all projects, including project's ID, name and timestamps.
-    *
-    * @return a list of all available projects, never {@code null}
-    * @throws IOException in case of a connection problem
-    * @throws RefineException in case the request failed
-    * @since 0.1.2
-    */
-   List<RefineProject> getAllProjectMetadata() throws IOException;
-
-   /**
-    * Returns the statuses of asynchronous processes running on the OpenRefine server.
-    *
-    * @return the process statuses, never {@code null}
-    * @throws IOException     in case of a connection problem
-    * @throws RefineException in case the request failed
-    * @since 0.1.3
-    */
-   List<ProcessStatus> checkStatusOfAsyncProcesses() throws IOException;
-
-   /**
     * Returns the expression preview for the project.
     *
     * @param projectId   the project ID
@@ -115,4 +106,14 @@ public interface RefineClient extends AutoCloseable {
     * @since 0.1.3
     */
    List<String> expressionPreview(String projectId, long cellIndex, long[] rowIndices, String expression, boolean repeat, int repeatCount) throws IOException;
+
+   /**
+    * Returns the metadata of all projects, including project's ID, name and timestamps.
+    *
+    * @return a list of all available projects, never {@code null}
+    * @throws IOException     in case of a connection problem
+    * @throws RefineException in case the request failed
+    * @since 0.1.2
+    */
+   List<RefineProject> allProjectMetadata() throws IOException;
 }

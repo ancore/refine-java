@@ -4,6 +4,7 @@ import gmbh.dtap.refine.api.*;
 import gmbh.dtap.refine.client.JsonEngine;
 import gmbh.dtap.refine.client.JsonOperation;
 import gmbh.dtap.refine.client.KeyValueUploadOptions;
+import gmbh.dtap.refine.fluent.RefineExecutor;
 
 import java.io.File;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Usage {
       try (RefineClient client = RefineClients.create(url)) {
          RefineProjectLocation location1 = client.createProject("Addresses1", file);
          RefineProjectLocation location2 = client.createProject("Addresses2", file);
-         List<RefineProject> projects = client.getAllProjectMetadata();
+         List<RefineProject> projects = client.allProjectMetadata();
          System.out.println(projects);
          client.deleteProject(location1.getId());
          client.deleteProject(location2.getId());
@@ -85,6 +86,28 @@ public class Usage {
       }
    }
 
+   private void createProjectAndAsynchProcesses() throws Exception {
+      try (RefineClient client = RefineClients.create(url)) {
+
+         RefineProjectLocation location =
+               RefineExecutor.createProject()
+                     .name("Addresses")
+                     .file(file)
+                     .execute(client);
+
+         List<ProcessStatus> processStatuses =
+               RefineExecutor.asynchProcesses()
+                     .project(location)
+                     .execute(client);
+
+         System.out.println(processStatuses);
+
+         RefineExecutor.deleteProject()
+               .project(location)
+               .execute(client);
+      }
+   }
+
    public static void main(String... args) throws Exception {
       Usage usage = new Usage();
       usage.createAndDeleteProject();
@@ -93,6 +116,6 @@ public class Usage {
       usage.createProjectAndGetMetadata();
       usage.createProjectAndApplyOperations();
       usage.createProjectAndExpressioPreview();
+      usage.createProjectAndAsynchProcesses();
    }
-
 }

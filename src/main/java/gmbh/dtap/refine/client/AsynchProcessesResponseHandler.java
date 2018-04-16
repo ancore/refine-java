@@ -8,15 +8,15 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 /**
- * This class implements a {@link ResponseHandler} for the response containing all project metadata.
+ * This class implements a {@link ResponseHandler} for the <tt>check status of async processes</tt> response.
  *
- * @since 0.1.2
+ * @since 0.1.8
  */
-class ProjectMetadataResponseHandler implements ResponseHandler<ProjectMetadataResponse> {
+class AsynchProcessesResponseHandler implements ResponseHandler<AsynchProcessesResponse> {
 
    private ResponseParser responseParser;
 
-   ProjectMetadataResponseHandler(ResponseParser responseParser) {
+   AsynchProcessesResponseHandler(ResponseParser responseParser) {
       this.responseParser = responseParser;
    }
 
@@ -24,16 +24,16 @@ class ProjectMetadataResponseHandler implements ResponseHandler<ProjectMetadataR
     * Validates the response and extracts necessary data.
     *
     * @param response the response to extract data from
-    * @return a wrapper for the response data
-    * @throws IOException in case of a connection problem
+    * @return the response representation
+    * @throws IOException     in case of a connection problem
     * @throws RefineException in case the server responses with an error or is not understood
-    * @since 0.1.2
+    * @since 0.1.8
     */
    @Override
-   public ProjectMetadataResponse handleResponse(HttpResponse response) throws IOException {
+   public AsynchProcessesResponse handleResponse(HttpResponse response) throws IOException {
       checkStatusCode(response);
       String responseBody = EntityUtils.toString(response.getEntity());
-      return responseParser.parseProjectMetadataResponse(responseBody);
+      return responseParser.parseAsynchProcessesResponse(responseBody);
    }
 
    private void checkStatusCode(HttpResponse response) throws IOException {

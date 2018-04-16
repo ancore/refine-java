@@ -87,8 +87,24 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public List<ProcessStatus> checkStatusOfAsyncProcesses() throws IOException {
-      throw new UnsupportedOperationException("not implemented yet");
+   public List<ProcessStatus> asyncProcesses(String projectId) throws IOException {
+      notNull(projectId, "projectId");
+
+      URL url = new URL(baseUrl, "/command/core/get-processes");
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("project", projectId));
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+            .post(url.toString())
+            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+            .setEntity(entity)
+            .build();
+
+      AsynchProcessesResponse response = httpClient.execute(request, new AsynchProcessesResponseHandler(responseParser));
+      // TODO: check success?
+      return response.getProcessStatuses();
    }
 
    @Override
@@ -173,7 +189,6 @@ public class MinimalRefineClient implements RefineClient {
       return httpClient.execute(request, new StreamResponseHandler(outputStream));
    }
 
-
    @Override
    public List<String> expressionPreview(String projectId, long cellIndex, long[] rowIndices, String expression, boolean repeat, int repeatCount) throws IOException {
       notNull(projectId, "projectId");
@@ -211,7 +226,7 @@ public class MinimalRefineClient implements RefineClient {
    }
 
    @Override
-   public List<RefineProject> getAllProjectMetadata() throws IOException {
+   public List<RefineProject> allProjectMetadata() throws IOException {
       URL url = new URL(baseUrl, "/command/core/get-all-project-metadata");
 
       HttpUriRequest request = RequestBuilder
