@@ -13,7 +13,7 @@ import java.io.OutputStream;
  *
  * @since 0.1.1
  */
-public class StreamResponseHandler implements ResponseHandler<Integer> {
+class StreamResponseHandler implements ResponseHandler<Integer> {
 
    private final OutputStream outputStream;
 

@@ -72,7 +72,7 @@ class ExpressionPreviewResponse {
     * @return the list of the expression previews,
     * {@code null} if {@link #isSuccessful()} returns {@code false}
     */
-   public List<String> getExpressionPreviews() {
+   List<String> getExpressionPreviews() {
       return expressionPreviews;
    }
 

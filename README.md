@@ -48,7 +48,7 @@ try (RefineClient client = RefineClients.create(url)) {
    RefineProjectLocation location = client.createProject("Addresses", file);
 
    List<String> expressionPreviews = RequestExeuctor.expressionPreview()
-         .forProject(location)
+         .project(location)
          .cellIndex(4)
          .rowIndices(0, 1)
          .expression("grel:toLowercase(value)")

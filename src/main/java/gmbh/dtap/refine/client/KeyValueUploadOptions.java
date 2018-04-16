@@ -7,7 +7,7 @@ import gmbh.dtap.refine.api.UploadOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.http.util.Args.notNull;
+import static org.apache.commons.lang3.Validate.notNull;
 
 /**
  * A minimal implementation of {@link UploadOptions}.

@@ -63,7 +63,7 @@ public class MinimalRefineProject implements RefineProject {
       return created;
    }
 
-   public void setCreated(OffsetDateTime created) {
+   void setCreated(OffsetDateTime created) {
       this.created = created;
    }
 
@@ -72,7 +72,7 @@ public class MinimalRefineProject implements RefineProject {
       return modified;
    }
 
-   public void setModified(OffsetDateTime modified) {
+   void setModified(OffsetDateTime modified) {
       this.modified = modified;
    }
 
@@ -81,7 +81,7 @@ public class MinimalRefineProject implements RefineProject {
       return creator;
    }
 
-   public void setCreator(String creator) {
+   void setCreator(String creator) {
       this.creator = creator;
    }
 
@@ -90,7 +90,7 @@ public class MinimalRefineProject implements RefineProject {
       return contributors;
    }
 
-   public void setContributors(String contributors) {
+   void setContributors(String contributors) {
       this.contributors = contributors;
    }
 
@@ -99,7 +99,7 @@ public class MinimalRefineProject implements RefineProject {
       return subject;
    }
 
-   public void setSubject(String subject) {
+   void setSubject(String subject) {
       this.subject = subject;
    }
 
@@ -108,7 +108,7 @@ public class MinimalRefineProject implements RefineProject {
       return description;
    }
 
-   public void setDescription(String description) {
+   void setDescription(String description) {
       this.description = description;
    }
 
@@ -117,7 +117,7 @@ public class MinimalRefineProject implements RefineProject {
       return rowCount;
    }
 
-   public void setRowCount(long rowCount) {
+   void setRowCount(long rowCount) {
       this.rowCount = rowCount;
    }
 
@@ -126,7 +126,7 @@ public class MinimalRefineProject implements RefineProject {
       return customMetadata;
    }
 
-   public void setCustomMetadata(CustomMetadata customMetadata) {
+   void setCustomMetadata(CustomMetadata customMetadata) {
       this.customMetadata = customMetadata;
    }
 
@@ -135,7 +135,7 @@ public class MinimalRefineProject implements RefineProject {
       return importOptionMetadata;
    }
 
-   public void setImportOptionMetadata(List<ImportOptionMetadata> importOptionMetadata) {
+   void setImportOptionMetadata(List<ImportOptionMetadata> importOptionMetadata) {
       this.importOptionMetadata = importOptionMetadata;
    }
 
