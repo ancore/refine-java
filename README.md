@@ -41,13 +41,18 @@ try (RefineClient client = RefineClients.create(url)) {
 }
 ```
 
-### In development: RequestExeuctor 
+### Fluent Request Exeuctor
 ```java
 try (RefineClient client = RefineClients.create(url)) {
 
-   RefineProjectLocation location = client.createProject("Addresses", file);
+   RefineProjectLocation location = RequestExeuctor
+      .createProject()
+          .name("Addresses")
+          .file(file)
+          .execute(client);
 
-   List<String> expressionPreviews = RequestExeuctor.expressionPreview()
+   List<String> expressionPreviews = RequestExeuctor
+      .expressionPreview()
          .project(location)
          .cellIndex(4)
          .rowIndices(0, 1)
