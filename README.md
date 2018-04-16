@@ -41,7 +41,7 @@ try (RefineClient client = RefineClients.create(url)) {
 }
 ```
 
-### Fluent Request Exeuctor
+### Fluent Request Execuctor
 ```java
 try (RefineClient client = RefineClients.create(url)) {
 
