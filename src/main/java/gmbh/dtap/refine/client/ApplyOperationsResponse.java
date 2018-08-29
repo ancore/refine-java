@@ -4,27 +4,36 @@ import static org.apache.http.util.Asserts.notEmpty;
 
 /**
  * This class represents the response from the <tt>apply operations</tt> request.
- *
- * @since 0.1.4
  */
-class ApplyOperationsResponse {
+public class ApplyOperationsResponse extends RefineResponse {
 
-   private final boolean successful;
-   private final String message;
-
-   private ApplyOperationsResponse(boolean successful, String message) {
-      this.successful = successful;
-      this.message = message;
+   /**
+    * Private constructor to enforce usage of factory methods.
+    *
+    * @param code    the code
+    * @param message the message, may be {@code null}
+    */
+   private ApplyOperationsResponse(ResponseCode code, String message) {
+      super(code, message);
    }
 
    /**
-    * Returns an instance to represent a success.
+    * Returns an instance to represent the success status.
     *
-    * @return the successful instance
-    * @since 0.1.4
+    * @return the success instance
     */
    static ApplyOperationsResponse ok() {
-      return new ApplyOperationsResponse(true, null);
+      return new ApplyOperationsResponse(ResponseCode.OK, null);
+   }
+
+
+   /**
+    * Returns an instance to represent the pending status.
+    *
+    * @return the pending instance
+    */
+   static ApplyOperationsResponse pending() {
+      return new ApplyOperationsResponse(ResponseCode.PENDING, null);
    }
 
    /**
@@ -32,38 +41,9 @@ class ApplyOperationsResponse {
     *
     * @param message the error message
     * @return the error instance
-    * @since 0.1.4
     */
    static ApplyOperationsResponse error(String message) {
       notEmpty(message, "message");
-      return new ApplyOperationsResponse(false, message);
-   }
-
-   /**
-    * Indicates whether the request was successful.
-    *
-    * @return boolean
-    * @since 0.1.4
-    */
-   boolean isSuccessful() {
-      return successful;
-   }
-
-   /**
-    * Returns the error message.
-    *
-    * @return the error message, {@code null} in success case
-    * @since 0.1.4
-    */
-   String getMessage() {
-      return message;
-   }
-
-   @Override
-   public String toString() {
-      return "ApplyOperationsResponse{" +
-            "successful=" + successful +
-            ", message='" + message + '\'' +
-            '}';
+      return new ApplyOperationsResponse(ResponseCode.ERROR, message);
    }
 }

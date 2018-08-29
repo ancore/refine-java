@@ -4,27 +4,26 @@ import static org.apache.http.util.Asserts.notEmpty;
 
 /**
  * This class represents the response from the <tt>delete project</tt> request.
- *
- * @since 0.1.0
  */
-class DeleteProjectResponse {
+public class DeleteProjectResponse extends RefineResponse {
 
-   private final boolean successful;
-   private final String message;
-
-   private DeleteProjectResponse(boolean successful, String message) {
-      this.successful = successful;
-      this.message = message;
+   /**
+    * Private constructor to enforce usage of factory methods.
+    *
+    * @param code    the code
+    * @param message the message, may be {@code null}
+    */
+   private DeleteProjectResponse(ResponseCode code, String message) {
+      super(code, message);
    }
 
    /**
-    * Returns an instance to represent a success.
+    * Returns an instance to represent the success status.
     *
-    * @return the successful instance
-    * @since 0.1.0
+    * @return the success instance
     */
    static DeleteProjectResponse ok() {
-      return new DeleteProjectResponse(true, null);
+      return new DeleteProjectResponse(ResponseCode.OK, null);
    }
 
    /**
@@ -32,38 +31,9 @@ class DeleteProjectResponse {
     *
     * @param message the error message
     * @return the error instance
-    * @since 0.1.0
     */
    static DeleteProjectResponse error(String message) {
       notEmpty(message, "message");
-      return new DeleteProjectResponse(false, message);
-   }
-
-   /**
-    * Indicates whether the request was successful.
-    *
-    * @return boolean
-    * @since 0.1.0
-    */
-   boolean isSuccessful() {
-      return successful;
-   }
-
-   /**
-    * Returns the error message.
-    *
-    * @return the error message, {@code null} in success case
-    * @since 0.1.0
-    */
-   String getMessage() {
-      return message;
-   }
-
-   @Override
-   public String toString() {
-      return "DeleteProjectResponse{" +
-            "successful=" + successful +
-            ", message='" + message + '\'' +
-            '}';
+      return new DeleteProjectResponse(ResponseCode.ERROR, message);
    }
 }

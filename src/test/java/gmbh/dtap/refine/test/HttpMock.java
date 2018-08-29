@@ -17,15 +17,11 @@ import static org.mockito.Mockito.when;
 
 /**
  * Provides common http mocks for the Refine-Java unit tests.
- *
- * @since 0.1.6
  */
 public class HttpMock {
 
    /**
     * Prevents instantiation.
-    *
-    * @since 0.1.6
     */
    private HttpMock() {
    }
@@ -35,10 +31,8 @@ public class HttpMock {
     *
     * @param statusCode the HTTP status code
     * @return the mocked response
-    * @since 0.1.6
     */
    public static HttpResponse mockHttpResponse(int statusCode) {
-
       StatusLine statusLine = mock(StatusLine.class);
       when(statusLine.getStatusCode()).thenReturn(statusCode);
       when(statusLine.getReasonPhrase()).thenReturn("Mock");
@@ -55,7 +49,6 @@ public class HttpMock {
     * @param statusCode the HTTP status code
     * @param headers    the headers
     * @return the mocked response
-    * @since 0.1.6
     */
    public static HttpResponse mockHttpResponse(int statusCode, Header... headers) {
       notNull(headers, "headers");
@@ -86,7 +79,6 @@ public class HttpMock {
     * @param responseBody the response body content
     * @return the mocked response
     * @throws IOException in case the response body conversion to stream fails
-    * @since 0.1.6
     */
    public static HttpResponse mockHttpResponse(int statusCode, ContentType contentType, String responseBody) throws IOException {
       notNull(contentType, "contentType");

@@ -1,24 +1,19 @@
 package gmbh.dtap.refine.client;
 
-import gmbh.dtap.refine.api.RefineException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
+import static gmbh.dtap.refine.client.HttpParser.HTTP_PARSER;
+import static gmbh.dtap.refine.client.JsonParser.JSON_PARSER;
+import static org.apache.http.HttpStatus.SC_OK;
+
 /**
- * This class implements a {@link ResponseHandler} for the <tt>expression preview</tt> response.
- *
- * @since 0.1.5
+ * This class implements a {@link ResponseHandler} for the {@link ExpressionPreviewResponse}.
  */
 class ExpressionPreviewResponseHandler implements ResponseHandler<ExpressionPreviewResponse> {
-
-   private ResponseParser responseParser;
-
-   ExpressionPreviewResponseHandler(ResponseParser responseParser) {
-      this.responseParser = responseParser;
-   }
 
    /**
     * Validates the response and extracts necessary data.
@@ -26,20 +21,12 @@ class ExpressionPreviewResponseHandler implements ResponseHandler<ExpressionPrev
     * @param response the response to extract data from
     * @return the response representation
     * @throws IOException     in case of a connection problem
-    * @throws RefineException in case the server responses with an error or is not understood
-    * @since 0.1.5
+    * @throws RefineException in case the server responses with an unexpected status or is not understood
     */
    @Override
    public ExpressionPreviewResponse handleResponse(HttpResponse response) throws IOException {
-      checkStatusCode(response);
+      HTTP_PARSER.assureStatusCode(response, SC_OK);
       String responseBody = EntityUtils.toString(response.getEntity());
-      return responseParser.parsePreviewExpressionResponse(responseBody);
-   }
-
-   private void checkStatusCode(HttpResponse response) throws IOException {
-      int status = response.getStatusLine().getStatusCode();
-      if (status != 200) {
-         throw new RefineException("Unexpected response status: " + status);
-      }
+      return JSON_PARSER.parseExpressionPreviewResponse(responseBody);
    }
 }

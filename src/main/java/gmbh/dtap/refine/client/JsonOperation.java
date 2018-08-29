@@ -1,11 +1,7 @@
 package gmbh.dtap.refine.client;
 
-import gmbh.dtap.refine.api.Operation;
-
 /**
  * A minimal implementation of {@link Operation}.
- *
- * @since 0.1.4
  */
 public class JsonOperation implements Operation {
 
@@ -16,12 +12,11 @@ public class JsonOperation implements Operation {
    }
 
    /**
-    * Factory method that crates an instance from JSON.
-    * The JSON has to be in the format expected by OpenRefine.
+    * Factory method that crates an instance from JSON_PARSER.
+    * The JSON_PARSER has to be in the format expected by OpenRefine.
     *
-    * @param json the JSON document
+    * @param json the JSON_PARSER document
     * @return the engine instance
-    * @since 0.1.4
     */
    public static Operation from(String json) {
       return new JsonOperation(json);
