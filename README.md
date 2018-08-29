@@ -10,66 +10,54 @@ Supported functions are
 
 * Create project
 * Delete project
-* Export rows
-* Get all project metadata
 * Apply operations
 * Expression Preview
 
-Currently missing functions are
-
-* Check status of async processes (see https://github.com/dtap-gmbh/refine-java/issues/12)
-
 ## Usage
 
-### Create and Delete Project
-```java
-String url = "http://localhost:3333/";
-File file = ...;
-   
-try (RefineClient client = RefineClients.create(url)) {
-         RefineProjectLocation location = client.createProject("Project name", file);
-         // ...
-         client.deleteProject(location.getId());
-}
+      try (RefineClient client = RefineClients.create("http://localhost:3333")) {
+
+         GetVersionResponse version = RefineCommands
+               .getVersion()
+               .execute(client);
+         System.out.println(version);
+
+         CreateProjectResponse createProjectResponse = RefineCommands
+               .createProject()
+               .name("Test 1")
+               .file(new File("src/test/resources/addresses.csv"))
+               .execute(client);
+         System.out.println(createProjectResponse);
+
+         Operation operation = JsonOperation.from("{\n" +
+               "       \"op\": \"core/column-split\",\n" +
+               "       \"description\": \"Split column ID by separator\",\n" +
+               "       \"engineConfig\": {\n" +
+               "              \"facets\": [],\n" +
+               "              \"mode\": \"row-based\"\n" +
+               "       },\n" +
+               "       \"columnName\": \"ID\",\n" +
+               "       \"guessCellType\": true,\n" +
+               "       \"removeOriginalColumn\": true,\n" +
+               "       \"mode\": \"separator\",\n" +
+               "       \"separator\": \"-\",\n" +
+               "       \"regex\": false,\n" +
+               "       \"maxColumns\": 0\n" +
+               "}");
+         ApplyOperationsResponse applyOperationsResponse = RefineCommands
+               .applyOperations()
+               .project(createProjectResponse.getProjectId())
+               .operations(operation)
+               .execute(client);
+         System.out.println(applyOperationsResponse);
+
+         DeleteProjectResponse deleteProjectResponse = RefineCommands
+               .deleteProject()
+               .project(createProjectResponse.getProjectId())
+               .execute(client);
+         System.out.println(deleteProjectResponse);
+      }
 ```
-
-### Create Project and Preview Expression
-```java
-try (RefineClient client = RefineClients.create(url)) {
-   RefineProjectLocation location = client.createProject("Addresses", file);
-   List<String> expressionPreviews = client.expressionPreview(location.getId(),
-         4, new long[]{0, 1},
-         "grel:toLowercase(value);", false, 0);
-   System.out.println(expressionPreviews);
-   client.deleteProject(location.getId());
-}
-```
-
-### Fluent Request Execuctor
-```java
-try (RefineClient client = RefineClients.create(url)) {
-
-   RefineProjectLocation location = RequestExeuctor
-      .createProject()
-          .name("Addresses")
-          .file(file)
-          .execute(client);
-
-   List<String> expressionPreviews = RequestExeuctor
-      .expressionPreview()
-         .project(location)
-         .cellIndex(4)
-         .rowIndices(0, 1)
-         .expression("grel:toLowercase(value)")
-         .repeat(false)
-         .repeatCount(0)
-         .execute(client);
-
-   System.out.println(expressionPreviews);
-}
-```
-
-More examples can be found in `gmbh.dtap.refine.Usage`.
 
 ## Credits
 
