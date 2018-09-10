@@ -2,10 +2,6 @@
 
 This library is a client implementation for the [OpenRefine API](https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API).
 
-
-*NOTE*: Because of the massive amount of requests (which are not documented) the concept of this library will be rewritten.
-
-
 Supported functions are
 
 * Create project
