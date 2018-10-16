@@ -1,15 +1,18 @@
 package gmbh.dtap.refine.client;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.message.BasicNameValuePair;
+
+import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -85,29 +88,41 @@ public class CreateProjectCommand {
       notEmpty(name, "name");
       notNull(file, "file");
 
-      URL url = client.createUrl("/command/core/create-project-from-upload");
+      final URL url;
+      if (options != null) {
+         // https://github.com/dtap-gmbh/refine-java/issues/14
+         // https://github.com/OpenRefine/OpenRefine/issues/1757
+         // OpenRefine ignores options as form parameter, but accepts them as get parameter
+         url = client.createUrl("/command/core/create-project-from-upload?" + urlEncodedOptions());
+      } else {
+         url = client.createUrl("/command/core/create-project-from-upload");
+      }
 
       MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
       if (format != null) {
          multipartEntityBuilder.addTextBody("format", format.getValue(),
-               TEXT_PLAIN.withCharset(charset));
+            TEXT_PLAIN.withCharset(charset));
       }
       if (options != null) {
          multipartEntityBuilder.addTextBody("options", options.asJson(),
-               APPLICATION_JSON.withCharset(charset));
+            APPLICATION_JSON.withCharset(charset));
       }
 
       HttpEntity entity = multipartEntityBuilder
-            .addBinaryBody("project-file", file)
-            .addTextBody("project-name", name, TEXT_PLAIN.withCharset(charset))
-            .build();
+         .addBinaryBody("project-file", file)
+         .addTextBody("project-name", name, TEXT_PLAIN.withCharset(charset))
+         .build();
 
       HttpUriRequest request = RequestBuilder
-            .post(url.toString())
-            .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-            .setEntity(entity)
-            .build();
+         .post(url.toString())
+         .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+         .setEntity(entity)
+         .build();
 
       return client.execute(request, new CreateProjectResponseHandler());
+   }
+
+   private String urlEncodedOptions() {
+      return URLEncodedUtils.format(singletonList(new BasicNameValuePair("options", options.asJson())), charset);
    }
 }
