@@ -1,0 +1,38 @@
+{
+  "name": "Adressen csv",
+  "tags": [],
+  "created": "2020-02-05T20:12:44Z",
+  "modified": "2020-02-05T21:01:49Z",
+  "creator": "",
+  "contributors": "",
+  "subject": "",
+  "description": "",
+  "rowCount": 16671,
+  "title": "",
+  "homepage": "",
+  "image": "",
+  "license": "",
+  "version": "",
+  "customMetadata": {},
+  "importOptionMetadata": [
+	{
+	  "guessCellValueTypes": false,
+	  "projectTags": [
+		""
+	  ],
+	  "ignoreLines": -1,
+	  "processQuotes": true,
+	  "fileSource": "Adressen.csv",
+	  "encoding": "",
+	  "separator": ";",
+	  "storeBlankCellsAsNulls": true,
+	  "storeBlankRows": true,
+	  "skipDataLines": 0,
+	  "includeFileSources": false,
+	  "headerLines": 1,
+	  "limit": -1,
+	  "quoteCharacter": "\"",
+	  "projectName": "Adressen csv"
+	}
+  ]
+}
