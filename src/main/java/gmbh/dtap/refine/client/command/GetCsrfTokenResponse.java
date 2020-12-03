@@ -24,37 +24,34 @@
 
 package gmbh.dtap.refine.client.command;
 
-public interface RefineCommands {
+/**
+ * This class represents the response from the {@link GetVersionCommand}.
+ */
+public class GetCsrfTokenResponse {
 
-	static ApplyOperationsCommand.Builder applyOperations() {
-		return new ApplyOperationsCommand.Builder();
+	private final String token;
+
+	/**
+	 * Contructor
+	 *
+	 * @param token token
+	 * 
+	 */
+	GetCsrfTokenResponse(String token) {
+		this.token = token;
 	}
 
-	static CreateProjectCommand.Builder createProject() {
-		return new CreateProjectCommand.Builder();
+	/**
+	 * Returns token
+	 *
+	 * @return token
+	 */
+	public String getToken() {
+		return token;
 	}
 
-	static DeleteProjectCommand.Builder deleteProject() {
-		return new DeleteProjectCommand.Builder();
-	}
-
-	static ExpressionPreviewCommand.Builder expressionPreview() {
-		return new ExpressionPreviewCommand.Builder();
-	}
-
-	static GetVersionCommand.Builder getVersion() {
-		return new GetVersionCommand.Builder();
-	}
-
-	static GetProjectMetadataCommand.Builder getProjectMetadataCommand() {
-		return new GetProjectMetadataCommand.Builder();
-	}
-
-	static GetCsrfTokenCommand.Builder getCsrfToken() {
-		return new GetCsrfTokenCommand.Builder();
-	}
-
-	static ExportRowsCommand.Builder exportRows() {
-		return new ExportRowsCommand.Builder();
+	@Override
+	public String toString() {
+		return getToken();
 	}
 }

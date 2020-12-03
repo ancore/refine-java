@@ -24,37 +24,18 @@
 
 package gmbh.dtap.refine.client.command;
 
-public interface RefineCommands {
+import java.io.File;
 
-	static ApplyOperationsCommand.Builder applyOperations() {
-		return new ApplyOperationsCommand.Builder();
+public class ExportRowsResponse {
+
+	private File file;
+
+	ExportRowsResponse(File file) {
+		this.file = file;
 	}
 
-	static CreateProjectCommand.Builder createProject() {
-		return new CreateProjectCommand.Builder();
+	public File getFile() {
+		return file;
 	}
 
-	static DeleteProjectCommand.Builder deleteProject() {
-		return new DeleteProjectCommand.Builder();
-	}
-
-	static ExpressionPreviewCommand.Builder expressionPreview() {
-		return new ExpressionPreviewCommand.Builder();
-	}
-
-	static GetVersionCommand.Builder getVersion() {
-		return new GetVersionCommand.Builder();
-	}
-
-	static GetProjectMetadataCommand.Builder getProjectMetadataCommand() {
-		return new GetProjectMetadataCommand.Builder();
-	}
-
-	static GetCsrfTokenCommand.Builder getCsrfToken() {
-		return new GetCsrfTokenCommand.Builder();
-	}
-
-	static ExportRowsCommand.Builder exportRows() {
-		return new ExportRowsCommand.Builder();
-	}
 }

@@ -24,11 +24,21 @@
 
 package gmbh.dtap.refine.client.command;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import gmbh.dtap.refine.client.ProjectLocation;
-import gmbh.dtap.refine.client.RefineClient;
-import gmbh.dtap.refine.client.RefineException;
-import gmbh.dtap.refine.client.RefineProject;
+import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
+import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
+import static org.apache.commons.lang3.Validate.notEmpty;
+import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.http.HttpHeaders.ACCEPT;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringJoiner;
+
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,20 +49,12 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringJoiner;
+import com.fasterxml.jackson.databind.JsonNode;
 
-import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
-import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
-import static org.apache.commons.lang3.Validate.notEmpty;
-import static org.apache.commons.lang3.Validate.notNull;
-import static org.apache.http.HttpHeaders.ACCEPT;
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import gmbh.dtap.refine.client.ProjectLocation;
+import gmbh.dtap.refine.client.RefineClient;
+import gmbh.dtap.refine.client.RefineException;
+import gmbh.dtap.refine.client.RefineProject;
 
 /**
  * A command to preview expressions on a project.
@@ -65,6 +67,8 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 	private final String expression;
 	private final boolean repeat;
 	private final int repeatCount;
+	private final String token;
+	private final String CSRF_TOKEN = "csrf_token=";
 
 	/**
 	 * Constructor for {@link Builder}.
@@ -76,13 +80,15 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 	 * @param repeat      whether or not to repeated the expression multiple times
 	 * @param repeatCount the maximum amount of times a command will be repeated
 	 */
-	public ExpressionPreviewCommand(String projectId, Integer cellIndex, long[] rowIndices, String expression, boolean repeat, int repeatCount) {
+	public ExpressionPreviewCommand(String projectId, Integer cellIndex, long[] rowIndices, String expression,
+			boolean repeat, int repeatCount, String token) {
 		this.projectId = projectId;
 		this.cellIndex = cellIndex;
 		this.rowIndices = rowIndices;
 		this.expression = expression;
 		this.repeat = repeat;
 		this.repeatCount = repeatCount;
+		this.token = token;
 	}
 
 	/**
@@ -94,7 +100,7 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 	 * @throws RefineException in case the request failed
 	 */
 	public ExpressionPreviewResponse execute(RefineClient client) throws IOException {
-		URL url = client.createUrl("/command/core/preview-expression");
+		URL url = client.createUrl("/command/core/preview-expression?" + CSRF_TOKEN + token);
 
 		StringJoiner joiner = new StringJoiner(",");
 		for (long rowIndex : rowIndices) {
@@ -112,11 +118,8 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
-		HttpUriRequest request = RequestBuilder
-			.post(url.toString())
-			.setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-			.setEntity(entity)
-			.build();
+		HttpUriRequest request = RequestBuilder.post(url.toString()).setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+				.setEntity(entity).build();
 
 		return client.execute(request, this);
 	}
@@ -127,7 +130,8 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 	 * @param response the response to extract data from
 	 * @return the response representation
 	 * @throws IOException     in case of a connection problem
-	 * @throws RefineException in case the server responses with an unexpected status or is not understood
+	 * @throws RefineException in case the server responses with an unexpected
+	 *                         status or is not understood
 	 */
 	@Override
 	public ExpressionPreviewResponse handleResponse(HttpResponse response) throws IOException {
@@ -169,6 +173,7 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 		private String expression;
 		private boolean repeat;
 		private int repeatCount;
+		private String token;
 
 		/**
 		 * Sets the project ID.
@@ -178,6 +183,17 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 		 */
 		public Builder project(String projectId) {
 			this.projectId = projectId;
+			return this;
+		}
+
+		/**
+		 * Sets the project ID.
+		 *
+		 * @param token
+		 * @return the builder for fluent usage
+		 */
+		public Builder token(String token) {
+			this.token = token;
 			return this;
 		}
 
@@ -230,8 +246,8 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 		/**
 		 * Sets the rows to execute the expression on.
 		 *
-		 * @param expression the expression to execute, prefix for the language is expected,
-		 *                   e.g.: "grel:toLowercase(value)"
+		 * @param expression the expression to execute, prefix for the language is
+		 *                   expected, e.g.: "grel:toLowercase(value)"
 		 * @return the builder for fluent usage
 		 */
 		public Builder expression(String expression) {
@@ -304,7 +320,9 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 			notEmpty(projectId, "projectId is empty");
 			notNull(rowIndices, "rowIndices");
 			notNull(expression, "expression");
-			return new ExpressionPreviewCommand(projectId, cellIndex, rowIndices, expression, repeat, repeatCount);
+			notNull(token, "token");
+			return new ExpressionPreviewCommand(projectId, cellIndex, rowIndices, expression, repeat, repeatCount,
+					token);
 		}
 	}
 }

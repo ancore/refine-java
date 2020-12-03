@@ -24,62 +24,56 @@
 
 package gmbh.dtap.refine.client.command;
 
-import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
-import static java.util.Collections.singletonList;
-import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
-import static org.apache.http.HttpStatus.SC_MOVED_TEMPORARILY;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
-import static org.apache.http.entity.ContentType.TEXT_PLAIN;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
+import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
 import gmbh.dtap.refine.client.RefineClient;
 import gmbh.dtap.refine.client.RefineException;
-import gmbh.dtap.refine.client.UploadFormat;
-import gmbh.dtap.refine.client.UploadOptions;
 
 /**
  * A command to create a project.
  */
-public class CreateProjectCommand implements ResponseHandler<CreateProjectResponse> {
+public class ExportRowsCommand implements ResponseHandler<ExportRowsResponse> {
 
 	private static final Charset charset = Charset.forName("UTF-8");
 
-	private final String name;
-	private final File file;
-	private final UploadFormat format;
-	private final UploadOptions options;
+	private final String project;
+	private final String engine;
+	private final String format;
 	private final String token;
-	private final String CSRF_TOKEN = "csrf_token=";
 
 	/**
 	 * Constructor for {@link Builder}.
 	 *
-	 * @param name    the project name
+	 * @param project the project name
 	 * @param file    the file containing the data to upload
 	 * @param format  the optional upload format
 	 * @param options the optional options
 	 */
-	private CreateProjectCommand(String name, File file, UploadFormat format, UploadOptions options, String token) {
-		this.name = name;
-		this.file = file;
+	private ExportRowsCommand(String project, String engine, String format, String token) {
+		this.project = project;
+		this.engine = engine;
 		this.format = format;
-		this.options = options;
 		this.token = token;
 	}
 
@@ -92,38 +86,34 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
 	 * @throws RefineException in case the server responses with an error or is not
 	 *                         understood
 	 */
-	public CreateProjectResponse execute(RefineClient client) throws IOException {
+	public ExportRowsResponse execute(RefineClient client) throws IOException {
 		final URL url;
-		if (options != null) {
-			// https://github.com/dtap-gmbh/refine-java/issues/14
-			// https://github.com/OpenRefine/OpenRefine/issues/1757
-			// OpenRefine ignores options as form parameter, but accepts them as get
-			// parameter
-			url = client.createUrl(
-					"/command/core/create-project-from-upload?" + CSRF_TOKEN + token + "&" + urlEncodedOptions());
-		} else {
-			url = client.createUrl("/command/core/create-project-from-upload?" + CSRF_TOKEN + token);
-		}
 
-		MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-		if (format != null) {
-			multipartEntityBuilder.addTextBody("format", format.getValue(), TEXT_PLAIN.withCharset(charset));
-		}
-		if (options != null) {
-			multipartEntityBuilder.addTextBody("options", options.asJson(), APPLICATION_JSON.withCharset(charset));
-		}
+		url = client.createUrl("/command/core/export-rows");
 
-		HttpEntity entity = multipartEntityBuilder.addBinaryBody("project-file", file)
-				.addTextBody("project-name", name, TEXT_PLAIN.withCharset(charset)).build();
+		/*
+		 * MultipartEntityBuilder multipartEntityBuilder =
+		 * MultipartEntityBuilder.create(); if (format != null) {
+		 * multipartEntityBuilder.addTextBody("format", format,
+		 * TEXT_PLAIN.withCharset(charset)); } if (project != null) {
+		 * multipartEntityBuilder.addTextBody("project", project,
+		 * TEXT_PLAIN.withCharset(charset)); } if (engine != null) {
+		 * multipartEntityBuilder.addTextBody("engine", engine,
+		 * APPLICATION_JSON.withCharset(charset)); } HttpEntity entity =
+		 * multipartEntityBuilder.build();
+		 */
+
+		List<NameValuePair> form = new ArrayList<>();
+		form.add(new BasicNameValuePair("project", project));
+		form.add(new BasicNameValuePair("format", format));
+		form.add(new BasicNameValuePair("engine", engine));
+		form.add(new BasicNameValuePair("csrf_token", token));
+		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
 		HttpUriRequest request = RequestBuilder.post(url.toString()).setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
 				.setEntity(entity).build();
 
 		return client.execute(request, this);
-	}
-
-	private String urlEncodedOptions() {
-		return URLEncodedUtils.format(singletonList(new BasicNameValuePair("options", options.asJson())), charset);
 	}
 
 	/**
@@ -136,26 +126,35 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
 	 *                         header is present
 	 */
 	@Override
-	public CreateProjectResponse handleResponse(HttpResponse response) throws IOException {
+	public ExportRowsResponse handleResponse(HttpResponse response) throws IOException {
 		// TODO: parse errors in refine are returned as HTML
-		HTTP_PARSER.assureStatusCode(response, SC_MOVED_TEMPORARILY);
-		Header location = response.getFirstHeader("Location");
-		if (location == null) {
-			throw new RefineException("No location header found.");
+		// HTTP_PARSER.assureStatusCode(response, SC_MOVED_TEMPORARILY);
+		// Header location = response.getFirstHeader("Location");
+		// if (location == null) {
+		// throw new RefineException("No location header found.");
+		// }
+		// URL url = new URL(location.getValue());
+		InputStream is = response.getEntity().getContent();
+		File file = new File(new Date().getTime() + "." + format);
+		FileOutputStream fos = new FileOutputStream(file);
+		int read = 0;
+		byte[] buffer = new byte[32768];
+		while ((read = is.read(buffer)) > 0) {
+			fos.write(buffer, 0, read);
 		}
-		URL url = new URL(location.getValue());
-		return new CreateProjectResponse(url);
+		fos.close();
+		is.close();
+		return new ExportRowsResponse(file);
 	}
 
 	/**
-	 * The builder for {@link CreateProjectCommand}.
+	 * The builder for {@link ExportRowsCommand}.
 	 */
 	public static class Builder {
 
-		private String name;
-		private File file;
-		private UploadFormat format;
-		private UploadOptions options;
+		private String project;
+		private String engine;
+		private String format;
 		private String token;
 
 		/**
@@ -164,8 +163,8 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
 		 * @param name the project name
 		 * @return the builder for fluent usage
 		 */
-		public Builder name(String name) {
-			this.name = name;
+		public Builder project(String project) {
+			this.project = project;
 			return this;
 		}
 
@@ -186,8 +185,8 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
 		 * @param file the file containing the data to upload
 		 * @return the builder for fluent usage
 		 */
-		public Builder file(File file) {
-			this.file = file;
+		public Builder engine(String engine) {
+			this.engine = engine;
 			return this;
 		}
 
@@ -197,19 +196,8 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
 		 * @param format the optional upload format
 		 * @return the builder for fluent usage
 		 */
-		public Builder format(UploadFormat format) {
+		public Builder format(String format) {
 			this.format = format;
-			return this;
-		}
-
-		/**
-		 * Sets the optional options.
-		 *
-		 * @param options the optional options
-		 * @return the builder for fluent usage
-		 */
-		public Builder options(UploadOptions options) {
-			this.options = options;
 			return this;
 		}
 
@@ -218,12 +206,12 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
 		 *
 		 * @return the command
 		 */
-		public CreateProjectCommand build() {
-			notNull(name, "name");
-			notEmpty(name, "name");
-			notNull(file, "file");
+		public ExportRowsCommand build() {
+			notNull(engine, "engine");
+			notNull(project, "project");
 			notNull(token, "token");
-			return new CreateProjectCommand(name, file, format, options, token);
+			notNull(format, "format");
+			return new ExportRowsCommand(project, engine, format, token);
 		}
 	}
 }
