@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/dtap-gmbh/refine-java/actions/workflows/maven.yml/badge.svg)](https://github.com/dtap-gmbh/refine-java) [![codecov](https://codecov.io/gh/dtap-gmbh/refine-java/branch/master/graph/badge.svg?token=7z0hIu7c3q)](https://codecov.io/gh/dtap-gmbh/refine-java)
+[![Java CI with Maven](https://github.com/dtap-gmbh/refine-java/actions/workflows/maven.yml/badge.svg)](https://github.com/dtap-gmbh/refine-java/actions/workflows/maven.yml) [![codecov](https://codecov.io/gh/dtap-gmbh/refine-java/branch/master/graph/badge.svg?token=7z0hIu7c3q)](https://codecov.io/gh/dtap-gmbh/refine-java)
 
 # OpenRefine API Java Client 
 
