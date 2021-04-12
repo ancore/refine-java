@@ -4,7 +4,7 @@
 
 	<groupId>gmbh.dtap</groupId>
 	<artifactId>refine-java</artifactId>
-	<version>0.2.5-SNAPSHOT</version>
+	<version>0.2.4-SNAPSHOT</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>An OpenRefine Java Client Library</description>
