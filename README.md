@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/dtap-gmbh/refine-java/actions/workflows/maven.yml/badge.svg)](https://github.com/dtap-gmbh/refine-java/actions/workflows/maven.yml) [![codecov](https://codecov.io/gh/dtap-gmbh/refine-java/branch/master/graph/badge.svg?token=7z0hIu7c3q)](https://codecov.io/gh/dtap-gmbh/refine-java)
+
 # OpenRefine API Java Client 
 
 This library is a client implementation for the [OpenRefine API](https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API).
@@ -58,6 +60,6 @@ Supported functions are
 
 ## Credits
 
-Copyright (c) 2018 DTAP GmbH
+Copyright (c) 2019 DTAP GmbH
 
 Please refer to the LICENSE file for details.
