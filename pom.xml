@@ -6,7 +6,7 @@
 
 	<groupId>gmbh.dtap</groupId>
 	<artifactId>refine-java</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>An OpenRefine Java Client Library</description>
@@ -130,6 +130,13 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
