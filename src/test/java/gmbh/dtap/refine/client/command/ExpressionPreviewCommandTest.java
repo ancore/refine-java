@@ -55,7 +55,12 @@ public class ExpressionPreviewCommandTest {
 	public void setUp() throws MalformedURLException {
 		refineClient = mock(RefineClient.class);
 		when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
-		command = RefineCommands.expressionPreview().project("1234567890").rowIndices(0).expression("foo").build();
+		command = RefineCommands.expressionPreview()
+			  .token("test-token")
+			  .project("1234567890")
+			  .rowIndices(0)
+			  .expression("foo")
+			  .build();
 	}
 
 	@Test

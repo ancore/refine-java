@@ -55,6 +55,7 @@ public class CreateProjectCommandTest {
 		when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
 
 		command = RefineCommands.createProject()
+			.token("test-token")
 			.name("JSON Test (Main)")
 			.file(new File("src/test/resources/addresses.csv"))
 			.format(UploadFormat.SEPARATOR_BASED)

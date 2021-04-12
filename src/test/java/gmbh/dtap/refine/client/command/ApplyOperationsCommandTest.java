@@ -57,6 +57,7 @@ public class ApplyOperationsCommandTest {
 		refineClient = mock(RefineClient.class);
 		when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
 		command = RefineCommands.applyOperations()
+			.token("test-token")
 			.project("1234567890")
 			.operations(from("foo"))
 			.build();

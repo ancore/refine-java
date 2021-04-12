@@ -16,21 +16,8 @@
 
 package gmbh.dtap.refine.client.command;
 
-import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
-import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
-import static org.apache.commons.lang3.Validate.noNullElements;
-import static org.apache.commons.lang3.Validate.notEmpty;
-import static org.apache.commons.lang3.Validate.notNull;
-import static org.apache.http.HttpHeaders.ACCEPT;
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import gmbh.dtap.refine.client.*;
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,13 +28,18 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
 
-import gmbh.dtap.refine.client.Operation;
-import gmbh.dtap.refine.client.ProjectLocation;
-import gmbh.dtap.refine.client.RefineClient;
-import gmbh.dtap.refine.client.RefineException;
-import gmbh.dtap.refine.client.RefineProject;
+import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
+import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
+import static org.apache.commons.lang3.Validate.*;
+import static org.apache.http.HttpHeaders.ACCEPT;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 /**
  * A command to apply operations on a project.
@@ -207,7 +199,7 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 			notEmpty(projectId, "projectId is empty");
 			notNull(operations, "operations");
 			notEmpty(operations, "operations is empty");
-			notNull(token, "token");
+			notEmpty(token, "token");
 			noNullElements(operations, "operations contains null");
 			return new ApplyOperationsCommand(projectId, operations, token);
 		}

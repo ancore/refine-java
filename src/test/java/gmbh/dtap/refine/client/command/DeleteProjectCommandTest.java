@@ -55,7 +55,10 @@ public class DeleteProjectCommandTest {
 	public void setUp() throws MalformedURLException {
 		refineClient = mock(RefineClient.class);
 		when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
-		command = RefineCommands.deleteProject().project("1234567890").build();
+		command = RefineCommands.deleteProject()
+			  .token("test-token")
+			  .project("1234567890")
+			  .build();
 	}
 
 	@Test
