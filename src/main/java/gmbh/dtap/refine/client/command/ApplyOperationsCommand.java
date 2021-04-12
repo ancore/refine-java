@@ -146,7 +146,7 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 		/**
 		 * Sets token.
 		 *
-		 * @param token
+		 * @param token the csrf token
 		 * @return the builder for fluent usage
 		 */
 		public Builder token(String token) {

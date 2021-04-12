@@ -24,20 +24,8 @@
 
 package gmbh.dtap.refine.client.command;
 
-import static org.apache.commons.lang3.Validate.notNull;
-import static org.apache.http.HttpHeaders.ACCEPT;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import gmbh.dtap.refine.client.RefineClient;
+import gmbh.dtap.refine.client.RefineException;
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -47,171 +35,165 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import gmbh.dtap.refine.client.RefineClient;
-import gmbh.dtap.refine.client.RefineException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.http.HttpHeaders.ACCEPT;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 /**
- * A command to create a project.
+ * A command to export rows from the project.
  */
 public class ExportRowsCommand implements ResponseHandler<ExportRowsResponse> {
 
-	private static final Charset charset = Charset.forName("UTF-8");
+   private final String project;
+   private final String engine;
+   private final String format;
+   private final String token;
 
-	private final String project;
-	private final String engine;
-	private final String format;
-	private final String token;
+   /**
+	* Constructor for {@link Builder}.
+	*
+	* @param project the project name
+	* @param engine  the engine to use
+	* @param format  the optional upload format
+	* @param token   the csrf token
+	*/
+   private ExportRowsCommand(String project, String engine, String format, String token) {
+	  this.project = project;
+	  this.engine = engine;
+	  this.format = format;
+	  this.token = token;
+   }
 
-	/**
-	 * Constructor for {@link Builder}.
-	 *
-	 * @param project the project name
-	 * @param file    the file containing the data to upload
-	 * @param format  the optional upload format
-	 * @param options the optional options
-	 */
-	private ExportRowsCommand(String project, String engine, String format, String token) {
-		this.project = project;
-		this.engine = engine;
-		this.format = format;
-		this.token = token;
-	}
+   /**
+	* Executes the command.
+	*
+	* @param client the client to execute the command with
+	* @return the result of the command
+	* @throws IOException     in case of a connection problem
+	* @throws RefineException in case the server responses with an error or is not
+	*                         understood
+	*/
+   public ExportRowsResponse execute(RefineClient client) throws IOException {
+	  final URL url = client.createUrl("/command/core/export-rows");
 
-	/**
-	 * Executes the command.
-	 *
-	 * @param client the client to execute the command with
-	 * @return the result of the command
-	 * @throws IOException     in case of a connection problem
-	 * @throws RefineException in case the server responses with an error or is not
-	 *                         understood
-	 */
-	public ExportRowsResponse execute(RefineClient client) throws IOException {
-		final URL url;
+	  List<NameValuePair> form = new ArrayList<>();
+	  form.add(new BasicNameValuePair("project", project));
+	  form.add(new BasicNameValuePair("format", format));
+	  form.add(new BasicNameValuePair("engine", engine));
+	  form.add(new BasicNameValuePair("csrf_token", token));
+	  UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
-		url = client.createUrl("/command/core/export-rows");
+	  HttpUriRequest request = RequestBuilder.post(url.toString()).setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+			.setEntity(entity).build();
 
-		/*
-		 * MultipartEntityBuilder multipartEntityBuilder =
-		 * MultipartEntityBuilder.create(); if (format != null) {
-		 * multipartEntityBuilder.addTextBody("format", format,
-		 * TEXT_PLAIN.withCharset(charset)); } if (project != null) {
-		 * multipartEntityBuilder.addTextBody("project", project,
-		 * TEXT_PLAIN.withCharset(charset)); } if (engine != null) {
-		 * multipartEntityBuilder.addTextBody("engine", engine,
-		 * APPLICATION_JSON.withCharset(charset)); } HttpEntity entity =
-		 * multipartEntityBuilder.build();
-		 */
+	  return client.execute(request, this);
+   }
 
-		List<NameValuePair> form = new ArrayList<>();
-		form.add(new BasicNameValuePair("project", project));
-		form.add(new BasicNameValuePair("format", format));
-		form.add(new BasicNameValuePair("engine", engine));
-		form.add(new BasicNameValuePair("csrf_token", token));
-		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+   /**
+	* Validates the response and extracts necessary data.
+	*
+	* @param response the response to get the location from
+	* @return the response
+	* @throws IOException     in case of an connection problem
+	* @throws RefineException in case of an unexpected response or no location
+	*                         header is present
+	*/
+   @Override
+   public ExportRowsResponse handleResponse(HttpResponse response) throws IOException {
+	  // TODO: parse errors in refine are returned as HTML
+	  // HTTP_PARSER.assureStatusCode(response, SC_MOVED_TEMPORARILY);
+	  // Header location = response.getFirstHeader("Location");
+	  // if (location == null) {
+	  // throw new RefineException("No location header found.");
+	  // }
+	  // URL url = new URL(location.getValue());
+	  InputStream is = response.getEntity().getContent();
+	  File file = new File(new Date().getTime() + "." + format);
+	  FileOutputStream fos = new FileOutputStream(file);
+	  int read = 0;
+	  byte[] buffer = new byte[32768];
+	  while ((read = is.read(buffer)) > 0) {
+		 fos.write(buffer, 0, read);
+	  }
+	  fos.close();
+	  is.close();
+	  return new ExportRowsResponse(file);
+   }
 
-		HttpUriRequest request = RequestBuilder.post(url.toString()).setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-				.setEntity(entity).build();
+   /**
+	* The builder for {@link ExportRowsCommand}.
+	*/
+   public static class Builder {
 
-		return client.execute(request, this);
-	}
+	  private String project;
+	  private String engine;
+	  private String format;
+	  private String token;
 
-	/**
-	 * Validates the response and extracts necessary data.
-	 *
-	 * @param response the response to get the location from
-	 * @return the response
-	 * @throws IOException     in case of an connection problem
-	 * @throws RefineException in case of an unexpected response or no location
-	 *                         header is present
-	 */
-	@Override
-	public ExportRowsResponse handleResponse(HttpResponse response) throws IOException {
-		// TODO: parse errors in refine are returned as HTML
-		// HTTP_PARSER.assureStatusCode(response, SC_MOVED_TEMPORARILY);
-		// Header location = response.getFirstHeader("Location");
-		// if (location == null) {
-		// throw new RefineException("No location header found.");
-		// }
-		// URL url = new URL(location.getValue());
-		InputStream is = response.getEntity().getContent();
-		File file = new File(new Date().getTime() + "." + format);
-		FileOutputStream fos = new FileOutputStream(file);
-		int read = 0;
-		byte[] buffer = new byte[32768];
-		while ((read = is.read(buffer)) > 0) {
-			fos.write(buffer, 0, read);
-		}
-		fos.close();
-		is.close();
-		return new ExportRowsResponse(file);
-	}
+	  /**
+	   * Sets the project name.
+	   *
+	   * @param project the project name
+	   * @return the builder for fluent usage
+	   */
+	  public Builder project(String project) {
+		 this.project = project;
+		 return this;
+	  }
 
-	/**
-	 * The builder for {@link ExportRowsCommand}.
-	 */
-	public static class Builder {
+	  /**
+	   * Sets token.
+	   *
+	   * @param token the csrf token
+	   * @return the builder for fluent usage
+	   */
+	  public Builder token(String token) {
+		 this.token = token;
+		 return this;
+	  }
 
-		private String project;
-		private String engine;
-		private String format;
-		private String token;
+	  /**
+	   * Sets the file containing the data to upload.
+	   *
+	   * @param engine the engine to use
+	   * @return the builder for fluent usage
+	   */
+	  public Builder engine(String engine) {
+		 this.engine = engine;
+		 return this;
+	  }
 
-		/**
-		 * Sets the project name.
-		 *
-		 * @param name the project name
-		 * @return the builder for fluent usage
-		 */
-		public Builder project(String project) {
-			this.project = project;
-			return this;
-		}
+	  /**
+	   * Sets the optional upload format.
+	   *
+	   * @param format the optional upload format
+	   * @return the builder for fluent usage
+	   */
+	  public Builder format(String format) {
+		 this.format = format;
+		 return this;
+	  }
 
-		/**
-		 * Sets token.
-		 *
-		 * @param name token
-		 * @return the builder for fluent usage
-		 */
-		public Builder token(String token) {
-			this.token = token;
-			return this;
-		}
-
-		/**
-		 * Sets the file containing the data to upload.
-		 *
-		 * @param file the file containing the data to upload
-		 * @return the builder for fluent usage
-		 */
-		public Builder engine(String engine) {
-			this.engine = engine;
-			return this;
-		}
-
-		/**
-		 * Sets the optional upload format.
-		 *
-		 * @param format the optional upload format
-		 * @return the builder for fluent usage
-		 */
-		public Builder format(String format) {
-			this.format = format;
-			return this;
-		}
-
-		/**
-		 * Builds the command after validation.
-		 *
-		 * @return the command
-		 */
-		public ExportRowsCommand build() {
-			notNull(engine, "engine");
-			notNull(project, "project");
-			notNull(token, "token");
-			notNull(format, "format");
-			return new ExportRowsCommand(project, engine, format, token);
-		}
-	}
+	  /**
+	   * Builds the command after validation.
+	   *
+	   * @return the command
+	   */
+	  public ExportRowsCommand build() {
+		 notNull(engine, "engine");
+		 notNull(project, "project");
+		 notNull(token, "token");
+		 notNull(format, "format");
+		 return new ExportRowsCommand(project, engine, format, token);
+	  }
+   }
 }

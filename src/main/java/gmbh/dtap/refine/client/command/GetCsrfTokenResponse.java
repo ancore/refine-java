@@ -25,26 +25,25 @@
 package gmbh.dtap.refine.client.command;
 
 /**
- * This class represents the response from the {@link GetVersionCommand}.
+ * This class represents the response from the {@link GetCsrfTokenCommand}.
  */
 public class GetCsrfTokenResponse {
 
 	private final String token;
 
 	/**
-	 * Contructor
+	 * Constructor
 	 *
-	 * @param token token
-	 * 
+	 * @param token the csrf token
 	 */
 	GetCsrfTokenResponse(String token) {
 		this.token = token;
 	}
 
 	/**
-	 * Returns token
+	 * Returns the csrf token.
 	 *
-	 * @return token
+	 * @return the csrf token
 	 */
 	public String getToken() {
 		return token;
