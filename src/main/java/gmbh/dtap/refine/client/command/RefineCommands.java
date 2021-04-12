@@ -42,4 +42,11 @@ public interface RefineCommands {
 		return new GetProjectMetadataCommand.Builder();
 	}
 
+	static GetCsrfTokenCommand.Builder getCsrfToken() {
+		return new GetCsrfTokenCommand.Builder();
+	}
+
+	static ExportRowsCommand.Builder exportRows() {
+		return new ExportRowsCommand.Builder();
+	}
 }

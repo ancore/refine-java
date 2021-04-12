@@ -16,8 +16,21 @@
 
 package gmbh.dtap.refine.client.command;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import gmbh.dtap.refine.client.*;
+import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
+import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
+import static org.apache.commons.lang3.Validate.noNullElements;
+import static org.apache.commons.lang3.Validate.notEmpty;
+import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.http.HttpHeaders.ACCEPT;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,18 +41,13 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import com.fasterxml.jackson.databind.JsonNode;
 
-import static gmbh.dtap.refine.client.util.HttpParser.HTTP_PARSER;
-import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
-import static org.apache.commons.lang3.Validate.*;
-import static org.apache.http.HttpHeaders.ACCEPT;
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import gmbh.dtap.refine.client.Operation;
+import gmbh.dtap.refine.client.ProjectLocation;
+import gmbh.dtap.refine.client.RefineClient;
+import gmbh.dtap.refine.client.RefineException;
+import gmbh.dtap.refine.client.RefineProject;
 
 /**
  * A command to apply operations on a project.
@@ -48,6 +56,8 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 
 	private final String projectId;
 	private final Operation[] operations;
+	private String token;
+	private final String CSRF_TOKEN = "csrf_token=";
 
 	/**
 	 * Constructor for {@link Builder}.
@@ -55,9 +65,10 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 	 * @param projectId  the project ID
 	 * @param operations the operations
 	 */
-	private ApplyOperationsCommand(String projectId, Operation[] operations) {
+	private ApplyOperationsCommand(String projectId, Operation[] operations, String token) {
 		this.projectId = projectId;
 		this.operations = operations;
+		this.token = token;
 	}
 
 	/**
@@ -66,10 +77,11 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 	 * @param client the client to execute the command with
 	 * @return the result of the command
 	 * @throws IOException     in case of a connection problem
-	 * @throws RefineException in case the server responses with an error or is not understood
+	 * @throws RefineException in case the server responses with an error or is not
+	 *                         understood
 	 */
 	public ApplyOperationsResponse execute(RefineClient client) throws IOException {
-		URL url = client.createUrl("/command/core/apply-operations");
+		URL url = client.createUrl("/command/core/apply-operations?" + CSRF_TOKEN + token);
 
 		List<NameValuePair> form = new ArrayList<>();
 		form.add(new BasicNameValuePair("project", projectId));
@@ -82,11 +94,8 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
-		HttpUriRequest request = RequestBuilder
-			.post(url.toString())
-			.setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-			.setEntity(entity)
-			.build();
+		HttpUriRequest request = RequestBuilder.post(url.toString()).setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+				.setEntity(entity).build();
 
 		return client.execute(request, this);
 	}
@@ -97,7 +106,8 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 	 * @param response the response to extract data from
 	 * @return the response representation
 	 * @throws IOException     in case of a connection problem
-	 * @throws RefineException in case the server responses with an unexpected status or is not understood
+	 * @throws RefineException in case the server responses with an unexpected
+	 *                         status or is not understood
 	 */
 	@Override
 	public ApplyOperationsResponse handleResponse(HttpResponse response) throws IOException {
@@ -128,6 +138,7 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 
 		private String projectId;
 		private Operation[] operations;
+		private String token;
 
 		/**
 		 * Sets the project ID.
@@ -137,6 +148,17 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 		 */
 		public Builder project(String projectId) {
 			this.projectId = projectId;
+			return this;
+		}
+
+		/**
+		 * Sets token.
+		 *
+		 * @param token
+		 * @return the builder for fluent usage
+		 */
+		public Builder token(String token) {
+			this.token = token;
 			return this;
 		}
 
@@ -185,8 +207,9 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
 			notEmpty(projectId, "projectId is empty");
 			notNull(operations, "operations");
 			notEmpty(operations, "operations is empty");
+			notNull(token, "token");
 			noNullElements(operations, "operations contains null");
-			return new ApplyOperationsCommand(projectId, operations);
+			return new ApplyOperationsCommand(projectId, operations, token);
 		}
 	}
 }
