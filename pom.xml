@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gmbh.dtap</groupId>
 	<artifactId>refine-java</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.0</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>An OpenRefine Java Client Library</description>
@@ -32,7 +30,8 @@
 		<connection>scm:git@github.com:dtap-gmbh/refine-java.git</connection>
 		<url>scm:git@github.com:dtap-gmbh/refine-java.git</url>
 		<developerConnection>scm:git:git@github.com:dtap-gmbh/refine-java.git</developerConnection>
-	</scm>
+	  <tag>refine-java-0.2.0</tag>
+  </scm>
 
 	<distributionManagement>
 		<snapshotRepository>
