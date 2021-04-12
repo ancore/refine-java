@@ -4,7 +4,7 @@
 
 	<groupId>gmbh.dtap</groupId>
 	<artifactId>refine-java</artifactId>
-	<version>0.2.4</version>
+	<version>0.2.5-SNAPSHOT</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>An OpenRefine Java Client Library</description>
@@ -30,7 +30,7 @@
 		<connection>scm:git@github.com:dtap-gmbh/refine-java.git</connection>
 		<url>scm:git@github.com:dtap-gmbh/refine-java.git</url>
 		<developerConnection>scm:git:git@github.com:dtap-gmbh/refine-java.git</developerConnection>
-	  <tag>refine-java-0.2.4</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
