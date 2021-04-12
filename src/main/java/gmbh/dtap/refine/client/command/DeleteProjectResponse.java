@@ -22,7 +22,7 @@ import gmbh.dtap.refine.client.ResponseCode;
 import static org.apache.http.util.Asserts.notEmpty;
 
 /**
- * This class represents the response from the <tt>delete project</tt> request.
+ * This class represents the response from the <code>delete project</code> request.
  */
 public class DeleteProjectResponse extends RefineResponse {
 

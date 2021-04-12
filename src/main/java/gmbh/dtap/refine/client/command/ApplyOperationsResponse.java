@@ -22,7 +22,7 @@ import gmbh.dtap.refine.client.ResponseCode;
 import static org.apache.http.util.Asserts.notEmpty;
 
 /**
- * This class represents the response from the <tt>apply operations</tt> request.
+ * This class represents the response from the <code>apply operations</code> request.
  */
 public class ApplyOperationsResponse extends RefineResponse {
 

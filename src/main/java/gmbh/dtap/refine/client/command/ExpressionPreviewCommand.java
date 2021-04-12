@@ -232,9 +232,9 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 		}
 
 		/**
-		 * Sets the <tt>grel</tt> expression to execute.
+		 * Sets the <code>grel</code> expression to execute.
 		 *
-		 * @param expression the expression in <tt>grel</tt> to execute
+		 * @param expression the expression in <code>grel</code> to execute
 		 * @return the builder for fluent usage
 		 */
 		public Builder grel(String expression) {
@@ -243,9 +243,9 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 		}
 
 		/**
-		 * Sets the <tt>jython</tt> expression to execute.
+		 * Sets the <code>jython</code> expression to execute.
 		 *
-		 * @param expression the expression <tt>jython</tt> to execute
+		 * @param expression the expression <code>jython</code> to execute
 		 * @return the builder for fluent usage
 		 */
 		public Builder jython(String expression) {
@@ -254,9 +254,9 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 		}
 
 		/**
-		 * Sets the <tt>clojure</tt> expression to execute.
+		 * Sets the <code>clojure</code> expression to execute.
 		 *
-		 * @param expression the expression <tt>clojure</tt> to execute
+		 * @param expression the expression <code>clojure</code> to execute
 		 * @return the builder for fluent usage
 		 */
 		public Builder clojure(String expression) {

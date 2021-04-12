@@ -26,7 +26,7 @@ import static org.apache.http.util.Asserts.notEmpty;
 import static org.apache.http.util.Asserts.notNull;
 
 /**
- * This class represents the response from the <tt>expression preview</tt> request.
+ * This class represents the response from the <code>expression preview</code> request.
  */
 public class ExpressionPreviewResponse extends RefineResponse {
 

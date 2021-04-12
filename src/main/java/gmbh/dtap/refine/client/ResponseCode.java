@@ -17,7 +17,7 @@
 package gmbh.dtap.refine.client;
 
 /**
- * Represents the field <tt>code</tt> from a refine response.
+ * Represents the field <code>code</code> from a refine response.
  */
 public enum ResponseCode {
 

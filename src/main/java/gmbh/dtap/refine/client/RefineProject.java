@@ -21,7 +21,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
- * This interface defines a project representation of the <a href="https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API"></a>OpenRefine API</a>.
+ * This interface defines a project representation of the <a href="https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API">OpenRefine API</a>.
  */
 public interface RefineProject {
 

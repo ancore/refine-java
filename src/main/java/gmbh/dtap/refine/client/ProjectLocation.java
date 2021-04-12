@@ -27,7 +27,7 @@ import java.net.URL;
 public interface ProjectLocation {
 
 	/**
-	 * Returns the ID of the project. The ID is present as query parameter <tt>project</tt> in the URL also.
+	 * Returns the ID of the project. The ID is present as query parameter <code>project</code> in the URL also.
 	 *
 	 * @return the project ID
 	 */
