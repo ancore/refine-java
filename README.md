@@ -60,6 +60,6 @@ Supported functions are
 
 ## Credits
 
-Copyright (c) 2018 DTAP GmbH
+Copyright (c) 2019 DTAP GmbH
 
 Please refer to the LICENSE file for details.
