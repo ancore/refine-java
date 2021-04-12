@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/dtap-gmbh/refine-java/actions/workflows/maven.yml/badge.svg)](https://github.com/dtap-gmbh/refine-java) 
+
 # OpenRefine API Java Client 
 
 This library is a client implementation for the [OpenRefine API](https://github.com/OpenRefine/OpenRefine/wiki/OpenRefine-API).
