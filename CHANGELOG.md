@@ -16,3 +16,5 @@
  - Added dependency check plugin in order to track any security vulnerabilities.
  - Changed the used junit version and updated all of the tests.
  - Removed the github maven workflow as it is still unclear how and where we are going to build the deployment.
+ - Renamed the packages.
+ - Reformatted the source code in order to make it compatible with the checkstyle that will be used.
