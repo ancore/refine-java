@@ -16,40 +16,32 @@
 
 package gmbh.dtap.refine.client.command;
 
-import gmbh.dtap.refine.client.RefineClient;
-import gmbh.dtap.refine.client.UploadFormat;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import gmbh.dtap.refine.client.RefineClient;
+import gmbh.dtap.refine.client.UploadFormat;
 
 /**
  * Unit Tests for {@link CreateProjectCommand}.
  */
-@RunWith(MockitoJUnitRunner.class)
 public class CreateProjectCommandTest {
 
-	private static final Charset UTF_8 = Charset.forName("UTF-8");
-
-	@Rule public ExpectedException thrown = ExpectedException.none();
-	@Mock private RefineClient refineClient;
+  @Mock
+  private RefineClient refineClient;
 
 	private CreateProjectCommand command;
 
-	@Before
+    @BeforeEach
 	public void setUp() throws MalformedURLException {
 		refineClient = mock(RefineClient.class);
 		when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));

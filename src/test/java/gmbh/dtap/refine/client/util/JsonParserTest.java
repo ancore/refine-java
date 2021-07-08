@@ -16,18 +16,16 @@
 
 package gmbh.dtap.refine.client.util;
 
-import gmbh.dtap.refine.client.RefineException;
-import org.apache.commons.io.IOUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
+import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-
-import static gmbh.dtap.refine.client.util.JsonParser.JSON_PARSER;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
+import gmbh.dtap.refine.client.RefineException;
 
 /**
  * Unit Tests for {@link JsonParser}.
@@ -36,24 +34,24 @@ public class JsonParserTest {
 
 	private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
-
 	@Test
 	public void should_have_instance() {
-		assertThat(JSON_PARSER).isNotNull();
+      // -_- ??
+
+      assertNotNull(JSON_PARSER);
 	}
 
 	@Test
 	public void should_have_static_instance() {
-		assertThat(JSON_PARSER).isEqualTo(JSON_PARSER);
+      // -_- ??
+
+      assertEquals(JSON_PARSER, JSON_PARSER);
 	}
 
 	@Test
 	public void should_throw_exception_when_not_parsable_as_json() throws IOException, URISyntaxException {
 		String plainText = IOUtils.toString(getClass().getResource("/responseBody/plain.txt").toURI(), UTF_8);
 
-		thrown.expect(RefineException.class);
-		JSON_PARSER.parseJson(plainText);
+        assertThrows(RefineException.class, () -> JSON_PARSER.parseJson(plainText));
 	}
 }

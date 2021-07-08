@@ -16,9 +16,11 @@
 
 package gmbh.dtap.refine.client;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * Unit Tests for {@link RefineResponse}.
@@ -37,14 +39,14 @@ public class RefineResponseTest {
 	@Test
 	public void should_have_fields_from_constructor() {
 		RefineResponse refineResponse = new TestRefineResponse(ResponseCode.OK, "Test");
-		assertThat(refineResponse.getCode()).isEqualTo(ResponseCode.OK);
-		assertThat(refineResponse.getMessage()).isEqualTo("Test");
+        assertEquals(ResponseCode.OK, refineResponse.getCode());
+        assertEquals("Test", refineResponse.getMessage());
 	}
 
 	@Test
 	public void should_have_null_fields_from_constructor() {
 		RefineResponse refineResponse = new TestRefineResponse(null, null);
-		assertThat(refineResponse.getCode()).isNull();
-		assertThat(refineResponse.getMessage()).isNull();
+        assertNull(refineResponse.getCode());
+        assertNull(refineResponse.getMessage());
 	}
 }

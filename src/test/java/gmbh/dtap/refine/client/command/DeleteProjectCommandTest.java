@@ -16,42 +16,39 @@
 
 package gmbh.dtap.refine.client.command;
 
-import gmbh.dtap.refine.client.RefineClient;
-import gmbh.dtap.refine.client.ResponseCode;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import gmbh.dtap.refine.client.RefineClient;
+import gmbh.dtap.refine.client.ResponseCode;
 
 /**
  * Unit Tests for {@link DeleteProjectCommand}.
  */
-@RunWith(MockitoJUnitRunner.class)
 public class DeleteProjectCommandTest {
 
 	private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-	@Rule public ExpectedException thrown = ExpectedException.none();
-	@Mock private RefineClient refineClient;
+    @Mock
+    private RefineClient refineClient;
 
 	private DeleteProjectCommand command;
 
-	@Before
+    @BeforeEach
 	public void setUp() throws MalformedURLException {
 		refineClient = mock(RefineClient.class);
 		when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
@@ -73,9 +70,9 @@ public class DeleteProjectCommandTest {
 		String responseBody = IOUtils.toString(getClass().getResource("/responseBody/code-ok.json").toURI(), UTF_8);
 
 		DeleteProjectResponse response = command.parseDeleteProjectResponse(responseBody);
-		assertThat(response).isNotNull();
-		assertThat(response.getCode()).isEqualTo(ResponseCode.OK);
-		assertThat(response.getMessage()).isNull();
+        assertNotNull(response);
+        assertEquals(ResponseCode.OK, response.getCode());
+        assertNull(response.getMessage());
 	}
 
 	@Test
@@ -83,8 +80,8 @@ public class DeleteProjectCommandTest {
 		String responseBody = IOUtils.toString(getClass().getResource("/responseBody/code-error.json").toURI(), UTF_8);
 
 		DeleteProjectResponse response = command.parseDeleteProjectResponse(responseBody);
-		assertThat(response).isNotNull();
-		assertThat(response.getCode()).isEqualTo(ResponseCode.ERROR);
-		assertThat(response.getMessage()).isEqualTo("This is the error message.");
+        assertNotNull(response);
+        assertEquals(ResponseCode.ERROR, response.getCode());
+        assertEquals("This is the error message.", response.getMessage());
 	}
 }

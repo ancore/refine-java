@@ -18,7 +18,7 @@ package gmbh.dtap.refine.client.command;
 
 import java.net.URL;
 
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
+import static org.apache.commons.lang3.StringUtils.substringAfterLast;
 
 public class CreateProjectResponse {
 
