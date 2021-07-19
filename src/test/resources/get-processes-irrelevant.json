@@ -1,0 +1,35 @@
+{
+  "processes":[
+    {
+      "description":"Reconcile cells in column Adres to type Q79007",
+      "progress":0,
+      "onDone":[
+        {
+          "action":"createFacet",
+          "facetConfig":{
+            "columnName":"Adres",
+            "expression":"forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+            "name":"Adres: judgment"
+          },
+          "facetOptions":{
+            "scroll":false
+          },
+          "facetType":"list"
+        },
+        {
+          "action":"createFacet",
+          "facetConfig":{
+            "columnName":"Adres",
+            "expression":"cell.recon.best.score",
+            "mode":"range",
+            "name":"Adres: best candidate's score"
+          },
+          "facetType":"range"
+        }
+      ],
+      "status":"running",
+      "immediate":false,
+      "id":743422351
+    }
+  ]
+}

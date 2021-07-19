@@ -13,7 +13,6 @@ public class GetOperationsResponse {
   private String project;
   private JsonNode content;
 
-
   public String getProject() {
     return project;
   }

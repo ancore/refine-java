@@ -1,7 +1,9 @@
 package com.ontotext.refine.client.cli;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommands;
+import com.ontotext.refine.client.command.operations.GetOperationsResponse;
 import com.ontotext.refine.client.command.rdf.ExportRdfResponse;
 import com.ontotext.refine.client.exceptions.RefineException;
 import picocli.CommandLine;
@@ -28,12 +30,18 @@ class ExportRdf extends Process {
       description = "The project which data should be exported.")
   private String project;
 
+  // TODO add mapping as parameter, if missing then try to retrieve one from the operations
+
   @Override
   public Integer call() {
     try (RefineClient client = getClient()) {
 
-      ExportRdfResponse response =
-          RefineCommands.exportRdf().setProject(project).build().execute(client);
+      ExportRdfResponse response = RefineCommands
+          .exportRdf()
+          .setProject(project)
+          .setMapping(getRdfMapping(getClient()).toString())
+          .build()
+          .execute(client);
 
       System.out.println(response.getResult());
       return ExitCode.OK;
@@ -45,6 +53,20 @@ class ExportRdf extends Process {
       System.err.println(error);
     }
     return ExitCode.SOFTWARE;
+  }
+
+  private JsonNode getRdfMapping(RefineClient client) throws RefineException {
+    GetOperationsResponse response =
+        RefineCommands.getOperations().setProject(project).build().execute(client);
+
+    JsonNode mapping = response.getContent().findValue("mapping");
+
+    if (mapping == null || mapping.isNull() || mapping.isMissingNode()) {
+      throw new RefineException(
+          String.format("Failed to retrieve the mapping for project: '%s'", project));
+    }
+
+    return mapping;
   }
 
   /**

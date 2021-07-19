@@ -28,7 +28,6 @@ class ExportOperations extends Process {
       description = "The project which operations should be exported.")
   private String project;
 
-
   @Override
   public Integer call() throws Exception {
     try (RefineClient client = getClient()) {

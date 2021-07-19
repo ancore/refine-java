@@ -15,11 +15,13 @@
 package com.ontotext.refine.client.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +51,19 @@ public enum JsonParser {
   }
 
   /**
+   * Parses given JSON to specific type using {@link ObjectMapper}.
+   *
+   * @param <T> the class of the type
+   * @param json the JSON that should be parsed
+   * @param type the type
+   * @return new instance of the given type if the parsing is successful
+   * @throws IOException when there is an error during the parsing process
+   */
+  public <T> T read(String json, TypeReference<T> type) throws IOException {
+    return OBJECT_MAPPER.readValue(json, type);
+  }
+
+  /**
    * Parses given string to {@link JsonNode}.
    *
    * @param json to be parsed
@@ -59,6 +74,21 @@ public enum JsonParser {
     try {
       return OBJECT_MAPPER.readTree(json);
     } catch (JsonProcessingException jpe) {
+      throw new RefineException("Parser error: " + jpe.getMessage(), jpe);
+    }
+  }
+
+  /**
+   * Parses given string to {@link JsonNode}.
+   *
+   * @param json to be parsed
+   * @return new {@link JsonNode}
+   * @throws RefineException when there is an error during the parsing process
+   */
+  public JsonNode parseJson(InputStream json) throws RefineException {
+    try {
+      return OBJECT_MAPPER.readTree(json);
+    } catch (IOException jpe) {
       throw new RefineException("Parser error: " + jpe.getMessage(), jpe);
     }
   }

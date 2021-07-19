@@ -97,7 +97,7 @@ class ExportOperationsTest extends BaseProcessTest {
         response.setStatusCode(HttpStatus.SC_OK);
         BasicHttpEntity entity = new BasicHttpEntity();
         InputStream stream =
-            ExportRdfTest.class.getClassLoader().getResourceAsStream("operations.json");
+            ExportOperationsTest.class.getClassLoader().getResourceAsStream("operations.json");
         entity.setContent(stream);
         entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
         response.setEntity(entity);

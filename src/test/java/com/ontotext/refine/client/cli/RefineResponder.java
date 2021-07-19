@@ -77,7 +77,7 @@ class RefineResponder {
    */
   static class HandlerContext {
 
-    private Supplier<Boolean> failCsrfRequest;
+    private Supplier<Boolean> failCsrfRequest = () -> Boolean.FALSE;
 
     public HandlerContext setFailCsrfRequest(Supplier<Boolean> failCsrfRequest) {
       this.failCsrfRequest = failCsrfRequest;

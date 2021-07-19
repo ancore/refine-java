@@ -83,7 +83,7 @@ public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResp
       URL url = client.createUrl(endpoint() + "?" + CSRF_TOKEN_PARAM + token);
 
       List<NameValuePair> form = new ArrayList<>(2);
-      form.add(new BasicNameValuePair("project", projectId));
+      form.add(new BasicNameValuePair(Constants.PROJECT, projectId));
 
       String ops =
           Arrays.stream(operations).map(Operation::asJson).collect(Collectors.joining(","));

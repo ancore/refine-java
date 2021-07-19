@@ -19,7 +19,10 @@ import com.ontotext.refine.client.command.csrf.GetCsrfTokenCommand;
 import com.ontotext.refine.client.command.delete.DeleteProjectCommand;
 import com.ontotext.refine.client.command.operations.ApplyOperationsCommand;
 import com.ontotext.refine.client.command.operations.GetOperationsCommand;
+import com.ontotext.refine.client.command.processes.GetProcessesCommand;
 import com.ontotext.refine.client.command.rdf.ExportRdfCommand;
+import com.ontotext.refine.client.command.reconcile.GuessColumnTypeCommand;
+import com.ontotext.refine.client.command.reconcile.ReconcileCommand;
 import com.ontotext.refine.client.command.version.GetVersionCommand;
 
 
@@ -116,5 +119,32 @@ public interface RefineCommands {
    */
   static ExportRdfCommand.Builder exportRdf() {
     return new ExportRdfCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link GuessColumnTypeCommand}.
+   *
+   * @return new builder instance
+   */
+  static GuessColumnTypeCommand.Builder guessTypeOfColumn() {
+    return new GuessColumnTypeCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link GetProcessesCommand}.
+   * 
+   * @return new builder instance
+   */
+  static GetProcessesCommand.Builder getProcesses() {
+    return new GetProcessesCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link ReconcileCommand}.
+   * 
+   * @return new builder instance
+   */
+  static ReconcileCommand.Builder reconcile() {
+    return new ReconcileCommand.Builder();
   }
 }

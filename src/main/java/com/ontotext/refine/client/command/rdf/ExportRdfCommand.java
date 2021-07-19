@@ -2,11 +2,8 @@ package com.ontotext.refine.client.command.rdf;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
-import com.ontotext.refine.client.command.RefineCommands;
-import com.ontotext.refine.client.command.operations.GetOperationsResponse;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
@@ -30,9 +27,11 @@ import org.apache.http.util.EntityUtils;
 public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
 
   private final String project;
+  private final String mapping;
 
-  private ExportRdfCommand(String project) {
+  private ExportRdfCommand(String project, String mapping) {
     this.project = project;
+    this.mapping = mapping;
   }
 
   @Override
@@ -46,36 +45,18 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
       BasicHttpEntity entity = new BasicHttpEntity();
       entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
       entity.setContentEncoding(ContentType.APPLICATION_JSON.getCharset().toString());
-      entity.setContent(
-          IOUtils.toInputStream(getRdfMapping(client).asText(), StandardCharsets.UTF_8));
+      entity.setContent(IOUtils.toInputStream(mapping, StandardCharsets.UTF_8));
 
       HttpUriRequest request = RequestBuilder
           .post(client.createUrl(endpoint() + ":" + project).toString()).setEntity(entity).build();
 
       return client.execute(request, this);
-    } catch (RefineException re) {
-      throw re;
     } catch (IOException ioe) {
-      String err = String.format(
+      throw new RefineException(
           "Export of RDF data failed for project: '%s' due to: %s",
           project,
           ioe.getMessage());
-      throw new RefineException(err);
     }
-  }
-
-  private JsonNode getRdfMapping(RefineClient client) throws RefineException, IOException {
-    GetOperationsResponse response =
-        RefineCommands.getOperations().setProject(project).build().execute(client);
-
-    JsonNode mapping = response.getContent().findValue("mapping");
-
-    if (mapping == null || mapping.isNull() || mapping.isMissingNode()) {
-      throw new RefineException(
-          String.format("Failed to retrieve the mapping for project: '%s'", project));
-    }
-
-    return mapping;
   }
 
   @Override
@@ -95,9 +76,15 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
   public static class Builder {
 
     private String project;
+    private String mapping;
 
     public Builder setProject(String project) {
       this.project = project;
+      return this;
+    }
+
+    public Builder setMapping(String mapping) {
+      this.mapping = mapping;
       return this;
     }
 
@@ -108,7 +95,8 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
      */
     public ExportRdfCommand build() {
       notBlank(project, "Missing 'project' argument");
-      return new ExportRdfCommand(project);
+      notBlank(mapping, "Missing 'mapping' argument");
+      return new ExportRdfCommand(project, mapping);
     }
   }
 }

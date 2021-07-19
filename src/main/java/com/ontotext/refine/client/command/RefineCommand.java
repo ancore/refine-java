@@ -4,6 +4,7 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.exceptions.RefineException;
 import org.apache.http.client.ResponseHandler;
 
+
 /**
  * Defines the base way of command request execution and the response processing afterwards.
  *
@@ -20,7 +21,6 @@ public interface RefineCommand<T> extends ResponseHandler<T> {
    */
   String endpoint();
 
-
   /**
    * Executes the command.
    *
@@ -36,7 +36,11 @@ public interface RefineCommand<T> extends ResponseHandler<T> {
    */
   class Constants {
 
-    public static final String CSRF_TOKEN_PARAM = "csrf_token=";
+    public static final String PROJECT = "project";
+    public static final String PROJECT_PARAM = PROJECT + "=";
+
+    public static final String CSRF_TOKEN = "csrf_token";
+    public static final String CSRF_TOKEN_PARAM = CSRF_TOKEN + "=";
 
     private Constants() {
       // utility

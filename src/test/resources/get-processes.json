@@ -1,0 +1,35 @@
+{
+  "processes":[
+    {
+      "description":"Reconcile cells in column City to type Q1852859",
+      "progress":0,
+      "onDone":[
+        {
+          "action":"createFacet",
+          "facetConfig":{
+            "columnName":"City",
+            "expression":"forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+            "name":"City: judgment"
+          },
+          "facetOptions":{
+            "scroll":false
+          },
+          "facetType":"list"
+        },
+        {
+          "action":"createFacet",
+          "facetConfig":{
+            "columnName":"City",
+            "expression":"cell.recon.best.score",
+            "mode":"range",
+            "name":"City: best candidate's score"
+          },
+          "facetType":"range"
+        }
+      ],
+      "status":"running",
+      "immediate":false,
+      "id":695469543
+    }
+  ]
+}

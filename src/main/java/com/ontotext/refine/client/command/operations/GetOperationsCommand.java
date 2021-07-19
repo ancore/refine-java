@@ -35,7 +35,7 @@ public class GetOperationsCommand implements RefineCommand<GetOperationsResponse
   @Override
   public GetOperationsResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint() + "?project=" + project);
+      URL url = client.createUrl(endpoint() + "?" + Constants.PROJECT_PARAM + project);
       return client.execute(RequestBuilder.get(url.toString()).build(), this);
     } catch (IOException ioe) {
       String error = String.format(
