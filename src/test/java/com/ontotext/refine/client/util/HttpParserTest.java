@@ -16,7 +16,6 @@ package com.ontotext.refine.client.util;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -30,22 +29,16 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit Tests for {@link HttpParser}.
  */
-public class HttpParserTest {
+class HttpParserTest {
 
   @Test
-  public void should_have_instance() {
+  void should_have_instance() {
     // this make no sense
     assertNotNull(HTTP_PARSER);
   }
 
   @Test
-  public void should_have_static_instance() {
-    // this make no sense
-    assertEquals(HTTP_PARSER, HTTP_PARSER);
-  }
-
-  @Test
-  public void should_throw_exception_when_status_code_not_assured() throws IOException {
+  void should_throw_exception_when_status_code_not_assured() throws IOException {
     HttpResponse badRequestResponse = HttpMock.mockHttpResponse(500);
 
     assertThrows(RefineException.class,
@@ -53,7 +46,7 @@ public class HttpParserTest {
   }
 
   @Test
-  public void should_not_throw_exception_when_status_code_is_assured() throws IOException {
+  void should_not_throw_exception_when_status_code_is_assured() throws IOException {
     HttpResponse okResponse = HttpMock.mockHttpResponse(200);
 
     assertDoesNotThrow(() -> HTTP_PARSER.assureStatusCode(okResponse, 200));

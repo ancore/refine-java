@@ -10,7 +10,6 @@ import java.net.URL;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.RequestBuilder;
 
 
@@ -47,8 +46,7 @@ public class GetOperationsCommand implements RefineCommand<GetOperationsResponse
   }
 
   @Override
-  public GetOperationsResponse handleResponse(HttpResponse response)
-      throws ClientProtocolException, IOException {
+  public GetOperationsResponse handleResponse(HttpResponse response) throws IOException {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
     JsonMapper mapper = new JsonMapper();
     return new GetOperationsResponse()

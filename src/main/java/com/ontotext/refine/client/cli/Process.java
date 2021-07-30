@@ -5,12 +5,7 @@ import com.ontotext.refine.client.RefineClients;
 import com.ontotext.refine.client.command.RefineCommands;
 import com.ontotext.refine.client.command.csrf.GetCsrfTokenCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.concurrent.Callable;
-import org.apache.commons.io.IOUtils;
 import picocli.CommandLine.Option;
 
 
@@ -63,28 +58,6 @@ abstract class Process implements Callable<Integer> {
       throw re;
     } catch (Exception exc) {
       throw new RefineException("Failed to retrieve CSRF token due to: " + exc.getMessage());
-    }
-  }
-
-  /**
-   * Writes the source {@link InputStream} into the destination {@link File}. The method will use
-   * different {@link PrintStream} to write the file and restore the original console
-   * {@link PrintStream} instance. The method take cares for the closing of the streams.
-   *
-   * @param source the stream that should be written
-   * @param destination the file where the data should be written
-   * @throws RefineException when error occurs during the writing process
-   */
-  protected void writeOutAsFile(InputStream source, File destination) throws RefineException {
-    PrintStream consolePrinter = System.out;
-    try (PrintStream ps = new PrintStream(destination); InputStream is = source) {
-      System.setOut(ps);
-      IOUtils.copyLarge(is, ps);
-    } catch (IOException ioe) {
-      throw new RefineException(
-          "Failed to write '%s' file due to: %s", destination.getName(), ioe.getMessage());
-    } finally {
-      System.setOut(consolePrinter);
     }
   }
 }

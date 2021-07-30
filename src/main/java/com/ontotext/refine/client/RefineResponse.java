@@ -28,7 +28,7 @@ public abstract class RefineResponse {
    * @param code the code field
    * @param message the message field, may be {@code null}
    */
-  public RefineResponse(ResponseCode code, String message) {
+  protected RefineResponse(ResponseCode code, String message) {
     this.code = code;
     this.message = message;
   }

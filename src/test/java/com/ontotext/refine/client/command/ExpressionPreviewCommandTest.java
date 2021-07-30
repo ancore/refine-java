@@ -54,8 +54,13 @@ class ExpressionPreviewCommandTest {
     MockitoAnnotations.openMocks(this);
 
     when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
-    command = RefineCommands.expressionPreview().token("test-token").project("1234567890")
-        .rowIndices(0).expression("foo").build();
+    command = RefineCommands
+        .expressionPreview()
+        .token("test-token")
+        .project("1234567890")
+        .rowIndices(0)
+        .expression("foo")
+        .build();
   }
 
   @Test

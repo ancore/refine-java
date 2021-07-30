@@ -16,69 +16,53 @@ package com.ontotext.refine.client.command;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
-import static org.apache.commons.lang3.Validate.notEmpty;
-import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
-import com.ontotext.refine.client.ProjectLocation;
 import com.ontotext.refine.client.ProjectMetadata;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineProject;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URL;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+
 /**
  * A command to retrieve project meta data.
  */
-public class GetProjectMetadataCommand implements ResponseHandler<GetProjectMetadataResponse> {
+public class GetProjectMetadataCommand implements RefineCommand<GetProjectMetadataResponse> {
 
   private final String projectId;
 
-  /**
-   * Constructor for {@link Builder}.
-   *
-   * @param projectId the project ID
-   */
   private GetProjectMetadataCommand(String projectId) {
     this.projectId = projectId;
   }
 
-  /**
-   * Executes the command after validation.
-   *
-   * @param client the client to execute the command with
-   * @return the result of the command
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an error or is not understood
-   */
-  public GetProjectMetadataResponse execute(RefineClient client) throws IOException {
-    URL url = client.createUrl("command/core/get-project-metadata");
-
-    HttpUriRequest request =
-        RequestBuilder.get(url.toString()).setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-            .addParameter(new BasicNameValuePair("project", projectId)).build();
-
-    return client.execute(request, this);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/get-project-metadata";
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to extract data from
-   * @return the response representation
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an unexpected status or is not
-   *         understood
-   */
+  @Override
+  public GetProjectMetadataResponse execute(RefineClient client) throws RefineException {
+    try {
+      HttpUriRequest request = RequestBuilder
+          .get(client.createUrl(endpoint()).toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .addParameter(new BasicNameValuePair("project", projectId))
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      throw new RefineException("Failed to get the metadata of the project: %s", projectId);
+    }
+  }
+
   @Override
   public GetProjectMetadataResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
@@ -105,37 +89,12 @@ public class GetProjectMetadataCommand implements ResponseHandler<GetProjectMeta
     }
 
     /**
-     * Sets the project ID from the project location.
-     *
-     * @param projectLocation the project location
-     * @return the builder for fluent usage
-     */
-    public Builder project(ProjectLocation projectLocation) {
-      notNull(projectLocation, "projectLocation");
-      this.projectId = projectLocation.getId();
-      return this;
-    }
-
-    /**
-     * Sets the project ID from the project.
-     *
-     * @param project the project
-     * @return the builder for fluent usage
-     */
-    public Builder project(RefineProject project) {
-      notNull(project, "project");
-      this.projectId = project.getId();
-      return this;
-    }
-
-    /**
      * Builds the command after validation.
      *
      * @return the command
      */
     public GetProjectMetadataCommand build() {
-      notNull(projectId, "projectId");
-      notEmpty(projectId, "projectId is empty");
+      notBlank(projectId, "projectId is blank");
       return new GetProjectMetadataCommand(projectId);
     }
   }

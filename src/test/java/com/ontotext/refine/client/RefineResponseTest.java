@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit Tests for {@link RefineResponse}.
  */
-public class RefineResponseTest {
+class RefineResponseTest {
 
   /**
    * Test implementation for abstract RefineResponse.
@@ -35,14 +35,14 @@ public class RefineResponseTest {
   }
 
   @Test
-  public void should_have_fields_from_constructor() {
+  void should_have_fields_from_constructor() {
     RefineResponse refineResponse = new TestRefineResponse(ResponseCode.OK, "Test");
     assertEquals(ResponseCode.OK, refineResponse.getCode());
     assertEquals("Test", refineResponse.getMessage());
   }
 
   @Test
-  public void should_have_null_fields_from_constructor() {
+  void should_have_null_fields_from_constructor() {
     RefineResponse refineResponse = new TestRefineResponse(null, null);
     assertNull(refineResponse.getCode());
     assertNull(refineResponse.getMessage());

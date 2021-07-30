@@ -16,16 +16,14 @@ package com.ontotext.refine.client.command;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
-import static org.apache.commons.lang3.Validate.notEmpty;
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.ontotext.refine.client.ProjectLocation;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineProject;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.net.URL;
@@ -36,7 +34,6 @@ import java.util.StringJoiner;
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -47,9 +44,7 @@ import org.apache.http.util.EntityUtils;
 /**
  * A command to preview expressions on a project.
  */
-public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPreviewResponse> {
-
-  private static final String CSRF_TOKEN = "csrf_token=";
+public class ExpressionPreviewCommand implements RefineCommand<ExpressionPreviewResponse> {
 
   private final String projectId;
   private final Integer cellIndex;
@@ -59,18 +54,7 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
   private final int repeatCount;
   private final String token;
 
-  /**
-   * Constructor for {@link Builder}.
-   *
-   * @param projectId the project ID
-   * @param cellIndex the cell/column to execute the expression on
-   * @param rowIndices the rows to execute the expression on
-   * @param expression the expression to execute
-   * @param repeat whether or not to repeated the expression multiple times
-   * @param repeatCount the maximum amount of times a command will be repeated
-   * @param token the CSRF token
-   */
-  public ExpressionPreviewCommand(
+  private ExpressionPreviewCommand(
       String projectId,
       Integer cellIndex,
       long[] rowIndices,
@@ -87,47 +71,44 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
     this.token = token;
   }
 
-  /**
-   * Executes the request.
-   *
-   * @param client the client to execute the request with
-   * @return the result of the command
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the request failed
-   */
-  public ExpressionPreviewResponse execute(RefineClient client) throws IOException {
-    StringJoiner joiner = new StringJoiner(",");
-    for (long rowIndex : rowIndices) {
-      joiner.add(String.valueOf(rowIndex));
-    }
-    String rowIndicesJson = "[" + joiner + "]";
-
-    List<NameValuePair> form = new ArrayList<>();
-    form.add(new BasicNameValuePair("cellIndex", String.valueOf(cellIndex)));
-    form.add(new BasicNameValuePair("rowIndices", rowIndicesJson));
-    form.add(new BasicNameValuePair("expression", expression));
-    form.add(new BasicNameValuePair("project", projectId));
-    form.add(new BasicNameValuePair("repeat", String.valueOf(repeat)));
-    form.add(new BasicNameValuePair("repeatCount", String.valueOf(repeatCount)));
-
-    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
-
-    URL url = client.createUrl("/command/core/preview-expression?" + CSRF_TOKEN + token);
-    HttpUriRequest request = RequestBuilder.post(url.toString())
-        .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).setEntity(entity).build();
-
-    return client.execute(request, this);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/preview-expression";
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to extract data from
-   * @return the response representation
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an unexpected status or is not
-   *         understood
-   */
+  @Override
+  public ExpressionPreviewResponse execute(RefineClient client) throws RefineException {
+    try {
+      StringJoiner joiner = new StringJoiner(",");
+      for (long rowIndex : rowIndices) {
+        joiner.add(String.valueOf(rowIndex));
+      }
+      String rowIndicesJson = "[" + joiner + "]";
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("cellIndex", String.valueOf(cellIndex)));
+      form.add(new BasicNameValuePair("rowIndices", rowIndicesJson));
+      form.add(new BasicNameValuePair("expression", expression));
+      form.add(new BasicNameValuePair("project", projectId));
+      form.add(new BasicNameValuePair("repeat", String.valueOf(repeat)));
+      form.add(new BasicNameValuePair("repeatCount", String.valueOf(repeatCount)));
+
+      URL url = client.createUrl(endpoint() + "?" + Constants.CSRF_TOKEN_PARAM + token);
+      HttpUriRequest request = RequestBuilder
+          .post(url.toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .setEntity(new UrlEncodedFormEntity(form, Consts.UTF_8))
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      throw new RefineException(
+          "Failed to get expression preview for project: '%s' due to: %s",
+          projectId,
+          ioe.getMessage());
+    }
+  }
+
   @Override
   public ExpressionPreviewResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
@@ -143,18 +124,21 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
       if (resultsNode.isMissingNode()) {
         return ExpressionPreviewResponse.ok(Collections.emptyList());
       }
+
       if (resultsNode.isArray()) {
         List<String> results = JSON_PARSER.toResults(resultsNode);
         return ExpressionPreviewResponse.ok(results);
-      } else {
-        throw new RefineException("Node with path 'results' is not any array: " + resultsNode);
       }
-    } else if ("error".equals(code)) {
+
+      throw new RefineException("Node with path 'results' is not any array: %s", resultsNode);
+    }
+
+    if ("error".equals(code)) {
       String message = JSON_PARSER.findExistingPath(node, "message").asText();
       return ExpressionPreviewResponse.error(message);
-    } else {
-      throw new RefineException("Unexpected code: " + code);
     }
+
+    throw new RefineException("Unexpected code: %s", code);
   }
 
   /**
@@ -178,30 +162,6 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
      */
     public Builder project(String projectId) {
       this.projectId = projectId;
-      return this;
-    }
-
-    /**
-     * Sets the project ID from the project location.
-     *
-     * @param projectLocation the project location
-     * @return the builder for fluent usage
-     */
-    public Builder project(ProjectLocation projectLocation) {
-      notNull(projectLocation, "projectLocation");
-      this.projectId = projectLocation.getId();
-      return this;
-    }
-
-    /**
-     * Sets the project ID from the project.
-     *
-     * @param project the project
-     * @return the builder for fluent usage
-     */
-    public Builder project(RefineProject project) {
-      notNull(project, "project");
-      this.projectId = project.getId();
       return this;
     }
 
@@ -311,8 +271,7 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
      * @return the command
      */
     public ExpressionPreviewCommand build() {
-      notNull(projectId, "projectId");
-      notEmpty(projectId, "projectId is empty");
+      notBlank(projectId, "projectId is blank");
       notNull(rowIndices, "rowIndices");
       notNull(expression, "expression");
       notNull(token, "token");

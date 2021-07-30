@@ -31,37 +31,28 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+
 /**
  * A command to export rows from the project.
  */
-public class ExportRowsCommand implements ResponseHandler<ExportRowsResponse> {
+public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
 
   private final String project;
   private final String engine;
   private final String format;
   private final String token;
 
-  /**
-   * Constructor for {@link Builder}.
-   *
-   * @param project the project name
-   * @param engine the engine to use
-   * @param format the optional upload format
-   * @param token the csrf token
-   */
   private ExportRowsCommand(String project, String engine, String format, String token) {
     this.project = project;
     this.engine = engine;
@@ -69,58 +60,48 @@ public class ExportRowsCommand implements ResponseHandler<ExportRowsResponse> {
     this.token = token;
   }
 
-  /**
-   * Executes the command.
-   *
-   * @param client the client to execute the command with
-   * @return the result of the command
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an error or is not understood
-   */
-  public ExportRowsResponse execute(RefineClient client) throws IOException {
-    final URL url = client.createUrl("/command/core/export-rows");
-
-    List<NameValuePair> form = new ArrayList<>();
-    form.add(new BasicNameValuePair("project", project));
-    form.add(new BasicNameValuePair("format", format));
-    form.add(new BasicNameValuePair("engine", engine));
-    form.add(new BasicNameValuePair("csrf_token", token));
-    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
-
-    HttpUriRequest request = RequestBuilder.post(url.toString())
-        .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).setEntity(entity).build();
-
-    return client.execute(request, this);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/export-rows";
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to get the location from
-   * @return the response
-   * @throws IOException in case of an connection problem
-   * @throws RefineException in case of an unexpected response or no location header is present
-   */
+  @Override
+  public ExportRowsResponse execute(RefineClient client) throws RefineException {
+    try {
+
+      List<NameValuePair> form = new ArrayList<>();
+      form.add(new BasicNameValuePair("project", project));
+      form.add(new BasicNameValuePair("format", format));
+      form.add(new BasicNameValuePair("engine", engine));
+      form.add(new BasicNameValuePair("csrf_token", token));
+
+      HttpUriRequest request = RequestBuilder
+          .post(client.createUrl(endpoint()).toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .setEntity(new UrlEncodedFormEntity(form, Consts.UTF_8))
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      throw new RefineException(
+          "Failed to export data for project: '%s' due to: '%s'",
+          project,
+          ioe.getMessage());
+    }
+  }
+
   @Override
   public ExportRowsResponse handleResponse(HttpResponse response) throws IOException {
-    // TODO: parse errors in refine are returned as HTML
-    // HTTP_PARSER.assureStatusCode(response, SC_MOVED_TEMPORARILY);
-    // Header location = response.getFirstHeader("Location");
-    // if (location == null) {
-    // throw new RefineException("No location header found.");
-    // }
-    // URL url = new URL(location.getValue());
-    InputStream is = response.getEntity().getContent();
     File file = new File(new Date().getTime() + "." + format);
-    FileOutputStream fos = new FileOutputStream(file);
-    int read = 0;
-    byte[] buffer = new byte[32768];
-    while ((read = is.read(buffer)) > 0) {
-      fos.write(buffer, 0, read);
+    try (FileOutputStream fos = new FileOutputStream(file);
+        InputStream is = response.getEntity().getContent()) {
+      int read = 0;
+      byte[] buffer = new byte[32768];
+      while ((read = is.read(buffer)) > 0) {
+        fos.write(buffer, 0, read);
+      }
+      return new ExportRowsResponse(file);
     }
-    fos.close();
-    is.close();
-    return new ExportRowsResponse(file);
   }
 
   /**

@@ -19,15 +19,12 @@ import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notBlank;
-import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.ontotext.refine.client.ProjectLocation;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineProject;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
@@ -136,30 +133,6 @@ public class DeleteProjectCommand implements RefineCommand<DeleteProjectResponse
      */
     public Builder project(String projectId) {
       this.projectId = projectId;
-      return this;
-    }
-
-    /**
-     * Sets the project ID from the project location.
-     *
-     * @param projectLocation the project location
-     * @return the builder for fluent usage
-     */
-    public Builder project(ProjectLocation projectLocation) {
-      notNull(projectLocation, "projectLocation");
-      this.projectId = projectLocation.getId();
-      return this;
-    }
-
-    /**
-     * Sets the project ID from the project.
-     *
-     * @param project the project
-     * @return the builder for fluent usage
-     */
-    public Builder project(RefineProject project) {
-      notNull(project, "project");
-      this.projectId = project.getId();
       return this;
     }
 

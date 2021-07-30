@@ -36,8 +36,4 @@ public class RefineException extends IOException {
   public RefineException(String message, Throwable cause) {
     super(message, cause);
   }
-
-  public RefineException(Throwable cause) {
-    super(cause);
-  }
 }
