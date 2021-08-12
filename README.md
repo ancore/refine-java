@@ -18,6 +18,7 @@ Supported functions are
 
          GetVersionResponse version = RefineCommands
                .getVersion()
+               .build()
                .execute(client);
          System.out.println(version);
 
@@ -25,6 +26,7 @@ Supported functions are
                .createProject()
                .name("Test 1")
                .file(new File("src/test/resources/addresses.csv"))
+               .build()
                .execute(client);
          System.out.println(createProjectResponse);
 
@@ -47,12 +49,14 @@ Supported functions are
                .applyOperations()
                .project(createProjectResponse.getProjectId())
                .operations(operation)
+               .build()
                .execute(client);
          System.out.println(applyOperationsResponse);
 
          DeleteProjectResponse deleteProjectResponse = RefineCommands
                .deleteProject()
                .project(createProjectResponse.getProjectId())
+               .build()
                .execute(client);
          System.out.println(deleteProjectResponse);
       }
