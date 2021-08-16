@@ -24,7 +24,7 @@ public class ExportRdfResponse {
     return result;
   }
 
-  public ExportRdfResponse setResultStream(String result) {
+  public ExportRdfResponse setResult(String result) {
     this.result = result;
     return this;
   }

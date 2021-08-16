@@ -16,7 +16,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.ContentType;
-import org.apache.http.util.EntityUtils;
 
 
 /**
@@ -65,7 +64,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
     return new ExportRdfResponse()
         .setProject(project)
-        .setResultStream(EntityUtils.toString(response.getEntity()));
+        .setResult(IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8));
   }
 
   /**
