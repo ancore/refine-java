@@ -73,12 +73,9 @@
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.io.version>2.10.0</commons.io.version>
         <jackson.databind.version>2.12.4</jackson.databind.version>
-        <slf4j.version>1.7.31</slf4j.version>
-        <picocli.version>4.6.1</picocli.version>
 
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
         <mockito.version>3.8.0</mockito.version>
-        <jsonassert.version>1.5.0</jsonassert.version>
 
         <checkstyle.enabled>true</checkstyle.enabled>
     </properties>
@@ -123,26 +120,7 @@
             <version>${jackson.databind.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-            <version>${picocli.version}</version>
-        </dependency>
-
         <!-- Test dependencies -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -199,20 +177,6 @@
                 <version>${maven.surefire.plugin.version}</version>
             </plugin>
 
-            <!-- TODO not sure that we need it -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format>
-                    </formats>
-                    <check />
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -222,24 +186,6 @@
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
                 </configuration>
-            </plugin>
-
-            <!-- Builds an executable jar with all dependencies -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.plugin.version}</version>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <!-- Verifies the code quality on project building -->
