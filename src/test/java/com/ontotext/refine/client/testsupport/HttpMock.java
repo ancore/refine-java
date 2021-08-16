@@ -28,15 +28,18 @@ import org.apache.http.StatusLine;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicHeader;
 
+
 /**
- * Provides common http mocks for the Refine-Java unit tests.
+ * Provides common HTTP mocks for the Refine-Java unit tests.
  */
 public class HttpMock {
 
   /**
    * Prevents instantiation.
    */
-  private HttpMock() {}
+  private HttpMock() {
+    // utility
+  }
 
   /**
    * Returns a mock with the given HTTP status code.
@@ -51,34 +54,6 @@ public class HttpMock {
 
     HttpResponse httpResponse = mock(HttpResponse.class);
     when(httpResponse.getStatusLine()).thenReturn(statusLine);
-
-    return httpResponse;
-  }
-
-  /**
-   * Returns a mock with the given HTTP status code and headers.
-   *
-   * @param statusCode the HTTP status code
-   * @param headers the headers
-   * @return the mocked response
-   */
-  public static HttpResponse mockHttpResponse(int statusCode, Header... headers) {
-    notNull(headers, "headers");
-
-    StatusLine statusLine = mock(StatusLine.class);
-    when(statusLine.getStatusCode()).thenReturn(statusCode);
-    when(statusLine.getReasonPhrase()).thenReturn("Mock");
-
-    HttpResponse httpResponse = mock(HttpResponse.class);
-    when(httpResponse.getStatusLine()).thenReturn(statusLine);
-
-    // skipping HeaderIterator
-    for (Header header : headers) {
-      when(httpResponse.getFirstHeader(header.getName())).thenReturn(header);
-      when(httpResponse.getLastHeader(header.getName())).thenReturn(header);
-      when(httpResponse.getHeaders(header.getName())).thenReturn(new Header[] {header});
-    }
-    when(httpResponse.getAllHeaders()).thenReturn(headers);
 
     return httpResponse;
   }

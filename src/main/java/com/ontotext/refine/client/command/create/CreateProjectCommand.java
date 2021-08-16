@@ -12,8 +12,9 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.create;
 
+import static com.ontotext.refine.client.command.RefineCommand.Constants.CSRF_TOKEN_PARAM;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notBlank;
@@ -24,9 +25,10 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.apache.http.entity.ContentType.TEXT_PLAIN;
 
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineException;
 import com.ontotext.refine.client.UploadFormat;
 import com.ontotext.refine.client.UploadOptions;
+import com.ontotext.refine.client.command.RefineCommand;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -34,24 +36,23 @@ import java.nio.charset.StandardCharsets;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+
 /**
  * A command to create a project.
  */
-public class CreateProjectCommand implements ResponseHandler<CreateProjectResponse> {
+public class CreateProjectCommand implements RefineCommand<CreateProjectResponse> {
 
   private final String name;
   private final File file;
   private final UploadFormat format;
   private final UploadOptions options;
   private final String token;
-  private final String CSRF_TOKEN = "csrf_token=";
 
   /**
    * Constructor for {@link Builder}.
@@ -62,8 +63,8 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
    * @param options the optional options
    * @param token the csrf token
    */
-  private CreateProjectCommand(String name, File file, UploadFormat format, UploadOptions options,
-      String token) {
+  private CreateProjectCommand(
+      String name, File file, UploadFormat format, UploadOptions options, String token) {
     this.name = name;
     this.file = file;
     this.format = format;
@@ -71,42 +72,47 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
     this.token = token;
   }
 
-  /**
-   * Executes the command.
-   *
-   * @param client the client to execute the command with
-   * @return the result of the command
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an error or is not understood
-   */
-  public CreateProjectResponse execute(RefineClient client) throws IOException {
-    final URL url;
-    if (options != null) {
-      // https://github.com/dtap-gmbh/refine-java/issues/14
-      // https://github.com/OpenRefine/OpenRefine/issues/1757
-      // OpenRefine ignores options as form parameter, but accepts them as get
-      // parameter
-      url = client.createUrl("/command/core/create-project-from-upload?" + CSRF_TOKEN + token + "&"
-          + urlEncodedOptions());
-    } else {
-      url = client.createUrl("/command/core/create-project-from-upload?" + CSRF_TOKEN + token);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/create-project-from-upload";
+  }
+
+  @Override
+  public CreateProjectResponse execute(RefineClient client) throws RefineException {
+    try {
+      String urlAsStr = endpoint() + "?" + CSRF_TOKEN_PARAM + token;
+      if (options != null) {
+        // https://github.com/dtap-gmbh/refine-java/issues/14
+        // https://github.com/OpenRefine/OpenRefine/issues/1757
+        // OpenRefine ignores options as form parameter, but accepts them as get parameter
+        urlAsStr += "&" + urlEncodedOptions();
+      }
+
+      MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+      if (format != null) {
+        multipartEntityBuilder.addTextBody("format", format.getValue(), TEXT_PLAIN);
+      }
+
+      if (options != null) {
+        multipartEntityBuilder.addTextBody("options", options.asJson(), APPLICATION_JSON);
+      }
+
+      HttpEntity entity = multipartEntityBuilder
+          .addBinaryBody("project-file", file)
+          .addTextBody("project-name", name, TEXT_PLAIN)
+          .build();
+
+      HttpUriRequest request = RequestBuilder
+          .post(client.createUrl(urlAsStr).toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .setEntity(entity)
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      String error = String.format("Failed to create project due to: '%s'", ioe.getMessage());
+      throw new RefineException(error);
     }
-
-    MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-    if (format != null) {
-      multipartEntityBuilder.addTextBody("format", format.getValue(), TEXT_PLAIN);
-    }
-    if (options != null) {
-      multipartEntityBuilder.addTextBody("options", options.asJson(), APPLICATION_JSON);
-    }
-
-    HttpEntity entity = multipartEntityBuilder.addBinaryBody("project-file", file)
-        .addTextBody("project-name", name, TEXT_PLAIN).build();
-
-    HttpUriRequest request = RequestBuilder.post(url.toString())
-        .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).setEntity(entity).build();
-
-    return client.execute(request, this);
   }
 
   private String urlEncodedOptions() {
@@ -114,14 +120,6 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
         singletonList(new BasicNameValuePair("options", options.asJson())), StandardCharsets.UTF_8);
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to get the location from
-   * @return the response
-   * @throws IOException in case of an connection problem
-   * @throws RefineException in case of an unexpected response or no location header is present
-   */
   @Override
   public CreateProjectResponse handleResponse(HttpResponse response) throws IOException {
     // TODO: parse errors in refine are returned as HTML
@@ -130,7 +128,7 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
     if (location == null) {
       throw new RefineException("No location header found.");
     }
-    URL url = new URL(location.getValue());
+    URL url = new URL("http", "", location.getValue());
     return new CreateProjectResponse(url);
   }
 
@@ -206,9 +204,9 @@ public class CreateProjectCommand implements ResponseHandler<CreateProjectRespon
      * @return the command
      */
     public CreateProjectCommand build() {
-      notBlank(name, "name");
-      notNull(file, "file");
-      notBlank(token, "token");
+      notBlank(name, "Missing 'name' argument");
+      notNull(file, "Missing 'file' argument");
+      notBlank(token, "Missing CSRF token");
       return new CreateProjectCommand(name, file, format, options, token);
     }
   }

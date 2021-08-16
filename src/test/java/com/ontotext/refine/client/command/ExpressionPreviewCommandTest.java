@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,11 +34,13 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 
 /**
  * Unit Tests for {@link ExpressionPreviewCommand}.
  */
-public class ExpressionPreviewCommandTest {
+class ExpressionPreviewCommandTest {
 
   private static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -49,22 +50,23 @@ public class ExpressionPreviewCommandTest {
   private ExpressionPreviewCommand command;
 
   @BeforeEach
-  public void setUp() throws MalformedURLException {
-    refineClient = mock(RefineClient.class);
+  void setUp() throws MalformedURLException {
+    MockitoAnnotations.openMocks(this);
+
     when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
     command = RefineCommands.expressionPreview().token("test-token").project("1234567890")
         .rowIndices(0).expression("foo").build();
   }
 
   @Test
-  public void should_execute() throws IOException {
+  void should_execute() throws IOException {
     command.execute(refineClient);
     verify(refineClient).createUrl(anyString());
     verify(refineClient).execute(any(), any());
   }
 
   @Test
-  public void should_parse_expression_preview_success_response()
+  void should_parse_expression_preview_success_response()
       throws IOException, URISyntaxException {
     String responseBody = IOUtils
         .toString(getClass().getResource("/responseBody/expression-preview.json").toURI(), UTF_8);
@@ -77,7 +79,7 @@ public class ExpressionPreviewCommandTest {
   }
 
   @Test
-  public void should_parse_expression_preview_error_response()
+  void should_parse_expression_preview_error_response()
       throws IOException, URISyntaxException {
     String responseBody =
         IOUtils.toString(getClass().getResource("/responseBody/code-error.json").toURI(), UTF_8);

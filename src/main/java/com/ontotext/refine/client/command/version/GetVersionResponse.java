@@ -12,7 +12,8 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.version;
+
 
 /**
  * This class represents the response from the {@link GetVersionCommand}.
@@ -25,7 +26,7 @@ public class GetVersionResponse {
   private final String revision;
 
   /**
-   * Contructor
+   * Constructor.
    *
    * @param fullName the full name
    * @param fullVersion the full version

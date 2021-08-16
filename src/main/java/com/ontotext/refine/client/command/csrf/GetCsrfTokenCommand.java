@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.csrf;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
@@ -29,11 +29,11 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineException;
+import com.ontotext.refine.client.command.RefineCommand;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.net.URL;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.util.EntityUtils;
@@ -41,7 +41,7 @@ import org.apache.http.util.EntityUtils;
 /**
  * A command to retrieve Refine server version information.
  */
-public class GetCsrfTokenCommand implements ResponseHandler<GetCsrfTokenResponse> {
+public class GetCsrfTokenCommand implements RefineCommand<GetCsrfTokenResponse> {
 
   /**
    * Constructor for {@link Builder}.
@@ -50,41 +50,36 @@ public class GetCsrfTokenCommand implements ResponseHandler<GetCsrfTokenResponse
     // empty
   }
 
-  /**
-   * Executes the command.
-   *
-   * @param client the client to execute the command with
-   * @return the result of the operation
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an error or is not understood
-   */
-  public GetCsrfTokenResponse execute(RefineClient client) throws IOException {
-    URL url = client.createUrl("command/core/get-csrf-token");
-
-    HttpUriRequest request = RequestBuilder.get(url.toString())
-        .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).build();
-
-    return client.execute(request, this);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/get-csrf-token";
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to extract data from
-   * @return the response representation
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an unexpected status or is not
-   *         understood
-   */
+  @Override
+  public GetCsrfTokenResponse execute(RefineClient client) throws RefineException {
+    try {
+      URL url = client.createUrl(endpoint());
+
+      HttpUriRequest request = RequestBuilder
+          .get(url.toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      String error = String.format("Failed to retrieve CSRF token due to: %s", ioe.getMessage());
+      throw new RefineException(error);
+    }
+  }
+
   @Override
   public GetCsrfTokenResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
     String responseBody = EntityUtils.toString(response.getEntity());
-    GetCsrfTokenResponse getVersionResponse = parseGetCsrfTokenResponse(responseBody);
-    return getVersionResponse;
+    return parseGetCsrfTokenResponse(responseBody);
   }
 
-  GetCsrfTokenResponse parseGetCsrfTokenResponse(String json) throws IOException {
+  private GetCsrfTokenResponse parseGetCsrfTokenResponse(String json) throws IOException {
     JsonNode node = JSON_PARSER.parseJson(json);
     return new GetCsrfTokenResponse(JSON_PARSER.findExistingPath(node, "token").asText());
   }

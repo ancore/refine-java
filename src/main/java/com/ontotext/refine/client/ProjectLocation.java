@@ -16,10 +16,11 @@ package com.ontotext.refine.client;
 
 import java.net.URL;
 
+
 /**
- * Defines the project URL. THe ID is part of the URL and provided additionally by its onw getter.
- * <p>
- * When creating a project, the server only responds with the location (URL) of the new project. s
+ * Defines the project URL. THe ID is part of the URL and provided additionally by its own getter.
+ *
+ * <p>When creating a project, the server only responds with the location (URL) of the new project.
  */
 public interface ProjectLocation {
 

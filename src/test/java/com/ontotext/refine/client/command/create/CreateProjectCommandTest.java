@@ -12,16 +12,16 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.create;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.UploadFormat;
+import com.ontotext.refine.client.command.RefineCommands;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,11 +29,13 @@ import java.net.URL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 
 /**
  * Unit Tests for {@link CreateProjectCommand}.
  */
-public class CreateProjectCommandTest {
+class CreateProjectCommandTest {
 
   @Mock
   private RefineClient refineClient;
@@ -41,8 +43,9 @@ public class CreateProjectCommandTest {
   private CreateProjectCommand command;
 
   @BeforeEach
-  public void setUp() throws MalformedURLException {
-    refineClient = mock(RefineClient.class);
+  void setUp() throws MalformedURLException {
+    MockitoAnnotations.openMocks(this);
+
     when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
 
     command = RefineCommands.createProject().token("test-token").name("JSON Test (Main)")
@@ -53,7 +56,7 @@ public class CreateProjectCommandTest {
   }
 
   @Test
-  public void should_execute() throws IOException {
+  void should_execute() throws IOException {
     command.execute(refineClient);
 
     verify(refineClient).createUrl(anyString());

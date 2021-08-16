@@ -19,7 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.csrf;
+
 
 /**
  * This class represents the response from the {@link GetCsrfTokenCommand}.
@@ -29,18 +30,18 @@ public class GetCsrfTokenResponse {
   private final String token;
 
   /**
-   * Constructor
+   * Constructor.
    *
-   * @param token the csrf token
+   * @param token the CSRF token
    */
   GetCsrfTokenResponse(String token) {
     this.token = token;
   }
 
   /**
-   * Returns the csrf token.
+   * Returns the CSRF token.
    *
-   * @return the csrf token
+   * @return the CSRF token
    */
   public String getToken() {
     return token;

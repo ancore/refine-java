@@ -20,11 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.ontotext.refine.client.RefineException;
+import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.testsupport.HttpMock;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;
+
 
 /**
  * Unit Tests for {@link HttpParser}.

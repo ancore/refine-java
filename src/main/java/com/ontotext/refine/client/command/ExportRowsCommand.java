@@ -26,7 +26,7 @@ import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineException;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

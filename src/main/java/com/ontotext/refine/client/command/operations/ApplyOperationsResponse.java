@@ -12,12 +12,13 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.operations;
 
 import static org.apache.http.util.Asserts.notEmpty;
 
 import com.ontotext.refine.client.RefineResponse;
 import com.ontotext.refine.client.ResponseCode;
+
 
 /**
  * This class represents the response from the <code>apply operations</code> request.
@@ -60,7 +61,7 @@ public class ApplyOperationsResponse extends RefineResponse {
    * @return the error instance
    */
   static ApplyOperationsResponse error(String message) {
-    notEmpty(message, "message");
+    notEmpty(message, "The message should not be empty.");
     return new ApplyOperationsResponse(ResponseCode.ERROR, message);
   }
 }

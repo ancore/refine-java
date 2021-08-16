@@ -19,12 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.ontotext.refine.client.RefineException;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
+
 
 /**
  * Unit Tests for {@link JsonParser}.

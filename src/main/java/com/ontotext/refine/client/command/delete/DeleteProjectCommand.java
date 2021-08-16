@@ -12,11 +12,13 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.delete;
 
+import static com.ontotext.refine.client.command.RefineCommand.Constants.CSRF_TOKEN_PARAM;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
-import static org.apache.commons.lang3.Validate.notEmpty;
+import static java.util.Collections.singletonList;
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -25,72 +27,66 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.ProjectLocation;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineException;
 import com.ontotext.refine.client.RefineProject;
+import com.ontotext.refine.client.command.RefineCommand;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+
 /**
  * A command to delete a project.
  */
-public class DeleteProjectCommand implements ResponseHandler<DeleteProjectResponse> {
+public class DeleteProjectCommand implements RefineCommand<DeleteProjectResponse> {
 
   private final String projectId;
   private final String token;
-  private final String CSRF_TOKEN = "csrf_token=";
 
   /**
    * Constructor for {@link Builder}.
    *
    * @param projectId the project ID
+   * @param token the CSRF token to be used
    */
   private DeleteProjectCommand(String projectId, String token) {
     this.projectId = projectId;
     this.token = token;
   }
 
-  /**
-   * Executes the command after validation.
-   *
-   * @param client the client to execute the command with
-   * @return the result of the command
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an error or is not understood
-   */
-  public DeleteProjectResponse execute(RefineClient client) throws IOException {
-    URL url = client.createUrl("/command/core/delete-project?" + CSRF_TOKEN + token);
-
-    List<NameValuePair> form = new ArrayList<>();
-    form.add(new BasicNameValuePair("project", projectId));
-
-    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
-
-    HttpUriRequest request = RequestBuilder.post(url.toString())
-        .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).setEntity(entity).build();
-
-    return client.execute(request, this);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/delete-project";
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to extract data from
-   * @return the response representation
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an unexpected status or is not
-   *         understood
-   */
+  @Override
+  public DeleteProjectResponse execute(RefineClient client) throws RefineException {
+    try {
+      URL url = client.createUrl(endpoint() + "?" + CSRF_TOKEN_PARAM + token);
+
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(
+          singletonList(new BasicNameValuePair("project", projectId)), Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+          .post(url.toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .setEntity(entity)
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      String error =
+          String.format("Failed to delete project: '%s' due to: %s", projectId, ioe.getMessage());
+      throw new RefineException(error);
+    }
+  }
+
   @Override
   public DeleteProjectResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
@@ -98,17 +94,19 @@ public class DeleteProjectCommand implements ResponseHandler<DeleteProjectRespon
     return parseDeleteProjectResponse(responseBody);
   }
 
-  DeleteProjectResponse parseDeleteProjectResponse(String json) throws IOException {
+  private DeleteProjectResponse parseDeleteProjectResponse(String json) throws IOException {
     JsonNode node = JSON_PARSER.parseJson(json);
     String code = JSON_PARSER.findExistingPath(node, "code").asText();
     if ("ok".equals(code)) {
       return DeleteProjectResponse.ok();
-    } else if ("error".equals(code)) {
+    }
+
+    if ("error".equals(code)) {
       String message = JSON_PARSER.findExistingPath(node, "message").asText();
       return DeleteProjectResponse.error(message);
-    } else {
-      throw new RefineException("Unexpected code: " + code);
     }
+
+    throw new RefineException("Unexpected code: " + code);
   }
 
   /**
@@ -171,9 +169,8 @@ public class DeleteProjectCommand implements ResponseHandler<DeleteProjectRespon
      * @return the command
      */
     public DeleteProjectCommand build() {
-      notNull(projectId, "projectId");
-      notEmpty(projectId, "projectId is empty");
-      notNull(token, "token");
+      notBlank(projectId, "Missing 'projectId' argument");
+      notBlank(token, "Missing CSRF token");
       return new DeleteProjectCommand(projectId, token);
     }
   }

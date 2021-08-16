@@ -14,7 +14,7 @@
 
 package com.ontotext.refine.client;
 
-import com.ontotext.refine.client.command.ApplyOperationsCommand;
+import com.ontotext.refine.client.command.operations.ApplyOperationsCommand;
 
 /**
  * Operations can be applied to a refine project with {@link ApplyOperationsCommand}.

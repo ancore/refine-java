@@ -12,12 +12,16 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.create;
 
 import static org.apache.commons.lang3.StringUtils.substringAfterLast;
 
 import java.net.URL;
 
+
+/**
+ * Holds the response data from create project command execution.
+ */
 public class CreateProjectResponse {
 
   private final URL location;

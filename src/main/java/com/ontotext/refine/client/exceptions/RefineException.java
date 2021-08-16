@@ -12,13 +12,14 @@
  * the License.
  */
 
-package com.ontotext.refine.client;
+package com.ontotext.refine.client.exceptions;
 
 import java.io.IOException;
 
+
 /**
- * This exception is thrown when the server responds with an error or unexpected response, and when
- * the response can not be understood.
+ * Thrown when the server responds with an error or unexpected response, and when the response can
+ * not be understood.
  */
 public class RefineException extends IOException {
 
@@ -26,6 +27,10 @@ public class RefineException extends IOException {
 
   public RefineException(String message) {
     super(message);
+  }
+
+  public RefineException(String template, Object... args) {
+    super(String.format(template, args));
   }
 
   public RefineException(String message, Throwable cause) {

@@ -25,8 +25,8 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.ProjectLocation;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineException;
 import com.ontotext.refine.client.RefineProject;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,10 +43,13 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+
 /**
  * A command to preview expressions on a project.
  */
 public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPreviewResponse> {
+
+  private static final String CSRF_TOKEN = "csrf_token=";
 
   private final String projectId;
   private final Integer cellIndex;
@@ -55,7 +58,6 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
   private final boolean repeat;
   private final int repeatCount;
   private final String token;
-  private final String CSRF_TOKEN = "csrf_token=";
 
   /**
    * Constructor for {@link Builder}.
@@ -66,10 +68,16 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
    * @param expression the expression to execute
    * @param repeat whether or not to repeated the expression multiple times
    * @param repeatCount the maximum amount of times a command will be repeated
-   * @param token the csrf token
+   * @param token the CSRF token
    */
-  public ExpressionPreviewCommand(String projectId, Integer cellIndex, long[] rowIndices,
-      String expression, boolean repeat, int repeatCount, String token) {
+  public ExpressionPreviewCommand(
+      String projectId,
+      Integer cellIndex,
+      long[] rowIndices,
+      String expression,
+      boolean repeat,
+      int repeatCount,
+      String token) {
     this.projectId = projectId;
     this.cellIndex = cellIndex;
     this.rowIndices = rowIndices;
@@ -88,8 +96,6 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
    * @throws RefineException in case the request failed
    */
   public ExpressionPreviewResponse execute(RefineClient client) throws IOException {
-    URL url = client.createUrl("/command/core/preview-expression?" + CSRF_TOKEN + token);
-
     StringJoiner joiner = new StringJoiner(",");
     for (long rowIndex : rowIndices) {
       joiner.add(String.valueOf(rowIndex));
@@ -106,6 +112,7 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
 
     UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
+    URL url = client.createUrl("/command/core/preview-expression?" + CSRF_TOKEN + token);
     HttpUriRequest request = RequestBuilder.post(url.toString())
         .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).setEntity(entity).build();
 
@@ -175,17 +182,6 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
     }
 
     /**
-     * Sets the project ID.
-     *
-     * @param token the csrf token
-     * @return the builder for fluent usage
-     */
-    public Builder token(String token) {
-      this.token = token;
-      return this;
-    }
-
-    /**
      * Sets the project ID from the project location.
      *
      * @param projectLocation the project location
@@ -206,6 +202,17 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
     public Builder project(RefineProject project) {
       notNull(project, "project");
       this.projectId = project.getId();
+      return this;
+    }
+
+    /**
+     * Sets the project ID.
+     *
+     * @param token the csrf token
+     * @return the builder for fluent usage
+     */
+    public Builder token(String token) {
+      this.token = token;
       return this;
     }
 
@@ -309,8 +316,8 @@ public class ExpressionPreviewCommand implements ResponseHandler<ExpressionPrevi
       notNull(rowIndices, "rowIndices");
       notNull(expression, "expression");
       notNull(token, "token");
-      return new ExpressionPreviewCommand(projectId, cellIndex, rowIndices, expression, repeat,
-          repeatCount, token);
+      return new ExpressionPreviewCommand(
+          projectId, cellIndex, rowIndices, expression, repeat, repeatCount, token);
     }
   }
 }

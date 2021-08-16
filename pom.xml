@@ -59,6 +59,7 @@
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
+        <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
         <dependency.check.plugin.version>6.2.2</dependency.check.plugin.version>
 
         <httpcomponents.version>4.5.13</httpcomponents.version>
@@ -66,13 +67,13 @@
         <commons.io.version>2.10.0</commons.io.version>
         <jackson.databind.version>2.12.4</jackson.databind.version>
         <slf4j.version>1.7.31</slf4j.version>
+        <picocli.version>4.6.1</picocli.version>
 
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
         <mockito.version>3.8.0</mockito.version>
         <jsonassert.version>1.5.0</jsonassert.version>
 
-        <!-- Disabled for now, until we clear all of the detected issues -->
-        <checkstyle.enabled>false</checkstyle.enabled>
+        <checkstyle.enabled>true</checkstyle.enabled>
     </properties>
 
     <profiles>
@@ -119,6 +120,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+            <version>${picocli.version}</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -178,6 +185,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Executes the unit tests on project building -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -209,6 +217,25 @@
                 </configuration>
             </plugin>
 
+            <!-- Builds an executable jar with all dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven.shade.plugin.version}</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Verifies the code quality on project building -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -231,6 +258,7 @@
                 </executions>
             </plugin>
 
+            <!-- Checks all of the dependencies for security vulnerabilities -->
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>

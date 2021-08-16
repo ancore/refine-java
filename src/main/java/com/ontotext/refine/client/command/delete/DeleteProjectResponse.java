@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.delete;
 
 import static org.apache.http.util.Asserts.notEmpty;
 
@@ -50,7 +50,7 @@ public class DeleteProjectResponse extends RefineResponse {
    * @return the error instance
    */
   static DeleteProjectResponse error(String message) {
-    notEmpty(message, "message");
+    notEmpty(message, "The 'message' should not be empty.");
     return new DeleteProjectResponse(ResponseCode.ERROR, message);
   }
 }

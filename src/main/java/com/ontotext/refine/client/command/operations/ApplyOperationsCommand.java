@@ -12,11 +12,15 @@
  * the License.
  */
 
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.operations;
 
+import static com.ontotext.refine.client.command.RefineCommand.Constants.CSRF_TOKEN_PARAM;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static org.apache.commons.lang3.StringUtils.appendIfMissing;
+import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 import static org.apache.commons.lang3.Validate.noNullElements;
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -27,38 +31,40 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.Operation;
 import com.ontotext.refine.client.ProjectLocation;
 import com.ontotext.refine.client.RefineClient;
-import com.ontotext.refine.client.RefineException;
 import com.ontotext.refine.client.RefineProject;
+import com.ontotext.refine.client.command.RefineCommand;
+import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+
 /**
  * A command to apply operations on a project.
  */
-public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsResponse> {
+public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResponse> {
 
   private final String projectId;
   private final Operation[] operations;
-  private String token;
-  private final String CSRF_TOKEN = "csrf_token=";
+  private final String token;
 
   /**
    * Constructor for {@link Builder}.
    *
    * @param projectId the project ID
    * @param operations the operations
+   * @param token the CSRF token to be used
    */
   private ApplyOperationsCommand(String projectId, Operation[] operations, String token) {
     this.projectId = projectId;
@@ -66,43 +72,42 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
     this.token = token;
   }
 
-  /**
-   * Executes the command.
-   *
-   * @param client the client to execute the command with
-   * @return the result of the command
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an error or is not understood
-   */
-  public ApplyOperationsResponse execute(RefineClient client) throws IOException {
-    URL url = client.createUrl("/command/core/apply-operations?" + CSRF_TOKEN + token);
-
-    List<NameValuePair> form = new ArrayList<>();
-    form.add(new BasicNameValuePair("project", projectId));
-    StringJoiner operationsJoiner = new StringJoiner(",");
-    for (Operation operation : operations) {
-      operationsJoiner.add(operation.asJson());
-    }
-    String operationsJsonArray = "[" + operationsJoiner.toString() + "]";
-    form.add(new BasicNameValuePair("operations", operationsJsonArray));
-
-    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
-
-    HttpUriRequest request = RequestBuilder.post(url.toString())
-        .setHeader(ACCEPT, APPLICATION_JSON.getMimeType()).setEntity(entity).build();
-
-    return client.execute(request, this);
+  @Override
+  public String endpoint() {
+    return "/orefine/command/core/apply-operations";
   }
 
-  /**
-   * Validates the response and extracts necessary data.
-   *
-   * @param response the response to extract data from
-   * @return the response representation
-   * @throws IOException in case of a connection problem
-   * @throws RefineException in case the server responses with an unexpected status or is not
-   *         understood
-   */
+  @Override
+  public ApplyOperationsResponse execute(RefineClient client) throws RefineException {
+    try {
+      URL url = client.createUrl(endpoint() + "?" + CSRF_TOKEN_PARAM + token);
+
+      List<NameValuePair> form = new ArrayList<>(2);
+      form.add(new BasicNameValuePair("project", projectId));
+
+      String ops =
+          Arrays.stream(operations).map(Operation::asJson).collect(Collectors.joining(","));
+      String opsAsJsonArray = appendIfMissing(prependIfMissing(ops.toString(), "["), "]");
+      form.add(new BasicNameValuePair("operations", opsAsJsonArray));
+
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+
+      HttpUriRequest request = RequestBuilder
+          .post(url.toString())
+          .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
+          .setEntity(entity)
+          .build();
+
+      return client.execute(request, this);
+    } catch (IOException ioe) {
+      String error = String.format(
+          "Failed to apply operations on project: '%s' due to: '%s'",
+          projectId,
+          ioe.getMessage());
+      throw new RefineException(error);
+    }
+  }
+
   @Override
   public ApplyOperationsResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
@@ -110,19 +115,23 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
     return parseApplyOperationsResponse(responseBody);
   }
 
-  ApplyOperationsResponse parseApplyOperationsResponse(String json) throws IOException {
+  private ApplyOperationsResponse parseApplyOperationsResponse(String json) throws IOException {
     JsonNode node = JSON_PARSER.parseJson(json);
     String code = JSON_PARSER.findExistingPath(node, "code").asText();
     if ("ok".equals(code)) {
       return ApplyOperationsResponse.ok();
-    } else if ("pending".equals(code)) {
+    }
+
+    if ("pending".equals(code)) {
       return ApplyOperationsResponse.pending();
-    } else if ("error".equals(code)) {
+    }
+
+    if ("error".equals(code)) {
       String message = JSON_PARSER.findExistingPath(node, "message").asText();
       return ApplyOperationsResponse.error(message);
-    } else {
-      throw new RefineException("Unexpected code: " + code);
     }
+
+    throw new RefineException("Unexpected code: " + code);
   }
 
   /**
@@ -142,17 +151,6 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
      */
     public Builder project(String projectId) {
       this.projectId = projectId;
-      return this;
-    }
-
-    /**
-     * Sets token.
-     *
-     * @param token the csrf token
-     * @return the builder for fluent usage
-     */
-    public Builder token(String token) {
-      this.token = token;
       return this;
     }
 
@@ -181,6 +179,17 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
     }
 
     /**
+     * Sets token.
+     *
+     * @param token the csrf token
+     * @return the builder for fluent usage
+     */
+    public Builder token(String token) {
+      this.token = token;
+      return this;
+    }
+
+    /**
      * Sets one or more operations.
      *
      * @param operations the operations
@@ -197,12 +206,11 @@ public class ApplyOperationsCommand implements ResponseHandler<ApplyOperationsRe
      * @return the command
      */
     public ApplyOperationsCommand build() {
-      notNull(projectId, "projectId");
-      notEmpty(projectId, "projectId is empty");
-      notNull(operations, "operations");
-      notEmpty(operations, "operations is empty");
-      notEmpty(token, "token");
-      noNullElements(operations, "operations contains null");
+      notBlank(projectId, "Missing 'projectId' argument");
+      notNull(operations, "'operations' argument should not be null");
+      notEmpty(operations, "'operations' argument should not be empty");
+      noNullElements(operations, "'operations' should not contain 'null' elements");
+      notBlank(token, "Missing CSRF token");
       return new ApplyOperationsCommand(projectId, operations, token);
     }
   }
