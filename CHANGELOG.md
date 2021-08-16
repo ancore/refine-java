@@ -1,4 +1,4 @@
-# Ontotext OntoRefine CLI
+# Ontotext OntoRefine Client Library
 
 ## Version 0.1.0
 

@@ -6,12 +6,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ontotext</groupId>
-    <artifactId>ontorefine-cli</artifactId>
+    <artifactId>ontorefine-client</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>An OntoRefine CLI</description>
-    <url>https://github.com/Ontotext-AD/ontorefine-cli</url>
+    <description>An OntoRefine Client Library</description>
+    <url>https://github.com/Ontotext-AD/ontorefine-client</url>
 
     <licenses>
         <license>
@@ -30,9 +30,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/Ontotext-AD/ontorefine-cli.git</connection>
-        <developerConnection>scm:git:https://github.com/Ontotext-AD/ontorefine-cli.git</developerConnection>
-        <url>https://github.com/Ontotext-AD/ontorefine-cli</url>
+        <connection>scm:git:https://github.com/Ontotext-AD/ontorefine-client.git</connection>
+        <developerConnection>scm:git:https://github.com/Ontotext-AD/ontorefine-client.git</developerConnection>
+        <url>https://github.com/Ontotext-AD/ontorefine-client</url>
     </scm>
 
     <distributionManagement>
@@ -56,10 +56,10 @@
         <cvss.threshold>6.9</cvss.threshold>
 
         <!-- SonarCloud general configurations -->
-        <sonar.projectKey>Ontotext-AD_ontorefine-cli</sonar.projectKey>
+        <sonar.projectKey>Ontotext-AD_ontorefine-client</sonar.projectKey>
         <sonar.organization>ontotext-ad</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>../ontorefine-cli/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>../ontorefine-client/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
