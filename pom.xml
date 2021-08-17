@@ -39,7 +39,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/ontotext/ontorefine-client</url>
+            <url>https://maven.pkg.github.com/Ontotext-AD/ontorefine-client</url>
         </repository>
     </distributionManagement>
 
