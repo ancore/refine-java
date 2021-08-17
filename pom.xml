@@ -37,15 +37,10 @@
 
     <distributionManagement>
         <repository>
-            <id>internal</id>
-            <name>Ontotext Platform Releases repository</name>
-            <url>http://maven.ontotext.com/content/repositories/internal</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/ontotext/ontorefine-client</url>
         </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>Ontotext Platform Snapshots repository</name>
-            <url>http://maven.ontotext.com/content/repositories/snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <properties>
