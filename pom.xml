@@ -219,7 +219,7 @@
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
-                        <phase>verify</phase>
+                        <phase>none</phase>
                     </execution>
                 </executions>
             </plugin>
