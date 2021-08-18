@@ -1,5 +1,7 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+# Note - The testing and checkstyle phases are disabled, because there is a CI pipeline which guarantees that the master branch is green at all times. Also this will reduce the time for the release process.
+# However the dependency vulnerability check is still on, because there might be Sec-DBs update, between the release an the last CI pipelines.
 
 name: Publish package to GitHub Packages
 
@@ -22,16 +24,16 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        server-username: GITHUB_USER_REF  # env variable name for username
-        server-password: GITHUB_TOKEN_REF # env variable name for GitHub Personal Access Token
+        server-id: all-onto # Value of the distributionManagement/repository/id field of the pom.xml
+        server-username: ONTO_MVN_USER_REF
+        server-password: ONTO_MVN_TOKEN_REF
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: mvn -B package -DskipTests --file pom.xml
+      run: mvn -B package -DskipTests -Dcheckstyle.skip --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -DskipTests -Dcheckstyle.skip -s $GITHUB_WORKSPACE/settings.xml
       env:
-        GITHUB_USER_REF: ${{ secrets.GH_PACKAGE_REPO_USERNAME }}
-        GITHUB_TOKEN_REF: ${{ secrets.GH_PACKAGE_REPO_PSW }}
+        ONTO_MVN_USER_REF: ${{ secrets.ONTO_MAVEN_REPO_USER }}
+        ONTO_MVN_TOKEN_REF: ${{ secrets.ONTO_MAVEN_REPO_PASSWORD }}

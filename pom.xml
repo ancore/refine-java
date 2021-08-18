@@ -37,9 +37,9 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/Ontotext-AD/ontorefine-client</url>
+            <id>all-onto</id>
+            <name>Ontotext Public Maven</name>
+            <url>http://maven.ontotext.com/content/repositories/public</url>
         </repository>
     </distributionManagement>
 
@@ -219,7 +219,7 @@
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
-                        <phase>none</phase>
+                        <phase>verify</phase>
                     </execution>
                 </executions>
             </plugin>
