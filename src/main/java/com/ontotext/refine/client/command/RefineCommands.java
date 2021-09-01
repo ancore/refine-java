@@ -20,9 +20,12 @@ import com.ontotext.refine.client.command.delete.DeleteProjectCommand;
 import com.ontotext.refine.client.command.models.GetProjectModelsCommand;
 import com.ontotext.refine.client.command.operations.ApplyOperationsCommand;
 import com.ontotext.refine.client.command.operations.GetOperationsCommand;
+import com.ontotext.refine.client.command.preferences.GetPreferenceCommand;
+import com.ontotext.refine.client.command.preferences.SetPreferenceCommand;
 import com.ontotext.refine.client.command.processes.GetProcessesCommand;
 import com.ontotext.refine.client.command.rdf.ExportRdfCommand;
 import com.ontotext.refine.client.command.reconcile.GuessColumnTypeCommand;
+import com.ontotext.refine.client.command.reconcile.ReconServiceRegistrationCommand;
 import com.ontotext.refine.client.command.reconcile.ReconcileCommand;
 import com.ontotext.refine.client.command.version.GetVersionCommand;
 
@@ -156,5 +159,32 @@ public interface RefineCommands {
    */
   static GetProjectModelsCommand.Builder getProjectModels() {
     return new GetProjectModelsCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link ReconServiceRegistrationCommand}.
+   *
+   * @return new builder instance
+   */
+  static ReconServiceRegistrationCommand.Builder registerReconciliationService() {
+    return new ReconServiceRegistrationCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link SetPreferenceCommand}.
+   *
+   * @return new builder instance
+   */
+  static SetPreferenceCommand.Builder setPreference() {
+    return new SetPreferenceCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link GetPreferenceCommand}.
+   *
+   * @return new builder instance
+   */
+  static GetPreferenceCommand.Builder getPreference() {
+    return new GetPreferenceCommand.Builder();
   }
 }

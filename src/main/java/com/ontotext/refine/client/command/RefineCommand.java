@@ -26,6 +26,7 @@ public interface RefineCommand<T> extends ResponseHandler<T> {
    *
    * @param client to be used for command request
    * @return a command response
+   * @throws RefineException when any error occurs during command execution
    */
   T execute(RefineClient client) throws RefineException;
 
