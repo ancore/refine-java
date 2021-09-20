@@ -26,7 +26,7 @@ import org.apache.http.client.methods.RequestBuilder;
 public class GetProcessesCommand implements RefineCommand<GetProcessesCommandResponse> {
 
   private static final TypeReference<Collection<ProjectProcess>> PROCESSES_TYPE =
-      new TypeReference<>() {};
+      new TypeReference<Collection<ProjectProcess>>() {};
 
   private final String project;
 

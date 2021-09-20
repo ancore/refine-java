@@ -29,7 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.List;
+import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,7 +80,7 @@ class ExpressionPreviewCommandTest {
     assertNotNull(response);
     assertEquals(ResponseCode.OK, response.getCode());
     assertNull(response.getMessage());
-    assertEquals(List.of("7", "5", "5", "9"), response.getExpressionPreviews());
+    assertEquals(Arrays.asList("7", "5", "5", "9"), response.getExpressionPreviews());
   }
 
   @Test

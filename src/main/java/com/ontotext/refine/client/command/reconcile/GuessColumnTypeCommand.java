@@ -27,7 +27,8 @@ import org.apache.http.client.methods.RequestBuilder;
  */
 public class GuessColumnTypeCommand implements RefineCommand<GuessColumnTypeCommandResponse> {
 
-  private static final TypeReference<List<ReconciliationType>> TYPES = new TypeReference<>() {};
+  private static final TypeReference<List<ReconciliationType>> TYPES =
+      new TypeReference<List<ReconciliationType>>() {};
 
   private final String project;
   private final String column;

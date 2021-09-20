@@ -15,7 +15,7 @@
 package com.ontotext.refine.client;
 
 import java.util.Arrays;
-
+import java.util.NoSuchElementException;
 
 /**
  * This enum is used to specify the format of an upload file when creating a {@link RefineProject}.
@@ -71,7 +71,7 @@ public enum UploadFormat {
     return Arrays.stream(values())
         .filter(format -> format.value.equals(value))
         .findFirst()
-        .orElseThrow();
+        .orElseThrow(() -> new NoSuchElementException("No value present"));
   }
 
   /**
