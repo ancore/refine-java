@@ -1,6 +1,14 @@
 # Ontotext OntoRefine Client Library
 
-## Version 0.1.0
+## Version 1.1.0
+
+ - Fixed the issue where the export operation command resulted in JSON, which cannot be used directly in apply operation command as it was containing additional tags and wrapping
+   of the main operation objects, which should be returned as result.
+ - Added additional required parameter to the export RDF command called `format`. It is used to build `Accept` header for the request that is sent to the OntoRefine tool. The
+   header is used to show in what RDF format should be returned the result from the command. For example `Turtle`, `Turtle-Star`, `N-Triples`, `RDF/XML`, etc.
+
+
+## Version 1.0.0
 
 ### Initial work
 

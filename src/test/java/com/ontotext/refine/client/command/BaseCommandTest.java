@@ -44,7 +44,8 @@ public abstract class BaseCommandTest<T, R extends RefineCommand<T>> {
   }
 
   /**
-   * Provides the base test directory, where the resources for the test are.
+   * Provides the base test directory, where the resources for the test are. By default this method
+   * returns 'responseBody/' as value.
    *
    * @return path to the directory with test resources
    */

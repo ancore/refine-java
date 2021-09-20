@@ -1,13 +1,17 @@
 package com.ontotext.refine.client.command.rdf;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.http.HttpHeaders.ACCEPT;
+import static org.apache.http.HttpHeaders.CONTENT_TYPE;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -15,7 +19,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.entity.ContentType;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 
 /**
@@ -27,10 +31,12 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
 
   private final String project;
   private final String mapping;
+  private final ResultFormat format;
 
-  private ExportRdfCommand(String project, String mapping) {
+  private ExportRdfCommand(String project, String mapping, ResultFormat format) {
     this.project = project;
     this.mapping = mapping;
+    this.format = format;
   }
 
   @Override
@@ -42,12 +48,19 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
   public ExportRdfResponse execute(RefineClient client) throws RefineException {
     try {
       BasicHttpEntity entity = new BasicHttpEntity();
-      entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
-      entity.setContentEncoding(ContentType.APPLICATION_JSON.getCharset().toString());
-      entity.setContent(IOUtils.toInputStream(mapping, StandardCharsets.UTF_8));
+      entity.setContentType(APPLICATION_JSON.getMimeType());
+      entity.setContentEncoding(APPLICATION_JSON.getCharset().toString());
+      entity.setContent(IOUtils.toInputStream(mapping, UTF_8));
+
+      RDFFormat rdfFormat = format.getRdfFormat();
+      String acceptHeader = rdfFormat.getDefaultMIMEType() + ";charset=" + rdfFormat.getCharset();
 
       HttpUriRequest request = RequestBuilder
-          .post(client.createUrl(endpoint() + ":" + project).toString()).setEntity(entity).build();
+          .post(client.createUrl(endpoint() + ":" + project).toString())
+          .addHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
+          .addHeader(ACCEPT, acceptHeader)
+          .setEntity(entity)
+          .build();
 
       return client.execute(request, this);
     } catch (IOException ioe) {
@@ -64,7 +77,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
     return new ExportRdfResponse()
         .setProject(project)
-        .setResult(IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8));
+        .setResult(IOUtils.toString(response.getEntity().getContent(), UTF_8));
   }
 
   /**
@@ -76,6 +89,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
 
     private String project;
     private String mapping;
+    private ResultFormat format;
 
     public Builder setProject(String project) {
       this.project = project;
@@ -87,6 +101,11 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
       return this;
     }
 
+    public Builder setFormat(ResultFormat format) {
+      this.format = format;
+      return this;
+    }
+
     /**
      * Builds a {@link ExportRdfCommand}.
      *
@@ -95,7 +114,8 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
     public ExportRdfCommand build() {
       notBlank(project, "Missing 'project' argument");
       notBlank(mapping, "Missing 'mapping' argument");
-      return new ExportRdfCommand(project, mapping);
+      notNull(format, "Missing 'format' argument");
+      return new ExportRdfCommand(project, mapping, format);
     }
   }
 }
