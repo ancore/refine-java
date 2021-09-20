@@ -1,5 +1,6 @@
 package com.ontotext.refine.client.command.operations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
@@ -7,6 +8,7 @@ import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -49,8 +51,10 @@ public class GetOperationsCommand implements RefineCommand<GetOperationsResponse
   public GetOperationsResponse handleResponse(HttpResponse response) throws IOException {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
     JsonMapper mapper = new JsonMapper();
+    JsonNode responseJson = mapper.readTree(response.getEntity().getContent());
+    List<JsonNode> operations = responseJson.findValues("operation");
     return new GetOperationsResponse()
-        .setContent(mapper.readTree(response.getEntity().getContent()))
+        .setContent(mapper.createArrayNode().addAll(operations))
         .setProject(project);
   }
 
