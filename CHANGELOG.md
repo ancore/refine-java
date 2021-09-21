@@ -6,6 +6,8 @@
    of the main operation objects, which should be returned as result.
  - Added additional required parameter to the export RDF command called `format`. It is used to build `Accept` header for the request that is sent to the OntoRefine tool. The
    header is used to show in what RDF format should be returned the result from the command. For example `Turtle`, `Turtle-Star`, `N-Triples`, `RDF/XML`, etc.
+ - Introduced new command which allows retrieval of the models of specific project. It provides temporary workaround for the issue with the RDF mapping, where after update it won't
+   be synchronized with the JSON configuration for the operations done over the project. We were using the mapping from the operations in the RDF exporting. 
 
 
 ## Version 1.0.0

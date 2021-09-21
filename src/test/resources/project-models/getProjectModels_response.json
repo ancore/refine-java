@@ -1,0 +1,658 @@
+{
+  "columnModel": {
+    "columns": [
+      {
+        "cellIndex": 0,
+        "originalName": "Trcid",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Trcid"
+      },
+      {
+        "cellIndex": 1,
+        "originalName": "Title",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Title"
+      },
+      {
+        "cellIndex": 2,
+        "originalName": "Shortdescription",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Shortdescription"
+      },
+      {
+        "cellIndex": 3,
+        "originalName": "Longdescription",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Longdescription"
+      },
+      {
+        "cellIndex": 4,
+        "originalName": "Calendarsummary",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Calendarsummary"
+      },
+      {
+        "cellIndex": 5,
+        "originalName": "TitleEN",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "TitleEN"
+      },
+      {
+        "cellIndex": 6,
+        "originalName": "ShortdescriptionEN",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "ShortdescriptionEN"
+      },
+      {
+        "cellIndex": 7,
+        "originalName": "LongdescriptionEN",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "LongdescriptionEN"
+      },
+      {
+        "cellIndex": 8,
+        "originalName": "CalendarsummaryEN",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "CalendarsummaryEN"
+      },
+      {
+        "cellIndex": 9,
+        "originalName": "Types",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Types"
+      },
+      {
+        "cellIndex": 10,
+        "originalName": "Ids",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Ids"
+      },
+      {
+        "cellIndex": 11,
+        "originalName": "Locatienaam",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Locatienaam"
+      },
+      {
+        "cellIndex": 12,
+        "originalName": "City",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "City"
+      },
+      {
+        "cellIndex": 13,
+        "originalName": "Adres",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Adres"
+      },
+      {
+        "cellIndex": 14,
+        "originalName": "Zipcode",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Zipcode"
+      },
+      {
+        "cellIndex": 15,
+        "originalName": "Latitude",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Latitude"
+      },
+      {
+        "cellIndex": 16,
+        "originalName": "Longitude",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Longitude"
+      },
+      {
+        "cellIndex": 17,
+        "originalName": "Urls",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Urls"
+      },
+      {
+        "cellIndex": 18,
+        "originalName": "Media",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Media"
+      },
+      {
+        "cellIndex": 19,
+        "originalName": "Thumbnail",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Thumbnail"
+      },
+      {
+        "cellIndex": 20,
+        "originalName": "Datepattern_startdate",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Datepattern_startdate"
+      },
+      {
+        "cellIndex": 21,
+        "originalName": "Datepattern_enddate",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Datepattern_enddate"
+      },
+      {
+        "cellIndex": 22,
+        "originalName": "Singledates",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Singledates"
+      },
+      {
+        "cellIndex": 23,
+        "originalName": "Type1",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Type1"
+      },
+      {
+        "cellIndex": 24,
+        "originalName": "Lastupdated",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Lastupdated"
+      },
+      {
+        "cellIndex": 25,
+        "originalName": "Column",
+        "constraints": "{}",
+        "type": "",
+        "format": "default",
+        "title": "",
+        "description": "",
+        "name": "Column"
+      }
+    ],
+    "columnGroups": [],
+    "keyCellIndex": 0,
+    "keyColumnName": "Trcid"
+  },
+  "recordModel": {
+    "hasRecords": false
+  },
+  "overlayModels": {
+    "mappingDefinition": {
+      "mappingDefinition": {
+        "baseIRI": "http://example/base/",
+        "namespaces": {
+          "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "schema": "http://schema.org/",
+          "geo": "http://www.opengis.net/ont/geosparql#",
+          "amsterdam": "https://data/amsterdam/nl/resource/",
+          "sf": "http://www.opengis.net/ont/sf#",
+          "xsd": "http://www.w3.org/2001/XMLSchema#",
+          "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+        },
+        "subjectMappings": [
+          {
+            "subject": {
+              "valueSource": {
+                "source": "column",
+                "columnName": "Trcid"
+              },
+              "transformation": {
+                "language": "prefix",
+                "expression": "amsterdam:restaurant/"
+              }
+            },
+            "typeMappings": [
+              {
+                "valueSource": {
+                  "source": "constant",
+                  "constant": "Restaurant"
+                },
+                "transformation": {
+                  "language": "prefix",
+                  "expression": "schema"
+                }
+              }
+            ],
+            "propertyMappings": [
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "title"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "schema"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Title"
+                    },
+                    "valueType": {
+                      "type": "literal"
+                    }
+                  },
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "TitleEN"
+                    },
+                    "valueType": {
+                      "type": "language_literal",
+                      "language": {
+                        "valueSource": {
+                          "source": "constant",
+                          "constant": "en"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "description"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "schema"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Shortdescription"
+                    },
+                    "valueType": {
+                      "type": "literal"
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "latitude"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "schema"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "row_index"
+                    },
+                    "transformation": {
+                      "language": "grel",
+                      "expression": "value.replace(',','.')"
+                    },
+                    "valueType": {
+                      "type": "datatype_literal",
+                      "datatype": {
+                        "valueSource": {
+                          "source": "constant",
+                          "constant": "float"
+                        },
+                        "transformation": {
+                          "language": "prefix",
+                          "expression": "xsd"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "zipcode"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "amsterdam"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Zipcode"
+                    },
+                    "valueType": {
+                      "type": "literal"
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "image"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "schema"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Media"
+                    },
+                    "valueType": {
+                      "type": "iri",
+                      "typeMappings": [],
+                      "propertyMappings": []
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "hasGeometry"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "geo"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Trcid"
+                    },
+                    "transformation": {
+                      "language": "prefix",
+                      "expression": "amsterdam:geometry/"
+                    },
+                    "valueType": {
+                      "type": "iri",
+                      "typeMappings": [
+                        {
+                          "valueSource": {
+                            "source": "constant",
+                            "constant": "Point"
+                          },
+                          "transformation": {
+                            "language": "prefix",
+                            "expression": "sf"
+                          }
+                        }
+                      ],
+                      "propertyMappings": [
+                        {
+                          "property": {
+                            "valueSource": {
+                              "source": "constant",
+                              "constant": "asWKT"
+                            },
+                            "transformation": {
+                              "language": "prefix",
+                              "expression": "geo"
+                            }
+                          },
+                          "values": [
+                            {
+                              "valueSource": {
+                                "source": "row_index"
+                              },
+                              "transformation": {
+                                "language": "grel",
+                                "expression": "\"<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (\" + cells[\"Longitude\"].value.replace(',', '.') + \" \" + cells[\"Latitude\"].value.replace(',', '.')  + \")\""
+                              },
+                              "valueType": {
+                                "type": "datatype_literal",
+                                "datatype": {
+                                  "valueSource": {
+                                    "source": "constant",
+                                    "constant": "wktLiteral"
+                                  },
+                                  "transformation": {
+                                    "language": "prefix",
+                                    "expression": "geo"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "uniquelocation"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "amsterdam"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Trcid"
+                    },
+                    "valueType": {
+                      "type": "unique_bnode",
+                      "propertyMappings": [
+                        {
+                          "property": {
+                            "valueSource": {
+                              "source": "constant",
+                              "constant": "address"
+                            },
+                            "transformation": {
+                              "language": "prefix",
+                              "expression": "amsterdam"
+                            }
+                          },
+                          "values": [
+                            {
+                              "valueSource": {
+                                "source": "column",
+                                "columnName": "Adres"
+                              },
+                              "valueType": {
+                                "type": "literal"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "property": {
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "valuelocation"
+                  },
+                  "transformation": {
+                    "language": "prefix",
+                    "expression": "amsterdam"
+                  }
+                },
+                "values": [
+                  {
+                    "valueSource": {
+                      "source": "column",
+                      "columnName": "Trcid"
+                    },
+                    "valueType": {
+                      "type": "value_bnode",
+                      "propertyMappings": [
+                        {
+                          "property": {
+                            "valueSource": {
+                              "source": "constant",
+                              "constant": "city"
+                            },
+                            "transformation": {
+                              "language": "prefix",
+                              "expression": "amsterdam"
+                            }
+                          },
+                          "values": [
+                            {
+                              "valueSource": {
+                                "source": "column",
+                                "columnName": "City"
+                              },
+                              "valueType": {
+                                "type": "literal"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "scripting": {
+    "grel": {
+      "name": "General Refine Expression Language (GREL)",
+      "defaultExpression": "value"
+    },
+    "clojure": {
+      "name": "Clojure",
+      "defaultExpression": "value"
+    }
+  },
+  "httpHeaders": {
+    "authorization": {
+      "header": "Authorization",
+      "defaultValue": ""
+    },
+    "user-agent": {
+      "header": "User-Agent",
+      "defaultValue": "OpenRefine 2.6 [1]"
+    },
+    "accept": {
+      "header": "Accept",
+      "defaultValue": "*/*"
+    }
+  }
+}

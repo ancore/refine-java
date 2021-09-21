@@ -17,6 +17,7 @@ package com.ontotext.refine.client.command;
 import com.ontotext.refine.client.command.create.CreateProjectCommand;
 import com.ontotext.refine.client.command.csrf.GetCsrfTokenCommand;
 import com.ontotext.refine.client.command.delete.DeleteProjectCommand;
+import com.ontotext.refine.client.command.models.GetProjectModelsCommand;
 import com.ontotext.refine.client.command.operations.ApplyOperationsCommand;
 import com.ontotext.refine.client.command.operations.GetOperationsCommand;
 import com.ontotext.refine.client.command.processes.GetProcessesCommand;
@@ -132,7 +133,7 @@ public interface RefineCommands {
 
   /**
    * Provides a builder instance for the {@link GetProcessesCommand}.
-   * 
+   *
    * @return new builder instance
    */
   static GetProcessesCommand.Builder getProcesses() {
@@ -141,10 +142,19 @@ public interface RefineCommands {
 
   /**
    * Provides a builder instance for the {@link ReconcileCommand}.
-   * 
+   *
    * @return new builder instance
    */
   static ReconcileCommand.Builder reconcile() {
     return new ReconcileCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link GetProjectModelsCommand}.
+   *
+   * @return new builder instance
+   */
+  static GetProjectModelsCommand.Builder getProjectModels() {
+    return new GetProjectModelsCommand.Builder();
   }
 }
