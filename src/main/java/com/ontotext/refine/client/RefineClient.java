@@ -14,6 +14,7 @@
 
 package com.ontotext.refine.client;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,7 +27,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
  * Represents the client which purpose is to provide the HTTP communication between the application
  * and the Refine instance.
  */
-public class RefineClient implements AutoCloseable {
+public class RefineClient implements Closeable {
 
   private final URL url;
   private final CloseableHttpClient httpClient;
@@ -71,7 +72,7 @@ public class RefineClient implements AutoCloseable {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() throws IOException {
     httpClient.close();
   }
 

@@ -1,5 +1,19 @@
 # Ontotext OntoRefine Client Library
 
+## Version 1.2
+
+### New
+
+ - Updated the README document of the repository to represent the current state of the library.
+ - Added DEV documents, which contains description of the implementation steps for the commands. Basically it provides information how contributors may introduce new commands.
+ - Added ARCHITECTURE document, which provides a simple overview of the high level components and the how they interact with each other.
+ - Added SPEC document intended to contain the specification for the different functionalities which the library will provide.
+
+### Changes
+
+ - Changed the interface which `RefineClient` implements from `AutoCloseable` to `Closeable`.
+
+
 ## Version 1.1.0
 
 ### New
@@ -26,7 +40,7 @@
 
 ### Initial work
 
- - The initial work for the library is done by [David Santeodoro Camisón](https://github.com/dsanteodoro) in [refine-java](https://github.com/ancore/refine-java), which we forked.
+ - The initial work for the library is done by [Andreas Cordsen](https://github.com/ancore) in [refine-java](https://github.com/ancore/refine-java), which we forked.
    Our intent is to build a client library for the [OntoRefine](https://graphdb.ontotext.com/documentation/free/loading-data-using-ontorefine.html) and distribute it as a open
    source project. The main reason for our decision to fork the library is that there are some specifics in OntoRefine, which will not be suitable for common library such as the
    original.
