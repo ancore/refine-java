@@ -11,7 +11,6 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URL;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -37,10 +36,8 @@ public class GetCsrfTokenCommand implements RefineCommand<GetCsrfTokenResponse> 
   @Override
   public GetCsrfTokenResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint());
-
       HttpUriRequest request = RequestBuilder
-          .get(url.toString())
+          .get(client.createUri(endpoint()))
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .build();
 

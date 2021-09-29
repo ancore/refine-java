@@ -58,7 +58,7 @@ class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, ExportRdfC
   void execute_successful() throws IOException {
     assertDoesNotThrow(() -> command().execute(client));
 
-    verify(client).createUrl(anyString());
+    verify(client).createUri(anyString());
     verify(client).execute(requestCaptor.capture(), any());
 
     HttpUriRequest request = requestCaptor.getValue();
@@ -78,7 +78,7 @@ class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, ExportRdfC
         "Export of RDF data failed for project: '" + PROJECT_ID + "' due to: Test error",
         exc.getMessage());
 
-    verify(client).createUrl(anyString());
+    verify(client).createUri(anyString());
     verify(client).execute(any(), any());
   }
 

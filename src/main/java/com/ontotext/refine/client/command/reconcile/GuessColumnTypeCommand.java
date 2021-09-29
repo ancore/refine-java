@@ -11,7 +11,6 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.command.reconcile.GuessColumnTypeCommandResponse.ReconciliationType;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -50,14 +49,12 @@ public class GuessColumnTypeCommand implements RefineCommand<GuessColumnTypeComm
   @Override
   public GuessColumnTypeCommandResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint());
-
       // TODO not good, but this might take a lot of time depending on the service
       RequestConfig config = RequestConfig
           .custom().setSocketTimeout(0).setConnectTimeout(0).setConnectionRequestTimeout(0).build();
 
       HttpUriRequest request = RequestBuilder
-          .post(url.toString())
+          .post(client.createUri(endpoint()))
           .setConfig(config)
           .addParameter(Constants.PROJECT, project)
           .addParameter("columnName", column)

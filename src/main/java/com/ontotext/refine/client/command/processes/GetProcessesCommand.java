@@ -11,6 +11,7 @@ import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import com.ontotext.refine.client.util.JsonParser;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -42,10 +43,10 @@ public class GetProcessesCommand implements RefineCommand<GetProcessesCommandRes
   @Override
   public GetProcessesCommandResponse execute(RefineClient client) throws RefineException {
     try {
-      String url = client.createUrl(endpoint()).toString();
+      URI uri = client.createUri(endpoint());
 
       HttpUriRequest request =
-          RequestBuilder.get(url).addParameter(Constants.PROJECT, project).build();
+          RequestBuilder.get(uri).addParameter(Constants.PROJECT, project).build();
 
       return client.execute(request, this);
     } catch (IOException ioe) {

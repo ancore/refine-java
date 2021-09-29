@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,9 +78,9 @@ public class ExpressionPreviewCommand implements RefineCommand<ExpressionPreview
       form.add(new BasicNameValuePair("repeat", String.valueOf(repeat)));
       form.add(new BasicNameValuePair("repeatCount", String.valueOf(repeatCount)));
 
-      URL url = client.createUrl(endpoint() + "?" + Constants.CSRF_TOKEN_PARAM + token);
       HttpUriRequest request = RequestBuilder
-          .post(url.toString())
+          .post(client.createUri(endpoint()))
+          .addParameter(Constants.CSRF_TOKEN, token)
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .setEntity(new UrlEncodedFormEntity(form, Consts.UTF_8))
           .build();

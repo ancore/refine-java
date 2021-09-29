@@ -16,7 +16,7 @@ import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
@@ -55,8 +55,8 @@ class SetPreferenceCommandTest {
         .setToken("test-token")
         .build();
 
-    when(client.createUrl(anyString()))
-        .then(answer -> new URL("http://localhost:3333" + answer.getArgument(0)));
+    when(client.createUri(anyString()))
+        .then(answer -> new URI("http://localhost:3333" + answer.getArgument(0)));
   }
 
   @Test

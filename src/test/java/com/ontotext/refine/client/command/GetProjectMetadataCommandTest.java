@@ -10,8 +10,8 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.ProtocolVersion;
@@ -37,10 +37,10 @@ class GetProjectMetadataCommandTest {
   private HttpResponse response;
 
   @BeforeEach
-  void setup() throws MalformedURLException {
+  void setup() throws URISyntaxException {
     MockitoAnnotations.openMocks(this);
 
-    when(client.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
+    when(client.createUri(anyString())).thenReturn(new URI("http://localhost:3333/"));
     when(response.getStatusLine())
         .thenReturn(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), HttpStatus.SC_OK, "OK"));
   }

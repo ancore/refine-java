@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.ontotext.refine.client.RefineClient;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.entity.BasicHttpEntity;
@@ -39,8 +39,8 @@ public abstract class BaseCommandTest<T, R extends RefineCommand<T>> {
   void setup() {
     MockitoAnnotations.openMocks(this);
 
-    when(client.createUrl(anyString()))
-        .thenAnswer(answer -> new URL(BASE_URI + answer.getArgument(0, String.class)));
+    when(client.createUri(anyString()))
+        .thenAnswer(answer -> new URI(BASE_URI + answer.getArgument(0, String.class)));
   }
 
   /**

@@ -1,11 +1,11 @@
 package com.ontotext.refine.client;
 
-import java.io.Closeable;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 
@@ -13,33 +13,33 @@ import org.apache.http.impl.client.CloseableHttpClient;
  * Represents the client which purpose is to provide the HTTP communication between the application
  * and the Refine instance.
  */
-public class RefineClient implements Closeable {
+public class RefineClient implements AutoCloseable {
 
-  private final URL url;
+  private final URI uri;
   private final CloseableHttpClient httpClient;
 
   /**
    * Creates new client instance.
    *
-   * @param url where the Refine instance could be accessed
+   * @param uri where the Refine instance could be accessed
    * @param httpClient used to executed the requests
    */
-  RefineClient(URL url, CloseableHttpClient httpClient) {
-    this.url = url;
+  RefineClient(URI uri, CloseableHttpClient httpClient) {
+    this.uri = uri;
     this.httpClient = httpClient;
   }
 
   /**
-   * Creates URL from the provided path and the base URL of the current client.
+   * Creates URI from the provided path and the base URI of the current client.
    *
-   * @param path to be added to the base URL
-   * @return new {@link URL}
+   * @param path to be added to the base URI
+   * @return new {@link URI}
    */
-  public URL createUrl(String path) {
+  public URI createUri(String path) {
     try {
-      return new URL(url, path);
-    } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(e);
+      return new URIBuilder(uri).setPath(path).build();
+    } catch (URISyntaxException uriExc) {
+      throw new IllegalArgumentException(uriExc);
     }
   }
 
@@ -58,12 +58,12 @@ public class RefineClient implements Closeable {
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() throws Exception {
     httpClient.close();
   }
 
   @Override
   public String toString() {
-    return "RefineClient{" + "url=" + url + '}';
+    return "RefineClient{" + "url=" + uri + '}';
   }
 }

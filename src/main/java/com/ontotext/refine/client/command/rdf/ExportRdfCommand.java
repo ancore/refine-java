@@ -15,7 +15,6 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.BasicHttpEntity;
@@ -56,7 +55,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
       String acceptHeader = rdfFormat.getDefaultMIMEType() + ";charset=" + rdfFormat.getCharset();
 
       HttpUriRequest request = RequestBuilder
-          .post(client.createUrl(endpoint() + ":" + project).toString())
+          .post(client.createUri(endpoint() + ":" + project))
           .addHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
           .addHeader(ACCEPT, acceptHeader)
           .setEntity(entity)
@@ -72,8 +71,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
   }
 
   @Override
-  public ExportRdfResponse handleResponse(HttpResponse response)
-      throws ClientProtocolException, IOException {
+  public ExportRdfResponse handleResponse(HttpResponse response) throws IOException {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
     return new ExportRdfResponse()
         .setProject(project)

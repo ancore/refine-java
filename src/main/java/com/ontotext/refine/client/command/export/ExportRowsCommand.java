@@ -64,7 +64,7 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
       List<NameValuePair> form = buildForm();
 
       HttpUriRequest request = RequestBuilder
-          .post(client.createUrl(endpoint()).toString())
+          .post(client.createUri(endpoint()))
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .setEntity(new UrlEncodedFormEntity(form, UTF_8))
           .build();

@@ -1,8 +1,6 @@
 package com.ontotext.refine.client.command.create;
 
-import static com.ontotext.refine.client.command.RefineCommand.Constants.CSRF_TOKEN_PARAM;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
-import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -18,15 +16,12 @@ import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.message.BasicNameValuePair;
 
 /**
  * A command to create a project.
@@ -65,14 +60,6 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
   @Override
   public CreateProjectResponse execute(RefineClient client) throws RefineException {
     try {
-      String urlAsStr = endpoint() + "?" + CSRF_TOKEN_PARAM + token;
-      if (options != null) {
-        // https://github.com/dtap-gmbh/refine-java/issues/14
-        // https://github.com/OpenRefine/OpenRefine/issues/1757
-        // OpenRefine ignores options as form parameter, but accepts them as get parameter
-        urlAsStr += "&" + urlEncodedOptions();
-      }
-
       MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
       if (format != null) {
         multipartEntityBuilder.addTextBody("format", format.getValue(), TEXT_PLAIN);
@@ -88,7 +75,8 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
           .build();
 
       HttpUriRequest request = RequestBuilder
-          .post(client.createUrl(urlAsStr).toString())
+          .post(client.createUri(endpoint()))
+          .addParameter(Constants.CSRF_TOKEN, token)
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .setEntity(entity)
           .build();
@@ -98,11 +86,6 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
       String error = String.format("Failed to create project due to: '%s'", ioe.getMessage());
       throw new RefineException(error);
     }
-  }
-
-  private String urlEncodedOptions() {
-    return URLEncodedUtils.format(
-        singletonList(new BasicNameValuePair("options", options.asJson())), StandardCharsets.UTF_8);
   }
 
   @Override

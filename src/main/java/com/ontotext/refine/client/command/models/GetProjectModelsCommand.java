@@ -6,7 +6,7 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -34,9 +34,9 @@ public class GetProjectModelsCommand implements RefineCommand<GetProjectModelsRe
   @Override
   public GetProjectModelsResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint());
+      URI uri = client.createUri(endpoint());
       HttpUriRequest request =
-          RequestBuilder.get(url.toString()).addParameter(Constants.PROJECT, project).build();
+          RequestBuilder.get(uri).addParameter(Constants.PROJECT, project).build();
       return client.execute(request, this);
     } catch (IOException ioe) {
       throw new RefineException(

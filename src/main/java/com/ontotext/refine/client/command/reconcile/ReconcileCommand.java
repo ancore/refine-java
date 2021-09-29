@@ -76,9 +76,9 @@ public class ReconcileCommand implements RefineCommand<ReconcileCommandResponse>
       ObjectNode configuration = CONFIG.deepCopy();
 
       HttpUriRequest request = RequestBuilder
-          .post(client.createUrl(endpoint()).toString())
+          .post(client.createUri(endpoint()))
           .addHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE)
-          .addParameter("project", project)
+          .addParameter(Constants.PROJECT, project)
           .addParameter("columnName", column)
           .addParameter("config", configuration.set("type", columnType.asJson()).toString())
           .addParameter("engine", ENGINE.toString())

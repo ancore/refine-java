@@ -38,7 +38,7 @@ public class GetProjectMetadataCommand implements RefineCommand<GetProjectMetada
   public GetProjectMetadataResponse execute(RefineClient client) throws RefineException {
     try {
       HttpUriRequest request = RequestBuilder
-          .get(client.createUrl(endpoint()).toString())
+          .get(client.createUri(endpoint()))
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .addParameter(new BasicNameValuePair("project", projectId))
           .build();

@@ -15,9 +15,8 @@ import com.ontotext.refine.client.command.RefineCommands;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -44,17 +43,17 @@ class GetVersionCommandTest {
   private GetVersionCommand command;
 
   @BeforeEach
-  void setUp() throws MalformedURLException {
+  void setUp() throws URISyntaxException {
     MockitoAnnotations.openMocks(this);
 
-    when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
+    when(refineClient.createUri(anyString())).thenReturn(new URI("http://localhost:3333/"));
     command = RefineCommands.getVersion().build();
   }
 
   @Test
   void should_execute() throws IOException {
     command.execute(refineClient);
-    verify(refineClient).createUrl(anyString());
+    verify(refineClient).createUri(anyString());
     verify(refineClient).execute(any(), any());
   }
 

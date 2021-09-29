@@ -18,7 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
@@ -64,8 +64,8 @@ class ReconServiceRegistrationCommandTest {
         .setToken("test-token")
         .build();
 
-    when(client.createUrl(anyString()))
-        .then(answer -> new URL(OR_BASE_URI + answer.getArgument(0)));
+    when(client.createUri(anyString()))
+        .then(answer -> new URI(OR_BASE_URI + answer.getArgument(0)));
   }
 
   @Test

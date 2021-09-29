@@ -1,6 +1,5 @@
 package com.ontotext.refine.client.command.operations;
 
-import static com.ontotext.refine.client.command.RefineCommand.Constants.CSRF_TOKEN_PARAM;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
 import static org.apache.commons.lang3.StringUtils.appendIfMissing;
@@ -19,7 +18,6 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,8 +62,6 @@ public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResp
   @Override
   public ApplyOperationsResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint() + "?" + CSRF_TOKEN_PARAM + token);
-
       List<NameValuePair> form = new ArrayList<>(2);
       form.add(new BasicNameValuePair(Constants.PROJECT, projectId));
 
@@ -77,7 +73,8 @@ public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResp
       UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
 
       HttpUriRequest request = RequestBuilder
-          .post(url.toString())
+          .post(client.createUri(endpoint()))
+          .addParameter(Constants.CSRF_TOKEN, token)
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .setEntity(entity)
           .build();

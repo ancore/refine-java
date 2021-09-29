@@ -38,10 +38,7 @@ public interface RefineCommand<T> extends ResponseHandler<T> {
   class Constants {
 
     public static final String PROJECT = "project";
-    public static final String PROJECT_PARAM = PROJECT + "=";
-
     public static final String CSRF_TOKEN = "csrf_token";
-    public static final String CSRF_TOKEN_PARAM = CSRF_TOKEN + "=";
 
     private Constants() {
       // utility

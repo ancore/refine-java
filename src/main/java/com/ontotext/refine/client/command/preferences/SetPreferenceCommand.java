@@ -51,7 +51,7 @@ public class SetPreferenceCommand implements RefineCommand<SetPreferenceCommandR
       form.add(new BasicNameValuePair("value", value.toString()));
 
       HttpUriRequest request = RequestBuilder
-          .post(client.createUrl(endpoint()).toString())
+          .post(client.createUri(endpoint()))
           .addParameter("name", property)
           .setEntity(new UrlEncodedFormEntity(form, StandardCharsets.UTF_8))
           .build();

@@ -21,6 +21,8 @@
    additional information to the different commands.
  - Moved the `ExportRowsCommand` in its own package in order to keep the structure of the project consistent. Updated the command to comply with the new definition of the
    commands.
+ - Changed the object that is used for creation of the full endpoint address from `URL` to `URI`, which can be passed directly to the request builders without the need of
+   converting it to `String`. 
 
 ### Bug fixes
 

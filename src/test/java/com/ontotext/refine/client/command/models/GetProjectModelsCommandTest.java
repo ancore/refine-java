@@ -37,7 +37,7 @@ class GetProjectModelsCommandTest
   void execute_successful() throws IOException {
     assertDoesNotThrow(() -> command().execute(client));
 
-    verify(client).createUrl(anyString());
+    verify(client).createUri(anyString());
     verify(client).execute(any(), any());
   }
 
@@ -47,7 +47,7 @@ class GetProjectModelsCommandTest
 
     assertThrows(RefineException.class, () -> command().execute(client));
 
-    verify(client).createUrl(anyString());
+    verify(client).createUri(anyString());
     verify(client).execute(any(), any());
   }
 

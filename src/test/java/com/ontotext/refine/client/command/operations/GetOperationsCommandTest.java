@@ -38,7 +38,7 @@ class GetOperationsCommandTest
   void execute_successful() throws IOException {
     assertDoesNotThrow(() -> command().execute(client));
 
-    verify(client).createUrl(anyString());
+    verify(client).createUri(anyString());
     verify(client).execute(any(), any());
   }
 
@@ -53,7 +53,7 @@ class GetOperationsCommandTest
         "Failed to retrieve the operations for project: '" + PROJECT_ID + "' due to: Test error",
         exception.getMessage());
 
-    verify(client).createUrl(anyString());
+    verify(client).createUri(anyString());
     verify(client).execute(any(), any());
   }
 

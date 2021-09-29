@@ -11,9 +11,8 @@ import static org.mockito.Mockito.when;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.ResponseCode;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
@@ -36,10 +35,10 @@ class ExpressionPreviewCommandTest {
   private ExpressionPreviewCommand command;
 
   @BeforeEach
-  void setUp() throws MalformedURLException {
+  void setUp() throws URISyntaxException {
     MockitoAnnotations.openMocks(this);
 
-    when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
+    when(refineClient.createUri(anyString())).thenReturn(new URI("http://localhost:3333/"));
     command = RefineCommands
         .expressionPreview()
         .token("test-token")
@@ -52,7 +51,7 @@ class ExpressionPreviewCommandTest {
   @Test
   void should_execute() throws IOException {
     command.execute(refineClient);
-    verify(refineClient).createUrl(anyString());
+    verify(refineClient).createUri(anyString());
     verify(refineClient).execute(any(), any());
   }
 

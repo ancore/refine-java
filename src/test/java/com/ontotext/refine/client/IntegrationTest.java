@@ -1,6 +1,6 @@
 package com.ontotext.refine.client;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import org.apache.http.HttpHost;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
@@ -53,8 +53,8 @@ public abstract class IntegrationTest {
       try {
         HttpHost httpHost = new HttpHost(GDB_DOCKER.getHost(), GDB_DOCKER.getMappedPort(PORT));
         refineClient = RefineClients.create(httpHost.toURI());
-      } catch (MalformedURLException urlExc) {
-        throw new RuntimeException("Failed to create refine client.", urlExc);
+      } catch (URISyntaxException uriExc) {
+        throw new RuntimeException("Failed to create refine client.", uriExc);
       }
     }
 

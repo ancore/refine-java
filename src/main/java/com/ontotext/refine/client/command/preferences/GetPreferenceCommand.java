@@ -37,7 +37,7 @@ public class GetPreferenceCommand implements RefineCommand<GetPreferenceCommandR
   public GetPreferenceCommandResponse execute(RefineClient client) throws RefineException {
     try {
       HttpUriRequest request = RequestBuilder
-          .get(client.createUrl(endpoint()).toString())
+          .get(client.createUri(endpoint()))
           .addParameter("name", property)
           .build();
 

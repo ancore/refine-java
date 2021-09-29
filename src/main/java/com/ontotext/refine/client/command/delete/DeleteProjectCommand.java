@@ -1,6 +1,5 @@
 package com.ontotext.refine.client.command.delete;
 
-import static com.ontotext.refine.client.command.RefineCommand.Constants.CSRF_TOKEN_PARAM;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
 import static java.util.Collections.singletonList;
@@ -14,8 +13,7 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URL;
-import org.apache.http.Consts;
+import java.nio.charset.StandardCharsets;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -51,13 +49,12 @@ public class DeleteProjectCommand implements RefineCommand<DeleteProjectResponse
   @Override
   public DeleteProjectResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint() + "?" + CSRF_TOKEN_PARAM + token);
-
       UrlEncodedFormEntity entity = new UrlEncodedFormEntity(
-          singletonList(new BasicNameValuePair("project", projectId)), Consts.UTF_8);
+          singletonList(new BasicNameValuePair("project", projectId)), StandardCharsets.UTF_8);
 
       HttpUriRequest request = RequestBuilder
-          .post(url.toString())
+          .post(client.createUri(endpoint()))
+          .addParameter(Constants.CSRF_TOKEN, token)
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
           .setEntity(entity)
           .build();

@@ -10,8 +10,8 @@ import com.ontotext.refine.client.UploadFormat;
 import com.ontotext.refine.client.command.RefineCommands;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -29,10 +29,10 @@ class CreateProjectCommandTest {
   private CreateProjectCommand command;
 
   @BeforeEach
-  void setUp() throws MalformedURLException {
+  void setUp() throws URISyntaxException {
     MockitoAnnotations.openMocks(this);
 
-    when(refineClient.createUrl(anyString())).thenReturn(new URL("http://localhost:3333/"));
+    when(refineClient.createUri(anyString())).thenReturn(new URI("http://localhost:3333/"));
 
     command = RefineCommands.createProject().token("test-token").name("JSON Test (Main)")
         .file(new File("src/test/resources/addresses.csv")).format(UploadFormat.SEPARATOR_BASED)
@@ -45,7 +45,7 @@ class CreateProjectCommandTest {
   void should_execute() throws IOException {
     command.execute(refineClient);
 
-    verify(refineClient).createUrl(anyString());
+    verify(refineClient).createUri(anyString());
     verify(refineClient).execute(any(), any());
   }
 }

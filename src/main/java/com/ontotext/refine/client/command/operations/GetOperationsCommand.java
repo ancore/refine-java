@@ -1,5 +1,7 @@
 package com.ontotext.refine.client.command.operations;
 
+import static com.ontotext.refine.client.command.RefineCommand.Constants.PROJECT;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.ontotext.refine.client.RefineClient;
@@ -7,11 +9,11 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 
 
@@ -36,8 +38,9 @@ public class GetOperationsCommand implements RefineCommand<GetOperationsResponse
   @Override
   public GetOperationsResponse execute(RefineClient client) throws RefineException {
     try {
-      URL url = client.createUrl(endpoint() + "?" + Constants.PROJECT_PARAM + project);
-      return client.execute(RequestBuilder.get(url.toString()).build(), this);
+      HttpUriRequest request =
+          RequestBuilder.get(client.createUri(endpoint())).addParameter(PROJECT, project).build();
+      return client.execute(request, this);
     } catch (IOException ioe) {
       String error = String.format(
           "Failed to retrieve the operations for project: '%s' due to: %s",
