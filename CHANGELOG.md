@@ -8,6 +8,9 @@
  - Added DEV documents, which contains description of the implementation steps for the commands. Basically it provides information how contributors may introduce new commands.
  - Added ARCHITECTURE document, which provides a simple overview of the high level components and the how they interact with each other.
  - Added SPEC document intended to contain the specification for the different functionalities which the library will provide.
+ - Added infrastructure for integration testing using real instance of `OntoRefine` tool by spawning `GraphDB` using `Docker` image with specific version. The container
+   management is done using the test library [Testcontainers](https://www.testcontainers.org/).
+ - Added integration tests for the currently implemented commands. The tests are representing execution of specific scenarios, which are using different commands to be completed.
 
 ### Changes
 

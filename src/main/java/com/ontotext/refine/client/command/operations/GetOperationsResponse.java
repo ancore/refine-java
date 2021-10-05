@@ -17,7 +17,7 @@ public class GetOperationsResponse {
     return project;
   }
 
-  public GetOperationsResponse setProject(String project) {
+  GetOperationsResponse setProject(String project) {
     this.project = project;
     return this;
   }
@@ -26,7 +26,7 @@ public class GetOperationsResponse {
     return content;
   }
 
-  public GetOperationsResponse setContent(JsonNode content) {
+  GetOperationsResponse setContent(JsonNode content) {
     this.content = content;
     return this;
   }

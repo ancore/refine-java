@@ -168,10 +168,11 @@ of the tests for the commands.
 
 ### Integration testing
 
-Versions after `1.1.0` contain infrastructure for integration tests. They are taking advantage of the test library
-[Testcontainers](https://www.testcontainers.org/), which allows management of `Docker` containers in `JUnit` tests.
-`Testcontainers` is used to spawn a `GraphDB` docker image with specific version, which provides access to actual
-`OntoRefine` tool instance, where the integration tests can execute different commands and verify the results.
+As of version `1.2.0`, the library contains infrastructure for integration tests. They are taking advantage of the
+test library [Testcontainers](https://www.testcontainers.org/), which allows management of `Docker` containers in
+`JUnit` tests. `Testcontainers` is used to spawn a `GraphDB` docker image with specific version, which provides
+access to actual `OntoRefine` tool instance, where the integration tests can execute different commands and verify
+the results.
 
 At the moment there are few integration tests, which are using and testing the commands that are currently available
 in the library by executing specific scenarios. The scenarios are using the commands that are currently available in

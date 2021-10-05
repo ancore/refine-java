@@ -15,7 +15,7 @@ public class ExportRdfResponse {
     return project;
   }
 
-  public ExportRdfResponse setProject(String project) {
+  ExportRdfResponse setProject(String project) {
     this.project = project;
     return this;
   }
@@ -24,7 +24,7 @@ public class ExportRdfResponse {
     return result;
   }
 
-  public ExportRdfResponse setResult(String result) {
+  ExportRdfResponse setResult(String result) {
     this.result = result;
     return this;
   }

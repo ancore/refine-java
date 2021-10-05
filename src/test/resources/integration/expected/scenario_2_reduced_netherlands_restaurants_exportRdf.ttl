@@ -1,0 +1,555 @@
+@base <http://example/base/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http://schema.org/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix amsterdam: <https://data/amsterdam/nl/resource/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://data/amsterdam/nl/resource/restaurant/669d7d82-8962-4e88-b2e1-7b8706633aa0>
+  a schema:Restaurant;
+  schema:title "Smits Noord-Zuid Hollandsch Koffiehuis", "Smits Noord-Zuid Hollandsch Koffiehuis"@english;
+  schema:description "Het Smits Koffiehuis ontleent haar ontstaan aan de stoomtram die de verbinding onderhield met Amsterdam naar het noorden van de provincie en is in 1919 gebouwd. Nu is er een restaurant en een koffiebar. Ook is hier een informatiekantoor van Amsterdam Marketing gehuisvest.";
+  schema:latitude "0"^^xsd:float;
+  amsterdam:zipcode "1012 AB";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20101122/ec8faec5-5cd5-43d6-b0fa-eb0dab65e278.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/669d7d82-8962-4e88-b2e1-7b8706633aa0>;
+  amsterdam:uniquelocation _:node1fh5s9a88x3;
+  amsterdam:valuelocation _:669d7d82-8962-4e88-b2e1-7b8706633aa0 .
+
+<https://data/amsterdam/nl/resource/geometry/669d7d82-8962-4e88-b2e1-7b8706633aa0>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9003230 52.3775440)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x3 amsterdam:address "Stationsplein 10" .
+
+_:669d7d82-8962-4e88-b2e1-7b8706633aa0 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/8d9eb314-4433-477e-84b7-35a3552b6fbe>
+  a schema:Restaurant;
+  schema:title "Afrikaans Restaurant Kilimanjaro", "African Restaurant Kilimanjaro"@english;
+  schema:description "Een Afrikaans (Senegal, Ghana, Zuid-Afrika e.a.) restaurant tegenover NEMO, dichtbij het Waterlooplein. De menukaart is voor degenen die niet van alledaags eten houden. Je kunt hier een echte smaaksensatie beleven.";
+  schema:latitude "1"^^xsd:float;
+  amsterdam:zipcode "1011 VB";
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/8d9eb314-4433-477e-84b7-35a3552b6fbe>;
+  amsterdam:uniquelocation _:node1fh5s9a88x4;
+  amsterdam:valuelocation _:8d9eb314-4433-477e-84b7-35a3552b6fbe .
+
+<https://data/amsterdam/nl/resource/geometry/8d9eb314-4433-477e-84b7-35a3552b6fbe>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9108380 52.3703240)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x4 amsterdam:address "Rapenburgerplein 6 HS" .
+
+_:8d9eb314-4433-477e-84b7-35a3552b6fbe amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/ca0e88a6-5cd2-4dc0-8d6a-4273f84721bd>
+  a schema:Restaurant;
+  schema:title "Akbar Indian Restaurant", "Akbar Indian Restaurant"@english;
+  schema:description "Een chique restaurant, ingericht in Moghul stijl, waarin de gast het gevoel krijgt dat hij in India aan het eten is. De keuken serveert gerechten afkomstig uit Noord India/Punjabi stijl.";
+  schema:latitude "2"^^xsd:float;
+  amsterdam:zipcode "1017 PV";
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/ca0e88a6-5cd2-4dc0-8d6a-4273f84721bd>;
+  amsterdam:uniquelocation _:node1fh5s9a88x5;
+  amsterdam:valuelocation _:ca0e88a6-5cd2-4dc0-8d6a-4273f84721bd .
+
+<https://data/amsterdam/nl/resource/geometry/ca0e88a6-5cd2-4dc0-8d6a-4273f84721bd>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8819140 52.3652890)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x5 amsterdam:address "Korte Leidsedwarsstraat 15" .
+
+_:ca0e88a6-5cd2-4dc0-8d6a-4273f84721bd amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/adcd917e-a472-4aed-aace-999c95e97006>
+  a schema:Restaurant;
+  schema:title "Alfonso's Mexican Restaurant", "Alfonso's Mexican Restaurant"@english;
+  schema:description "In de Utrechtsestraat in Amsterdam, op slechts vijf minuten loopafstand van het Rembrandtplein, de Kleine Komedie en Carré, tref je Alfonso?s: een authentiek Mexicaans restaurant. Gevestigd in een historisch pand en sinds oktober 1986 heb je de keuze uit de vele, beroemde specialiteiten die Mexico rijk is.  ";
+  schema:latitude "3"^^xsd:float;
+  amsterdam:zipcode "1017 VN";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110124/e888e5d3-c02b-4966-bf0e-64c1510391b9.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110124/d1231e16-bfb6-4120-8f42-c721b50a55dd.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/adcd917e-a472-4aed-aace-999c95e97006>;
+  amsterdam:uniquelocation _:node1fh5s9a88x6;
+  amsterdam:valuelocation _:adcd917e-a472-4aed-aace-999c95e97006 .
+
+<https://data/amsterdam/nl/resource/geometry/adcd917e-a472-4aed-aace-999c95e97006>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8979420 52.3644210)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x6 amsterdam:address "Utrechtsestraat 32" .
+
+_:adcd917e-a472-4aed-aace-999c95e97006 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/8c83496c-0b8b-41f2-987c-21ddb78b2978>
+  a schema:Restaurant;
+  schema:title "Café het Paleis", "Café het Paleis"@english;
+  schema:description "Het café-restaurant Paleis, vlak achter het Paleis op de Dam, is al jaren favoriet vanwege de betaalbare gerechten, maar het is ook een plek om even een drankje te drinken. Studenten komen in dit knusse, moderne tentje na een tentamen, vrouwen na een dagje shoppen en freelancers houden hier een werkbespreking. In de zomer op het prettige terras. Je eet hier taarten, belegde broodjes en pasta?s, salades en soepen.";
+  schema:latitude "4"^^xsd:float;
+  amsterdam:zipcode "1012 RB";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110124/7baf3cbe-8c82-43e7-9813-30dd2ef2bcd2.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/8c83496c-0b8b-41f2-987c-21ddb78b2978>;
+  amsterdam:uniquelocation _:node1fh5s9a88x7;
+  amsterdam:valuelocation _:8c83496c-0b8b-41f2-987c-21ddb78b2978 .
+
+<https://data/amsterdam/nl/resource/geometry/8c83496c-0b8b-41f2-987c-21ddb78b2978>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8890150 52.3723020)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x7 amsterdam:address "Paleisstraat 16" .
+
+_:8c83496c-0b8b-41f2-987c-21ddb78b2978 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/56b1dd7d-4ac3-4e24-826e-cb8b55617f42>
+  a schema:Restaurant;
+  schema:title "Amstel Bar & Brasserie", "Amstel Bar & Brasserie"@english;
+  schema:description "De Amstel Bar & Brasserie is een informele plek voor lunch, diner of late maaltijd na het theaterbezoek. Ook voor cocktails kun je hier terecht. Door de grote ramen en in de zomer op het terras heb je een prachtig uitzicht op de Hogesluis.";
+  schema:latitude "5"^^xsd:float;
+  amsterdam:zipcode "1018 GX";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110125/e01c5518-4708-447f-9a95-0c78ed847709.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/56b1dd7d-4ac3-4e24-826e-cb8b55617f42>;
+  amsterdam:uniquelocation _:node1fh5s9a88x8;
+  amsterdam:valuelocation _:56b1dd7d-4ac3-4e24-826e-cb8b55617f42 .
+
+<https://data/amsterdam/nl/resource/geometry/56b1dd7d-4ac3-4e24-826e-cb8b55617f42>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9054970 52.3600380)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x8 amsterdam:address "Professor Tulpplein 1" .
+
+_:56b1dd7d-4ac3-4e24-826e-cb8b55617f42 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/2760a2d8-0404-45df-aa6e-fd88c602d5b9>
+  a schema:Restaurant;
+  schema:title "Caffe Ristretto - Lunchrestaurant & Café", "Caffe Ristretto ? Lunch restaurant & Café"@english;
+  schema:description "Caffe Ristretto bevindt zich op de bovenste etage van winkelcentrum Magna Plaza. Het café biedt een prachtig uitzicht op de binnenkant van het monumentale pand. De combinatie van het moderne interieur, de kleurrijke schilderijen en de ligging in het mooie gebouw geven het café een internationale sfeer. Naast veel koffiespecialiteiten heeft het café een uitgebreide lunchkaart met onder andere sandwiches, soepen, salades en warme gerechten. Daarbij is er een ruim assortiment kranten en tijdschriften.";
+  schema:latitude "6"^^xsd:float;
+  amsterdam:zipcode "1012 SJ";
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/2760a2d8-0404-45df-aa6e-fd88c602d5b9>;
+  amsterdam:uniquelocation _:node1fh5s9a88x9;
+  amsterdam:valuelocation _:2760a2d8-0404-45df-aa6e-fd88c602d5b9 .
+
+<https://data/amsterdam/nl/resource/geometry/2760a2d8-0404-45df-aa6e-fd88c602d5b9>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8904390 52.3736470)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x9 amsterdam:address "Nieuwezijds Voorburgwal 182" .
+
+_:2760a2d8-0404-45df-aa6e-fd88c602d5b9 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/17d5d8e4-80c9-459a-8dd2-c59a1eb87618>
+  a schema:Restaurant;
+  schema:title "Café Restaurant de Passage", "Café Restaurant de Passage"@english;
+  schema:description "Café Restaurant de Passage is een authentiek Amsterdams restaurant, gelegen aan de Dam/Nieuwendijk en is gespecialiseerd in Nederlandse en mediteraanse gerechten.";
+  schema:latitude "7"^^xsd:float;
+  amsterdam:zipcode "1012 MX";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110125/b47aeedc-922a-4460-9851-dfce14341359.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/17d5d8e4-80c9-459a-8dd2-c59a1eb87618>;
+  amsterdam:uniquelocation _:node1fh5s9a88x10;
+  amsterdam:valuelocation _:17d5d8e4-80c9-459a-8dd2-c59a1eb87618 .
+
+<https://data/amsterdam/nl/resource/geometry/17d5d8e4-80c9-459a-8dd2-c59a1eb87618>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8925680 52.3736560)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x10 amsterdam:address "Nieuwendijk 224" .
+
+_:17d5d8e4-80c9-459a-8dd2-c59a1eb87618 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/6c176a7d-04ba-4b4f-83dd-eab89961f971>
+  a schema:Restaurant;
+  schema:title "De Stijl", "De Stijl"@english;
+  schema:description "In Design Hotel Artemis huist café-restaurant ?De Stijl? met een riant terras aan een grote vijver. Inspiratiebron voor deze locatie was het gelijknamige kunstenaarscollectief De Stijl, met als bekendste vertegenwoordiger Piet Mondriaan.  ";
+  schema:latitude "8"^^xsd:float;
+  amsterdam:zipcode "1066 EP";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110125/4a6b5681-afa0-49e4-a16b-6f9db9d19522.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/6c176a7d-04ba-4b4f-83dd-eab89961f971>;
+  amsterdam:uniquelocation _:node1fh5s9a88x11;
+  amsterdam:valuelocation _:6c176a7d-04ba-4b4f-83dd-eab89961f971 .
+
+<https://data/amsterdam/nl/resource/geometry/6c176a7d-04ba-4b4f-83dd-eab89961f971>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8251040 52.3417330)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x11 amsterdam:address "John M. Keynesplein 2" .
+
+_:6c176a7d-04ba-4b4f-83dd-eab89961f971 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/9792d7d2-6aa9-4317-b9ff-71d673084e61>
+  a schema:Restaurant;
+  schema:title "Cinema Paradiso", "Cinema Paradiso"@english;
+  schema:description "Cinema Paradiso is inmiddels al wat jaren favoriet bij de incrowd van de stad. In een oude bioscoop op de Westerstraat eet je geen chique Italiaanse gerechten, maar juist perfecte pizza uit de houtoven, pasta?s en antipasti.";
+  schema:latitude "9"^^xsd:float;
+  amsterdam:zipcode "1015 MR";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110125/f0a1e8d4-5d0d-4730-91b6-cc5686eef9be.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/9792d7d2-6aa9-4317-b9ff-71d673084e61>;
+  amsterdam:uniquelocation _:node1fh5s9a88x12;
+  amsterdam:valuelocation _:9792d7d2-6aa9-4317-b9ff-71d673084e61 .
+
+<https://data/amsterdam/nl/resource/geometry/9792d7d2-6aa9-4317-b9ff-71d673084e61>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8816340 52.3782390)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x12 amsterdam:address "Westerstraat 186" .
+
+_:9792d7d2-6aa9-4317-b9ff-71d673084e61 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/586d2ccd-de3d-4354-86d2-3b37a2820d39>
+  a schema:Restaurant;
+  schema:title "De Bijenkorf Kitchen", "The Bijenkorf Kitchen"@english;
+  schema:description "De Bijenkorf Amsterdam is een inspirerend, trendsettend en dynamisch warenhuis dat zich onderscheidt door een brede assortimentskeuze, vernieuwende thema's en evenementen. Tot het assortiment van de Bijenkorf behoren internationale topmerken en eigen merken op het gebied van mode, cosmetica, accessoires, wonen, media en reizen.  ";
+  schema:latitude "10"^^xsd:float;
+  amsterdam:zipcode "1012 JS";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110125/3bfba3c3-d850-45d2-aa05-92623d6a10b7.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110125/b9162fd5-cd0b-4258-b797-d8f01627cf47.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110125/c19fe1ad-9321-438e-b501-671be4479ab7.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110125/1d558146-ec71-45ac-83a7-f26dea1df7a4.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/586d2ccd-de3d-4354-86d2-3b37a2820d39>;
+  amsterdam:uniquelocation _:node1fh5s9a88x13;
+  amsterdam:valuelocation _:586d2ccd-de3d-4354-86d2-3b37a2820d39 .
+
+<https://data/amsterdam/nl/resource/geometry/586d2ccd-de3d-4354-86d2-3b37a2820d39>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8938650 52.3732480)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x13 amsterdam:address "Dam 1" .
+
+_:586d2ccd-de3d-4354-86d2-3b37a2820d39 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/81fc539d-4d17-4ffe-8e6c-e87de32ace78>
+  a schema:Restaurant;
+  schema:title "De Kroonprins", "The Kroonprins"@english;
+  schema:description "De Kroonprins is een oud-Hollands restaurant, gelegen tegenover het Centraal Station van Amsterdam.  ";
+  schema:latitude "11"^^xsd:float;
+  amsterdam:zipcode "1012 AC";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110125/24cf5ad2-b9fc-4da9-89ed-1f70ed510d38.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/81fc539d-4d17-4ffe-8e6c-e87de32ace78>;
+  amsterdam:uniquelocation _:node1fh5s9a88x14;
+  amsterdam:valuelocation _:81fc539d-4d17-4ffe-8e6c-e87de32ace78 .
+
+<https://data/amsterdam/nl/resource/geometry/81fc539d-4d17-4ffe-8e6c-e87de32ace78>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8995560 52.3765520)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x14 amsterdam:address "Prins Hendrikkade 52-57" .
+
+_:81fc539d-4d17-4ffe-8e6c-e87de32ace78 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/43ad34d9-3571-4721-9382-ffe860fe8755>
+  a schema:Restaurant;
+  schema:title "Restaurant Indrapura", "Restaurant Indrapura"@english;
+  schema:description "De stijl van toen en in de sfeer van vandaag, dat is wat restaurant Indrapura biedt. Het restaurant ligt centraal, aan het Rembrandtplein en op loopafstand van de Stopera en Theater Carré. Er is een aparte ruimte voor grotere gezelschappen. De catering van Indrapura is toegespitst op de persoonlijke wensen, dus behoren vegetarische gerechten (zowel á la carte als rijsttafels) uiteraard ook tot de mogelijkheden. Restaurant Indrapura werkt volgens de HACCP hygiene normen.";
+  schema:latitude "12"^^xsd:float;
+  amsterdam:zipcode "1017 CV";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110127/06f919d6-5d92-423f-8972-d2fdfe54a373.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/43ad34d9-3571-4721-9382-ffe860fe8755>;
+  amsterdam:uniquelocation _:node1fh5s9a88x15;
+  amsterdam:valuelocation _:43ad34d9-3571-4721-9382-ffe860fe8755 .
+
+<https://data/amsterdam/nl/resource/geometry/43ad34d9-3571-4721-9382-ffe860fe8755>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8964230 52.3656790)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x15 amsterdam:address "Rembrandtplein 42" .
+
+_:43ad34d9-3571-4721-9382-ffe860fe8755 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/07eeee9b-9d1d-40a3-afe3-2119982dda85>
+  a schema:Restaurant;
+  schema:title "D'Vijf Broers", "D'Vijf Broers"@english;
+  schema:description "D'Vijf Broers is een trendy en intiem restaurant waar je tegen kleine prijzen smaakvol kunt lunchen en dineren.";
+  schema:latitude "13"^^xsd:float;
+  amsterdam:zipcode "1544 BG";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110127/3f14dad7-de7e-4cd0-8242-ecf012d47f3b.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110127/492817f5-4984-4fbc-871e-85b4dba19d86.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110127/560cffd2-5e2b-4b22-87bf-bf49f4739c43.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/07eeee9b-9d1d-40a3-afe3-2119982dda85>;
+  amsterdam:uniquelocation _:node1fh5s9a88x16;
+  amsterdam:valuelocation _:07eeee9b-9d1d-40a3-afe3-2119982dda85 .
+
+<https://data/amsterdam/nl/resource/geometry/07eeee9b-9d1d-40a3-afe3-2119982dda85>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8118490 52.4718770)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x16 amsterdam:address "Lagedijk 32-34" .
+
+_:07eeee9b-9d1d-40a3-afe3-2119982dda85 amsterdam:city "Zaandijk" .
+
+<https://data/amsterdam/nl/resource/restaurant/e526f228-83f7-4a81-9cda-0d137d1ef2db>
+  a schema:Restaurant;
+  schema:title "Madre Maria", "Madre Maria"@english;
+  schema:description "Madre Maria is een Argentijns grill restaurant op nog geen minuut lopen vanaf het Centraal Station. De specialiteit van Madre Maria is vlees van de grill. Maar ook kunt u bij Madre Maria terecht voor een kinder- of vegetarisch menu.";
+  schema:latitude "14"^^xsd:float;
+  amsterdam:zipcode "1012 ML";
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/e526f228-83f7-4a81-9cda-0d137d1ef2db>;
+  amsterdam:uniquelocation _:node1fh5s9a88x17;
+  amsterdam:valuelocation _:e526f228-83f7-4a81-9cda-0d137d1ef2db .
+
+<https://data/amsterdam/nl/resource/geometry/e526f228-83f7-4a81-9cda-0d137d1ef2db>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8956800 52.3780830)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x17 amsterdam:address "Nieuwendijk 40" .
+
+_:e526f228-83f7-4a81-9cda-0d137d1ef2db amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/40c53f2a-cc32-4007-9e86-dd15b7cd1df7>
+  a schema:Restaurant;
+  schema:title "Matias", "Matias"@english;
+  schema:description "Matias heeft de uitstraling van een echte Mexicaanse cantina: gezellig, sfeervol en betaalbaar. In een kleurrijke ambiance serveert het vriendelijke personeel allerlei soorten Mexicaanse gerechten, hapjes en drankjes. ";
+  schema:latitude "15"^^xsd:float;
+  amsterdam:zipcode "1017 PX";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110127/2b579a66-f03e-4f5c-9003-5950bc3208ee.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110127/9f37cf3b-ebe3-4711-90ce-245950f23e4a.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/40c53f2a-cc32-4007-9e86-dd15b7cd1df7>;
+  amsterdam:uniquelocation _:node1fh5s9a88x18;
+  amsterdam:valuelocation _:40c53f2a-cc32-4007-9e86-dd15b7cd1df7 .
+
+<https://data/amsterdam/nl/resource/geometry/40c53f2a-cc32-4007-9e86-dd15b7cd1df7>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8840520 52.3637490)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x18 amsterdam:address "Korte Leidsedwarsstraat 95" .
+
+_:40c53f2a-cc32-4007-9e86-dd15b7cd1df7 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/a9e3ddff-6863-427f-a049-f243974d8586>
+  a schema:Restaurant;
+  schema:title "Girassol", "Girassol"@english;
+  schema:description "Een klein familiar restaurant, simpel, vriendelijk, gemoedelijk en absoluut niet formeel. Af en toe worden er fado-avonden georganiseerd (Portugese zang). In de zomer is er vanaf 12 uur aan de Amstel een terras.";
+  schema:latitude "16"^^xsd:float;
+  amsterdam:zipcode "1091 ES";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110127/2cd4894e-5ece-4d65-80a5-a09607c2314a.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/a9e3ddff-6863-427f-a049-f243974d8586>;
+  amsterdam:uniquelocation _:node1fh5s9a88x19;
+  amsterdam:valuelocation _:a9e3ddff-6863-427f-a049-f243974d8586 .
+
+<https://data/amsterdam/nl/resource/geometry/a9e3ddff-6863-427f-a049-f243974d8586>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9128770 52.3496410)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x19 amsterdam:address "Weesperzijde 135" .
+
+_:a9e3ddff-6863-427f-a049-f243974d8586 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/a6e96853-6403-49fa-9d0e-39eeff555a56>
+  a schema:Restaurant;
+  schema:title "Restaurant Majestic", "Restaurant Majestic"@english;
+  schema:description "Gelegen aan het belangrijkste plein van Nederland, direct naast het warenhuis de Bijenkorf en in de directe nabijheid van het koninklijk paleis, Madame Tussauds, de Kalverstraat, de Amsterdamse wallen en vele hotels. Als er één café is waarvan de naam perfect past bij het concept, dan is dat wel de Majestic. ";
+  schema:latitude "17"^^xsd:float;
+  amsterdam:zipcode "1012 JS";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/3a139d4a-3a15-42e3-9564-737fe8327c6e.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/2bef9ce4-31f5-4d23-b9d6-c41959d4cb6d.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/a6e96853-6403-49fa-9d0e-39eeff555a56>;
+  amsterdam:uniquelocation _:node1fh5s9a88x20;
+  amsterdam:valuelocation _:a6e96853-6403-49fa-9d0e-39eeff555a56 .
+
+<https://data/amsterdam/nl/resource/geometry/a6e96853-6403-49fa-9d0e-39eeff555a56>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8900800 52.3731270)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x20 amsterdam:address "Dam 3-7" .
+
+_:a6e96853-6403-49fa-9d0e-39eeff555a56 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/e1b97cca-b08a-4639-b56b-1c93d4777b48>
+  a schema:Restaurant;
+  schema:title "Restaurant Mercure Amsterdam Airport", "Restaurant Mercure Amsterdam Airport"@english;
+  schema:description "Modern, licht, qua inrichting. Goede prijs-kwaliteit-verhouding. Ideaal voor nationale ontmoetingen: locatie is aan de A4/A9/A10 en er zijn 350 parkeerplaatsen.";
+  schema:latitude "18"^^xsd:float;
+  amsterdam:zipcode "1066 BW";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/a0312475-5d9b-4722-8636-36987c1b3ff4.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/e1b97cca-b08a-4639-b56b-1c93d4777b48>;
+  amsterdam:uniquelocation _:node1fh5s9a88x21;
+  amsterdam:valuelocation _:e1b97cca-b08a-4639-b56b-1c93d4777b48 .
+
+<https://data/amsterdam/nl/resource/geometry/e1b97cca-b08a-4639-b56b-1c93d4777b48>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8173360 52.3372140)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x21 amsterdam:address "Oude Haagseweg 20" .
+
+_:e1b97cca-b08a-4639-b56b-1c93d4777b48 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/eafa02c5-812c-49cb-bf41-3571a507c9b7>
+  a schema:Restaurant;
+  schema:title "Palazzo", "Palazzo"@english;
+  schema:description "Voortreffelijk dineren en spectaculair entertainment zijn al sinds mensen heugenis de twee belangrijkste aspecten voor een onvergetelijke avond uit. Voor het tiende jaar combineert Palazzo juist deze aspecten.";
+  schema:latitude "19"^^xsd:float;
+  amsterdam:zipcode "1101 DL";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/4b340cee-da9c-48ec-b28b-001c124be5ed.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/ac104281-bd3c-49f3-b029-4b934dac0f01.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/99cca313-a728-46a2-94cf-bca1704f3785.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/e0277c11-1294-4918-bc35-d373c4ff5d4e.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/088087e0-d211-43dd-a929-be534573efea.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/eafa02c5-812c-49cb-bf41-3571a507c9b7>;
+  amsterdam:uniquelocation _:node1fh5s9a88x22;
+  amsterdam:valuelocation _:eafa02c5-812c-49cb-bf41-3571a507c9b7 .
+
+<https://data/amsterdam/nl/resource/geometry/eafa02c5-812c-49cb-bf41-3571a507c9b7>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9416950 52.3130940)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x22 amsterdam:address "Arena boulevard 61-75" .
+
+_:eafa02c5-812c-49cb-bf41-3571a507c9b7 amsterdam:city "Amsterdam Zuidoost" .
+
+<https://data/amsterdam/nl/resource/restaurant/2a3ba197-69ab-4be0-931e-1a57f5d14242>
+  a schema:Restaurant;
+  schema:title "Panagia", "Panagia"@english;
+  schema:description "Geniet in dit authentieke Griekse restaurant, gelegen in het centrum van Amsterdam dichtbij het Centraal Station. In de open keuken wordt dagelijks gekookt met verse groente en speciale Griekse ingrediënten. De typische Griekse gerechten zoals Moussaka worden op originele wijze bereid en geserveerd.";
+  schema:latitude "20"^^xsd:float;
+  amsterdam:zipcode "1012 MA";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/b2144cbd-a0e4-447f-b45c-1cc3df85ab7d.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/efc80ad3-512e-4e41-9554-d976e54b1832.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/113e9a12-456a-4415-a775-bbd6d2ace370.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/5e3f2511-95bb-471a-981e-bc78e800e7d6.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/2a3ba197-69ab-4be0-931e-1a57f5d14242>;
+  amsterdam:uniquelocation _:node1fh5s9a88x23;
+  amsterdam:valuelocation _:2a3ba197-69ab-4be0-931e-1a57f5d14242 .
+
+<https://data/amsterdam/nl/resource/geometry/2a3ba197-69ab-4be0-931e-1a57f5d14242>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8954940 52.3782540)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x23 amsterdam:address "Nieuwendijk 31" .
+
+_:2a3ba197-69ab-4be0-931e-1a57f5d14242 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/215f8ef9-44f2-421b-8f0e-210153e4a25a>
+  a schema:Restaurant;
+  schema:title "Patisserie Pompadour", "Pompadour"@english;
+  schema:description "Chocolaterie en lunchroom.";
+  schema:latitude "21"^^xsd:float;
+  amsterdam:zipcode "1017 GR";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/5bb15ec5-a497-493c-b0e3-0cc5fc3b3698.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/215f8ef9-44f2-421b-8f0e-210153e4a25a>;
+  amsterdam:uniquelocation _:node1fh5s9a88x24;
+  amsterdam:valuelocation _:215f8ef9-44f2-421b-8f0e-210153e4a25a .
+
+<https://data/amsterdam/nl/resource/geometry/215f8ef9-44f2-421b-8f0e-210153e4a25a>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8888240 52.3633790)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x24 amsterdam:address "Kerkstraat 148" .
+
+_:215f8ef9-44f2-421b-8f0e-210153e4a25a amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/28e4f3e5-13d9-4655-9032-e644ac310d6c>
+  a schema:Restaurant;
+  schema:title "Rain Restaurant Bar Club", "Rain Restaurant Bar Club"@english;
+  schema:description "Club Rain is een club, bar en restaurant aan het Rembrandtplein in Amsterdam. Je kunt hier terecht voor een bijkletssessie, een diner of een avondje dansen.";
+  schema:latitude "22"^^xsd:float;
+  amsterdam:zipcode "1017 CV";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/e083c5e6-ffb5-488b-a618-bd06c6e73251.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/20c3cfd1-fd92-4db3-a6eb-c117188a7b64.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/52848ce7-e464-4d77-b529-581ce22ac379.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110128/b2c532d8-a56f-49e0-9a79-e6f9a6cea939.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/28e4f3e5-13d9-4655-9032-e644ac310d6c>;
+  amsterdam:uniquelocation _:node1fh5s9a88x25;
+  amsterdam:valuelocation _:28e4f3e5-13d9-4655-9032-e644ac310d6c .
+
+<https://data/amsterdam/nl/resource/geometry/28e4f3e5-13d9-4655-9032-e644ac310d6c>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8971930 52.3657750)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x25 amsterdam:address "Rembrandtplein 44" .
+
+_:28e4f3e5-13d9-4655-9032-e644ac310d6c amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/ba2df677-faad-427a-942f-25fc69869af2>
+  a schema:Restaurant;
+  schema:title "Restaurant Neva", "Restaurant Neva"@english;
+  schema:description "Café-restaurant Neva is gelegen in de Hermitage Amsterdam. Een prachtig vormgegeven horecalocatie met stijl voor een snelle cappuccino, een goed glas wijn, een kleine of uitgebreide lunch of een chic diner. ";
+  schema:latitude "23"^^xsd:float;
+  amsterdam:zipcode "1018 EJ";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110128/da39c545-4f7b-49d1-a48c-46f1110d794b.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/ba2df677-faad-427a-942f-25fc69869af2>;
+  amsterdam:uniquelocation _:node1fh5s9a88x26;
+  amsterdam:valuelocation _:ba2df677-faad-427a-942f-25fc69869af2 .
+
+<https://data/amsterdam/nl/resource/geometry/ba2df677-faad-427a-942f-25fc69869af2>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9025420 52.3653120)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x26 amsterdam:address "Amstel 51" .
+
+_:ba2df677-faad-427a-942f-25fc69869af2 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/0dc430b8-f08c-47c9-beac-318bf1d0d6e5>
+  a schema:Restaurant;
+  schema:title "Restaurant Syriana", "Restaurant Syriana"@english;
+  schema:description "Dit Syrische-Libanese restaurant blijft mensen verrassen. In de keuken wordt gewerkt aan eigentijdse hoofdgerechten met alleen verse producten. Het restaurant is sfeervol ingericht en regelmatig zijn er artiesten met live muziek. In de serre kan ook gegeten worden met uitzicht op de molen van Sloten.";
+  schema:latitude "24"^^xsd:float;
+  amsterdam:zipcode "1066 EZ";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110131/0817d949-bff8-4d4a-81d5-d2d2a950aa20.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110131/201d3e46-365b-4229-8e71-f516a124c91a.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110131/2a941f2f-6078-4f81-b8b1-d4d097a2e420.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/20110131/40226334-cc13-4a40-932a-17265e089dc1.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/0dc430b8-f08c-47c9-beac-318bf1d0d6e5>;
+  amsterdam:uniquelocation _:node1fh5s9a88x27;
+  amsterdam:valuelocation _:0dc430b8-f08c-47c9-beac-318bf1d0d6e5 .
+
+<https://data/amsterdam/nl/resource/geometry/0dc430b8-f08c-47c9-beac-318bf1d0d6e5>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.7927380 52.3420810)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x27 amsterdam:address "Akersluis 8" .
+
+_:0dc430b8-f08c-47c9-beac-318bf1d0d6e5 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/fd2ed47c-627c-40da-95b1-dfdca832be62>
+  a schema:Restaurant;
+  schema:title "Rose's Cantina", "Rose's Cantina"@english;
+  schema:description "Midden in de bruisende Reguliersdwarsstraat in Amsterdam zit Rose's Cantina. De perfecte plek voor Mexicaans eten en cocktails. ";
+  schema:latitude "25"^^xsd:float;
+  amsterdam:zipcode "1017 BM";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/fd/fd2ed47c-627c-40da-95b1-dfdca832be62/36fad538-b5a6-44a5-a466-7f4ad1a6001c.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/fd/fd2ed47c-627c-40da-95b1-dfdca832be62/3b276ee1-961b-4407-98c3-751902109404.jpg%2Chttps%3A//media.iamsterdam.com/ndtrc/Images/fd/fd2ed47c-627c-40da-95b1-dfdca832be62/62df80ff-6a1e-4ae7-82d5-4b2342f8d833.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/fd2ed47c-627c-40da-95b1-dfdca832be62>;
+  amsterdam:uniquelocation _:node1fh5s9a88x28;
+  amsterdam:valuelocation _:fd2ed47c-627c-40da-95b1-dfdca832be62 .
+
+<https://data/amsterdam/nl/resource/geometry/fd2ed47c-627c-40da-95b1-dfdca832be62>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8921870 52.3661890)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x28 amsterdam:address "Reguliersdwarsstraat 38" .
+
+_:fd2ed47c-627c-40da-95b1-dfdca832be62 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/d82a6238-0837-43c7-bf66-851fa1895707>
+  a schema:Restaurant;
+  schema:title "Tempo Doeloe", "Tempo Doeloe"@english;
+  schema:description "Tempo Doeloe in de Utrechtsestraat is een van de beste Indonesische restaurants van de stad. In de keuken wordt alleen met verse, authentieke ingrediënten gewerkt en op de menukaart staan voornamelijk klassiekers en verschillende soorten rijsttafels. Ter begeleiding hebben ze hier uitstekende wijnen. Omdat het restaurant zo klein is, moet je als gast eerst even reserveren en aanbellen alvorens je naar binnen kunt.";
+  schema:latitude "26"^^xsd:float;
+  amsterdam:zipcode "1017 VJ";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110131/8b707d69-c43a-4ad4-8464-b9ed5a4d333b.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/d82a6238-0837-43c7-bf66-851fa1895707>;
+  amsterdam:uniquelocation _:node1fh5s9a88x29;
+  amsterdam:valuelocation _:d82a6238-0837-43c7-bf66-851fa1895707 .
+
+<https://data/amsterdam/nl/resource/geometry/d82a6238-0837-43c7-bf66-851fa1895707>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8986440 52.3632830)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x29 amsterdam:address "Utrechtsestraat 75" .
+
+_:d82a6238-0837-43c7-bf66-851fa1895707 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/672b71ac-b3e7-42c8-ad73-39f54fab6957>
+  a schema:Restaurant;
+  schema:title "Restaurant The College Hotel", "Restaurant The College Hotel"@english;
+  schema:description "In een verbouwde 19e eeuwse schoolgymzaal zit het restaurant van het College Hotel. Net als de rest van het hotel is ook alles hier in stijl. In de lichte, open ruimte eet je prachtige, speelse gerechten waarbij de Hollandse keuken in een nieuw jasje is gestoken. Vergeet niet dat dit, net als de rest van het hotel, een trainingcentrum is voor horecastudenten. Er kan af en toe iets misgaan, daar leren ze alleen maar van. De bar van het hotel is ook voor Amsterdammers een populaire hang out.";
+  schema:latitude "27"^^xsd:float;
+  amsterdam:zipcode "1071 VE";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110131/da8a72ae-8363-439d-bb06-eff3936593b7.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/672b71ac-b3e7-42c8-ad73-39f54fab6957>;
+  amsterdam:uniquelocation _:node1fh5s9a88x30;
+  amsterdam:valuelocation _:672b71ac-b3e7-42c8-ad73-39f54fab6957 .
+
+<https://data/amsterdam/nl/resource/geometry/672b71ac-b3e7-42c8-ad73-39f54fab6957>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8833480 52.3527450)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x30 amsterdam:address "Roelof Hartstraat 1" .
+
+_:672b71ac-b3e7-42c8-ad73-39f54fab6957 amsterdam:city "Amsterdam" .
+
+<https://data/amsterdam/nl/resource/restaurant/e27ade8b-ec67-4e34-8b71-d61cc17bb2aa>
+  a schema:Restaurant;
+  schema:title "Small Talk Restaurant en Coffee Corner", "Small Talk Restaurant en Coffee Corner"@english;
+  schema:description "Klein en knus restaurant.";
+  schema:latitude "28"^^xsd:float;
+  amsterdam:zipcode "1071 BA";
+  schema:image <https%3A//media.iamsterdam.com/ndtrc/Images/20110131/4e3f604d-0f99-43bd-b076-86bc3afce070.jpg>;
+  geo:hasGeometry <https://data/amsterdam/nl/resource/geometry/e27ade8b-ec67-4e34-8b71-d61cc17bb2aa>;
+  amsterdam:uniquelocation _:node1fh5s9a88x31;
+  amsterdam:valuelocation _:e27ade8b-ec67-4e34-8b71-d61cc17bb2aa .
+
+<https://data/amsterdam/nl/resource/geometry/e27ade8b-ec67-4e34-8b71-d61cc17bb2aa>
+  a sf:Point;
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8784460 52.3579310)"^^geo:wktLiteral .
+
+_:node1fh5s9a88x31 amsterdam:address "Van Baerlestraat 52" .
+
+_:e27ade8b-ec67-4e34-8b71-d61cc17bb2aa amsterdam:city "Amsterdam" .

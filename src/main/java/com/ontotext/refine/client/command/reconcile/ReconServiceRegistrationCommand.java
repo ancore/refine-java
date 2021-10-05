@@ -19,7 +19,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 
-
 /**
  * A command that registers new reconciliation service as standard. The service is set to the
  * preferences property named - 'reconciliation.standardServices'.
@@ -59,13 +58,13 @@ public class ReconServiceRegistrationCommand {
     try {
       GetPreferenceCommandResponse preference = getServicesPreference(client);
 
-      String valueAsStr = preference.getResult().get("value").asText();
-      ArrayNode value = JSON_PARSER.read(valueAsStr, ArrayNode.class);
+      ArrayNode values = getValues(preference);
+
       JsonNode serviceRegInfo = getServiceRegistrationInformation(client);
       appendAdditionalConfigurations(serviceRegInfo);
-      value.add(serviceRegInfo);
+      values.add(serviceRegInfo);
 
-      SetPreferenceCommandResponse response = registerService(client, value);
+      SetPreferenceCommandResponse response = registerService(client, values);
 
       return handleCompletion(response);
     } catch (RefineException re) {
@@ -81,6 +80,16 @@ public class ReconServiceRegistrationCommand {
   private GetPreferenceCommandResponse getServicesPreference(RefineClient client)
       throws RefineException {
     return RefineCommands.getPreference().setProperty(PROPERTY).build().execute(client);
+  }
+
+  private ArrayNode getValues(GetPreferenceCommandResponse preference) throws IOException {
+    JsonNode node = preference.getResult().get("value");
+
+    // if there are no services registered, null is returned as string..
+    if (node == null || "null".equalsIgnoreCase(node.asText())) {
+      return JsonNodeFactory.instance.arrayNode();
+    }
+    return JSON_PARSER.read(node.asText("[]"), ArrayNode.class);
   }
 
   private JsonNode getServiceRegistrationInformation(RefineClient client) throws IOException {
