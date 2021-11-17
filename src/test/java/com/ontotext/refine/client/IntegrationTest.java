@@ -20,8 +20,7 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 public abstract class IntegrationTest {
 
-  private static final String DEFAUL_GDB_DOCKER_IMAGE =
-      "docker-registry.ontotext.com/graphdb-free:9.9.0-adoptopenjdk11";
+  private static final String DEFAUL_GDB_DOCKER_IMAGE = "ontotext/graphdb:9.10.0-ee";
 
   // Tries to retrieve the image name from the surefire plugin property. Otherwise uses the default
   private static final DockerImageName GDB_DOCKER_IMAGE_NAME =

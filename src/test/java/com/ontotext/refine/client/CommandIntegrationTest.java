@@ -21,6 +21,8 @@ import org.testcontainers.shaded.org.awaitility.Awaitility;
  */
 public abstract class CommandIntegrationTest extends IntegrationTest {
 
+  private static final long WAIT_FOR_PROCESSES = 20;
+
   /**
    * Provides CSRF tokens, retrieved from OntoRefine tool.
    *
@@ -57,14 +59,14 @@ public abstract class CommandIntegrationTest extends IntegrationTest {
   /**
    * Waits until all processes (if any) are completed for the given project. The method will pull
    * the processes that are currently executed from the OntoRefine for the project every
-   * {@value #WAIT_FOR_PROCESSES} ms until there are no processes returned.
+   * {@value #WAIT_FOR_PROCESSES} seconds until there are no processes returned.
    *
    * @param projectId which processes should be completed
    */
   protected void waitForProcessesCompletion(String projectId) throws RefineException {
     GetProcessesCommand command = RefineCommands.getProcesses().setProject(projectId).build();
     Awaitility.await()
-        .atMost(10, TimeUnit.SECONDS)
+        .atMost(WAIT_FOR_PROCESSES, TimeUnit.SECONDS)
         .until(() -> command.execute(getClient()).getProcesses().isEmpty());
   }
 
