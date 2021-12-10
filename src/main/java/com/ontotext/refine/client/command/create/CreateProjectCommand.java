@@ -10,9 +10,9 @@ import static org.apache.http.HttpStatus.SC_MOVED_TEMPORARILY;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.apache.http.entity.ContentType.TEXT_PLAIN;
 
+import com.ontotext.refine.client.Options;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.UploadFormat;
-import com.ontotext.refine.client.UploadOptions;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.File;
@@ -28,7 +28,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-
 /**
  * A command to create a project.
  */
@@ -37,7 +36,7 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
   private final String name;
   private final File file;
   private final UploadFormat format;
-  private final UploadOptions options;
+  private final Options options;
   private final String token;
 
   /**
@@ -50,7 +49,7 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
    * @param token the csrf token
    */
   private CreateProjectCommand(
-      String name, File file, UploadFormat format, UploadOptions options, String token) {
+      String name, File file, UploadFormat format, Options options, String token) {
     this.name = name;
     this.file = file;
     this.format = format;
@@ -126,7 +125,7 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
     private String name;
     private File file;
     private UploadFormat format;
-    private UploadOptions options;
+    private Options options;
     private String token;
 
     /**
@@ -179,7 +178,7 @@ public class CreateProjectCommand implements RefineCommand<CreateProjectResponse
      * @param options the optional options
      * @return the builder for fluent usage
      */
-    public Builder options(UploadOptions options) {
+    public Builder options(Options options) {
       this.options = options;
       return this;
     }

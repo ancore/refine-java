@@ -1,10 +1,14 @@
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.export;
 
-import static org.apache.commons.lang3.Validate.notNull;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
+import com.ontotext.refine.client.Options;
 import com.ontotext.refine.client.RefineClient;
+import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,14 +17,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
-
 
 /**
  * A command to export rows from the project.
@@ -30,12 +32,15 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
   private final String project;
   private final String engine;
   private final String format;
+  private final String options;
   private final String token;
 
-  private ExportRowsCommand(String project, String engine, String format, String token) {
+  private ExportRowsCommand(
+      String project, String engine, String format, String options, String token) {
     this.project = project;
     this.engine = engine;
     this.format = format;
+    this.options = options;
     this.token = token;
   }
 
@@ -48,16 +53,12 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
   public ExportRowsResponse execute(RefineClient client) throws RefineException {
     try {
 
-      List<NameValuePair> form = new ArrayList<>();
-      form.add(new BasicNameValuePair("project", project));
-      form.add(new BasicNameValuePair("format", format));
-      form.add(new BasicNameValuePair("engine", engine));
-      form.add(new BasicNameValuePair("csrf_token", token));
+      List<NameValuePair> form = buildForm();
 
       HttpUriRequest request = RequestBuilder
           .post(client.createUrl(endpoint()).toString())
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-          .setEntity(new UrlEncodedFormEntity(form, Consts.UTF_8))
+          .setEntity(new UrlEncodedFormEntity(form, UTF_8))
           .build();
 
       return client.execute(request, this);
@@ -67,6 +68,16 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
           project,
           ioe.getMessage());
     }
+  }
+
+  private List<NameValuePair> buildForm() {
+    List<NameValuePair> form = new ArrayList<>(5);
+    form.add(new BasicNameValuePair(Constants.PROJECT, project));
+    form.add(new BasicNameValuePair("format", format));
+    form.add(new BasicNameValuePair("options", options));
+    form.add(new BasicNameValuePair("engine", engine));
+    form.add(new BasicNameValuePair(Constants.CSRF_TOKEN, token));
+    return form;
   }
 
   @Override
@@ -88,52 +99,35 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
    */
   public static class Builder {
 
+    private static final Options DEFAULT_OPTIONS = () -> "{}";
+
     private String project;
-    private String engine;
+    private Engines engine;
     private String format;
+    private Options options;
     private String token;
 
-    /**
-     * Sets the project name.
-     *
-     * @param project the project name
-     * @return the builder for fluent usage
-     */
-    public Builder project(String project) {
+    public Builder setProject(String project) {
       this.project = project;
       return this;
     }
 
-    /**
-     * Sets token.
-     *
-     * @param token the csrf token
-     * @return the builder for fluent usage
-     */
-    public Builder token(String token) {
-      this.token = token;
-      return this;
-    }
-
-    /**
-     * Sets the file containing the data to upload.
-     *
-     * @param engine the engine to use
-     * @return the builder for fluent usage
-     */
-    public Builder engine(String engine) {
+    public Builder setEngine(Engines engine) {
       this.engine = engine;
       return this;
     }
 
-    /**
-     * Sets the optional upload format.
-     *
-     * @param format the optional upload format
-     * @return the builder for fluent usage
-     */
-    public Builder format(String format) {
+    public Builder setFormat(String format) {
       this.format = format;
+      return this;
+    }
+
+    public void setOptions(Options options) {
+      this.options = options;
+    }
+
+    public Builder setToken(String token) {
+      this.token = token;
       return this;
     }
 
@@ -143,11 +137,12 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
      * @return the command
      */
     public ExportRowsCommand build() {
-      notNull(engine, "engine");
-      notNull(project, "project");
-      notNull(token, "token");
-      notNull(format, "format");
-      return new ExportRowsCommand(project, engine, format, token);
+      notBlank(project, "Missing 'project' argument");
+      notBlank(format, "Missing 'format' argument");
+      notBlank(token, "Missing CSRF token");
+      options = defaultIfNull(options, DEFAULT_OPTIONS);
+      engine = defaultIfNull(engine, Engines.ROW_BASED);
+      return new ExportRowsCommand(project, engine.get(), format, options.asJson(), token);
     }
   }
 }

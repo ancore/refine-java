@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.ontotext.refine.client.command.ExportRowsResponse;
 import com.ontotext.refine.client.command.RefineCommands;
 import com.ontotext.refine.client.command.create.CreateProjectResponse;
 import com.ontotext.refine.client.command.delete.DeleteProjectResponse;
+import com.ontotext.refine.client.command.export.ExportRowsResponse;
 import com.ontotext.refine.client.command.operations.ApplyOperationsResponse;
 import com.ontotext.refine.client.command.rdf.ExportRdfResponse;
 import com.ontotext.refine.client.command.rdf.ResultFormat;
@@ -87,10 +87,9 @@ class ExportIntegrationTests extends CommandIntegrationTest {
   private ExportRowsResponse exportRows(String projectId, String format) throws RefineException {
     return RefineCommands
         .exportRows()
-        .project(projectId)
-        .format(format)
-        .engine("{\"mode\":\"row-based\"}")
-        .token(getToken())
+        .setProject(projectId)
+        .setFormat(format)
+        .setToken(getToken())
         .build()
         .execute(getClient());
   }

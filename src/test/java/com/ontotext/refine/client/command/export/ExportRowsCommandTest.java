@@ -1,4 +1,4 @@
-package com.ontotext.refine.client.command;
+package com.ontotext.refine.client.command.export;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.ontotext.refine.client.RefineClient;
+import com.ontotext.refine.client.command.RefineCommands;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 
 /**
  * Test for {@link ExportRowsCommand}.
@@ -59,10 +59,9 @@ class ExportRowsCommandTest {
 
       rowsResponse = RefineCommands
           .exportRows()
-          .project("1234567890")
-          .token("csrf-token")
-          .format("json")
-          .engine("row-based")
+          .setProject("1234567890")
+          .setToken("csrf-token")
+          .setFormat("json")
           .build()
           .execute(client);
 
@@ -81,13 +80,12 @@ class ExportRowsCommandTest {
 
     ExportRowsCommand command = RefineCommands
         .exportRows()
-        .project("1234567890")
-        .token("csrf-token")
-        .format("csv")
-        .engine("row-based")
+        .setProject("1234567890")
+        .setToken("csrf-token")
+        .setFormat("csv")
+        .setEngine(Engines.ROW_BASED)
         .build();
 
     assertThrows(RefineException.class, () -> command.execute(client));
   }
-
 }

@@ -6,9 +6,17 @@
 
  - Removed the licensing notice from the Java classes. The reason for doing so is that the current version is distributed with general Apache License Version 2.0. Furthermore
    there were licensing notices for MIT, Apache, etc. in different classes throughout the library.
-   
+ - Introduced enumeration for the engines that can be used for the export rows command. Updated the affect code to comply with the new type.
+ - Added property of type `Options` to the `ExportRowsCommand`, which allows provisioning of additional configuration for the export processes. Information on which are the
+   available configurations for the options property may be found
+   [here](https://github.com/OpenRefine/OpenRefine/blob/master/main/src/com/google/refine/exporters/CsvExporter.java#L65).
 
 ### Changes
+
+ - `UploadOptions` is renamed to only `Options`. The intention behind the change is for the interface to become more abstract and to be used as general type for providing
+   additional information to the different commands.
+ - Moved the `ExportRowsCommand` in its own package in order to keep the structure of the project consistent. Updated the command to comply with the new definition of the
+   commands.
 
 ### Bug fixes
 
