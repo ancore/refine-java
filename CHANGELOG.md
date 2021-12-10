@@ -10,6 +10,10 @@
  - Added property of type `Options` to the `ExportRowsCommand`, which allows provisioning of additional configuration for the export processes. Information on which are the
    available configurations for the options property may be found
    [here](https://github.com/OpenRefine/OpenRefine/blob/master/main/src/com/google/refine/exporters/CsvExporter.java#L65).
+ - Added new configuration class for the `ExportRowsCommand` called `AdditionalExportConfigs`. It will contain additional options for controlling different aspects of the
+   export process. The reason for using different class instead of `Options` is that the handling of these options will be implemented in the library, not in the refine tool
+   itself. Currently there is only one option, which allows truncating of the last line in the result files after the export process is completed. It will be mainly used by
+   `*SV` exports to keep the correct rows count. 
 
 ### Changes
 

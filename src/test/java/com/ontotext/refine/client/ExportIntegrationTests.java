@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.ontotext.refine.client.command.RefineCommands;
 import com.ontotext.refine.client.command.create.CreateProjectResponse;
 import com.ontotext.refine.client.command.delete.DeleteProjectResponse;
+import com.ontotext.refine.client.command.export.AdditionalExportConfigs;
 import com.ontotext.refine.client.command.export.ExportRowsResponse;
 import com.ontotext.refine.client.command.operations.ApplyOperationsResponse;
 import com.ontotext.refine.client.command.rdf.ExportRdfResponse;
@@ -36,7 +37,7 @@ class ExportIntegrationTests extends CommandIntegrationTest {
 
   /**
    * Note the scenario uses reduced dataset in order to complete the operations over it quickly!
-   * 
+   *
    * <p>Scenario 1:<br>
    * <br>
    * 1. Creates project with name 'Scenario-1-{test-class-name}' using the
@@ -90,13 +91,14 @@ class ExportIntegrationTests extends CommandIntegrationTest {
         .setProject(projectId)
         .setFormat(format)
         .setToken(getToken())
+        .setExportConfigs(AdditionalExportConfigs.createDefault().setTruncateFile(true))
         .build()
         .execute(getClient());
   }
 
   /**
    * Note the scenario uses reduced dataset in order to complete the operations over it quickly!
-   * 
+   *
    * <p>Scenario 2:<br>
    * <br>
    * 1. Creates project with name 'Scenario-2-{test-class-name}' using the

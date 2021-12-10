@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,14 +35,21 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
   private final String format;
   private final String options;
   private final String token;
+  private final AdditionalExportConfigs exportConfigs;
 
   private ExportRowsCommand(
-      String project, String engine, String format, String options, String token) {
+      String project,
+      String engine,
+      String format,
+      String options,
+      String token,
+      AdditionalExportConfigs exportConfigs) {
     this.project = project;
     this.engine = engine;
     this.format = format;
     this.options = options;
     this.token = token;
+    this.exportConfigs = exportConfigs;
   }
 
   @Override
@@ -90,6 +98,13 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
       while ((read = is.read(buffer)) > 0) {
         fos.write(buffer, 0, read);
       }
+
+      if (exportConfigs.truncateFile()) {
+        // removes the empty line that is added at the end of the file
+        FileChannel fosChannel = fos.getChannel();
+        fosChannel.truncate(fosChannel.size() - 1);
+      }
+
       return new ExportRowsResponse(file);
     }
   }
@@ -106,6 +121,7 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
     private String format;
     private Options options;
     private String token;
+    private AdditionalExportConfigs exportConfigs;
 
     public Builder setProject(String project) {
       this.project = project;
@@ -131,6 +147,11 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
       return this;
     }
 
+    public Builder setExportConfigs(AdditionalExportConfigs exportConfigs) {
+      this.exportConfigs = exportConfigs;
+      return this;
+    }
+
     /**
      * Builds the command after validation.
      *
@@ -142,7 +163,9 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
       notBlank(token, "Missing CSRF token");
       options = defaultIfNull(options, DEFAULT_OPTIONS);
       engine = defaultIfNull(engine, Engines.ROW_BASED);
-      return new ExportRowsCommand(project, engine.get(), format, options.asJson(), token);
+      exportConfigs = defaultIfNull(exportConfigs, AdditionalExportConfigs.createDefault());
+      return new ExportRowsCommand(
+          project, engine.get(), format, options.asJson(), token, exportConfigs);
     }
   }
 }
