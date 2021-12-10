@@ -154,6 +154,7 @@ public class ExampleCommand implements RefineCommand<ExampleResponse> {
 
 ```
 
+
 ## Testing
 
 Every command includes a proper set of test cases, which are verifying the behavior of the command and all of the
@@ -175,9 +176,8 @@ access to actual `OntoRefine` tool instance, where the integration tests can exe
 the results.
 
 At the moment there are few integration tests, which are using and testing the commands that are currently available
-in the library by executing specific scenarios. The scenarios are using the commands that are currently available in
-the library to complete specific job. They are validating straightforward execution and expect the commands to be
-completed successfully.
+in the library by executing specific scenarios. The scenarios are using the commands to complete a specific job.
+They are validating straightforward execution and expect the commands to be completed successfully.
 
 The management of the `GraphDB` container is done in `IntegrationTest`, which basically creates singleton instance 
 for the container, which will be reused in all concrete test implementations. This is done in order to save time and
@@ -196,3 +196,23 @@ cases, which are not optimal for integration testing.
 There is a possibility in the future to extend the integration tests to run with different version of `GraphDB`
 containers in order to verify compatibility with different versions, but it will require some additional work to be
 done in order to optimize the execution and the container management.
+
+
+## Releases
+
+The releases of the library are done regularly, when new functionality or bug fixes without workaround are pushed and
+verified.
+
+Exceptional case where new release might be published is in case of vulnerability issue detected by the pipeline or
+other scanning tool.
+
+The repository contains a release pipeline, which uses GitHub actions for execution. The pipeline configuration is
+currently placed in `.github/package-publish.yml`. It is triggered, when it detects that a new release is published
+via the `Releases` page in the repository.
+
+To release the library you need to have correct access and permissions. If you do, simply go on the
+[New Release Page](https://github.com/Ontotext-AD/ontorefine-client/releases/new), set the correct version and tag that
+needs to be released, input the changes that are included in the version and press the release button.
+
+When the pipeline completes the packages will be published in the Ontotext Public Nexus Repository, where they will be
+available for download and usage.

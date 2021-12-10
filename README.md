@@ -17,6 +17,33 @@ and/or RDFization processes. This will open the possibility for process templati
 The intention for the client is to provide the main functionalities that OntoRefine tool offers, where the user should input minimal amount of configurations in order to
 complete given operation.
 
+## Installation
+
+```xml
+ <dependency>
+     <groupId>com.ontotext</groupId>
+     <artifactId>ontorefine-client</artifactId>
+     <version>1.2.0</version>
+ </dependency>
+```
+
+If there are any problems related to the download of the packages you need to add additional repository configuration, because the packages are hosted in our own Public
+Nexus repository.
+
+```xml
+ <repository>
+     <id>all-onto</id>
+     <name>Ontotext Public Maven</name>
+     <url>https://maven.ontotext.com/content/repositories/public</url>
+     <releases>
+         <enabled>true</enabled>
+     </releases>
+     <snapshots>
+         <enabled>true</enabled>
+     </snapshots>
+ </repository>
+```
+
 
 ## Supported functionalities
 
@@ -126,9 +153,9 @@ Currently we do not intend to support `OpenRefine` as additional tool so we enco
 functionalities using the `OntoRefine` tool.
 
 
-## Development
+## Development & Releases
 
-Please checkout the [DEV](DEV.md) document for more information on the topic.
+Please checkout the [DEV](DEV.md) document for more information on the topics.
 
 
 ## Architecture Overview
