@@ -4,6 +4,10 @@
 
 ### New
 
+ - Removed the licensing notice from the Java classes. The reason for doing so is that the current version is distributed with general Apache License Version 2.0. Furthermore
+   there were licensing notices for MIT, Apache, etc. in different classes throughout the library.
+   
+
 ### Changes
 
 ### Bug fixes
