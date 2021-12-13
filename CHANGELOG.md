@@ -1,5 +1,16 @@
 # Ontotext OntoRefine Client Library
 
+## Version 1.4
+
+### New
+
+
+### Changes
+
+
+### Bug fixes
+
+
 ## Version 1.3
 
 ### New
@@ -23,8 +34,6 @@
    commands.
  - Changed the object that is used for creation of the full endpoint address from `URL` to `URI`, which can be passed directly to the request builders without the need of
    converting it to `String`. 
-
-### Bug fixes
 
 
 ## Version 1.2
