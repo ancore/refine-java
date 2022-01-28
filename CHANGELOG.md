@@ -4,11 +4,19 @@
 
 ### New
 
+ - Enhanced the `RefineClients` to allow creation of different types of `RefineClient` instances. Now it can produce security aware client, which accepts credentials
+   provider allowing to execute commands over secured Refine tools. Additionally there is an option, which allows full customization over the internal HTTP client that
+   will be used by the `RefineClient` instance.
 
 ### Changes
 
+ - Deprecated `RefineClients#create` method in favor of `RefineClients#standard`. Now that there are more methods in `RefineClients`, `create` doesn't seems
+   appropriate as it doesn't provide context for the type of the produced client.
 
 ### Bug fixes
+
+ - Fixed the method `setOptions` in `ExportRowsCommand#Builder` to follow the fluent pattern.
+ - Reverted the wrongly committed changes to the interface implementation of the `RefineClient`.
 
 
 ## Version 1.3

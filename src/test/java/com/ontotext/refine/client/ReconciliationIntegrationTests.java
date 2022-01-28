@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  */
 class ReconciliationIntegrationTests extends CommandIntegrationTest {
 
-  private static final String RECON_SERVICE = "https://data.biblissima.fr/api/reconcile";
+  private static final String RECON_SERVICE = "https://reconcile.ontotext.com/organizations";
   private static final String RESTAURANTS_CSV = "integration/reduced_netherlands_restaurants.csv";
 
   /**

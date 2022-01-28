@@ -138,8 +138,9 @@ public class ExportRowsCommand implements RefineCommand<ExportRowsResponse> {
       return this;
     }
 
-    public void setOptions(Options options) {
+    public Builder setOptions(Options options) {
       this.options = options;
+      return this;
     }
 
     public Builder setToken(String token) {

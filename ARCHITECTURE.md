@@ -37,7 +37,7 @@ implemented in similar standard, which makes the usage of the library intuitive 
 </p>
 
 
-From the above diagram is represented the basic architecture of the library. The components represented with the blue
+On the above diagram is represented the basic architecture of the library. The components represented with the blue
 cuboids are the different services, applications or APIs, which can use the library in order to complete specific
 functionality. The green one is represents the library itself, which hava a connection to the OntoRefine tool integrated
 within GraphDB.

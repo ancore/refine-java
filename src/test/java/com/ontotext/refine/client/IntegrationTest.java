@@ -52,7 +52,7 @@ public abstract class IntegrationTest {
     if (refineClient == null) {
       try {
         HttpHost httpHost = new HttpHost(GDB_DOCKER.getHost(), GDB_DOCKER.getMappedPort(PORT));
-        refineClient = RefineClients.create(httpHost.toURI());
+        refineClient = RefineClients.standard(httpHost.toURI());
       } catch (URISyntaxException uriExc) {
         throw new RuntimeException("Failed to create refine client.", uriExc);
       }
