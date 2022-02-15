@@ -55,7 +55,7 @@ public interface RefineClients {
    */
   static RefineClient securityAware(String uri, CredentialsProvider credsProvider)
       throws URISyntaxException {
-    Validate.notNull(credsProvider, "The credential provider is required.");
+    Validate.notNull(credsProvider, "The credentials provider is required.");
     HttpClientBuilder client = HttpClients.custom().setDefaultCredentialsProvider(credsProvider);
     return new RefineClient(new URI(uri), client.build());
   }

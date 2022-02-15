@@ -17,6 +17,9 @@
 
  - Fixed the method `setOptions` in `ExportRowsCommand#Builder` to follow the fluent pattern.
  - Reverted the wrongly committed changes to the interface implementation of the `RefineClient`.
+ - Fixed an issue with the `ExportRdfCommand` request entity. If the initial request fails, it is retried due to the retry policy of the client. However the entity
+   contains stream, which has been closed, which causes the retry to also fail without obvious reason. The simplest fix was to wrap the `BasicHttpEntity` in
+   `BufferedHttpEntity`, which is always repeatable.
 
 
 ## Version 1.3

@@ -18,6 +18,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 
@@ -58,7 +59,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
           .post(client.createUri(endpoint() + ":" + project))
           .addHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
           .addHeader(ACCEPT, acceptHeader)
-          .setEntity(entity)
+          .setEntity(new BufferedHttpEntity(entity))
           .build();
 
       return client.execute(request, this);
