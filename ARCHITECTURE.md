@@ -12,10 +12,12 @@ over the Google's `OpenRefine`.
 
 <details>
   <summary>tl;dr</summary>
-  OntoRefine is based on the open source [OpenRefine](https://openrefine.org/) data transformation tool, supported and
-  maintained by Google. It extends the standard functionalities of the `OpenRefine` by adding quick mapping of the data
-  to RDF format, which can be directly stored in GraphDB. OntoRefine user interface is integrated in the GraphDB
-  Workbench from where the user can process the different dataset and import the data to the database.
+  <i>
+    OntoRefine is based on the open source <a href="https://openrefine.org/">OpenRefine</a> data transformation tool,
+    supported and maintained by Google. It extends the standard functionalities of the `OpenRefine` by adding quick
+    mapping of the data to RDF format, which can be directly stored in GraphDB. OntoRefine user interface is integrated
+    in the GraphDB Workbench from where the user can process the different dataset and import the data to the database.
+  </i>
 </details>
 
 The client library communicates with OntoRefine through HTTP requests, where every command represents call to different
