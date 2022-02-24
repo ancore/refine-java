@@ -2,7 +2,7 @@ package com.ontotext.refine.client.command.rdf;
 
 
 /**
- * Holds the result from {@link ExportRdfCommand}.
+ * Holds the result from export RDF commands.
  *
  * @author Antoniy Kunchev
  */

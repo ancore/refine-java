@@ -4,9 +4,22 @@
 
 ### New
 
+ - Introduced new command for RDF data export. Instead of a mapping, the command takes advantage SPARQL API of the GraphDB and executed CONSTRUCT query. The query itself
+   contains the data source that should be transformed, in this case that is a OntoRefine project.
+   In order to make the functionality reusable, in other words executable for multiple projects, the query which is passed to the command contains placeholder for the
+   refine project. This allows multiple execution of the defined query over projects with similar data structure.
+   The command has one limitation that comes from the GraphDB itself, it requires existence of a repository in order to use the SPARQL API, no matter that it uses refine
+   project as data source.
+ - Introduces a way to execute integration tests over secured GraphDB. The functionality is implemented in the `IntegrationTest` class, which spawns the GraphDB instance
+   used for the tests. The mechanism allow so enable/disable the security on the fly by creating an refine client instance, which uses credentials and another that doesn't. 
 
 ### Changes
 
+ - Updated the GraphDB version for the integration tests to 10.0.0-M1 in order to take advantage of the new strategy for the product, which does not require licensing for
+   the core functionalities of the product.
+ - Added repository via configuration file provisioning to the docker environment, for the integration tests. The name of the repository is `integration-tests` and it is
+   created, when the GraphDB is initialized.
+ - Renamed the `ExportRdfCommand` to `DefaultExportRdfCommand`. This is a breaking change for implementations that refer to the concrete command class.
 
 ### Bug fixes
 

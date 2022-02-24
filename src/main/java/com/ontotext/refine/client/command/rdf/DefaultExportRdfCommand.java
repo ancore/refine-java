@@ -21,19 +21,19 @@ import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
-
 /**
- * A command that exports the data of specific project in RDF format.
+ * A command that exports the data of specific project in RDF format using the mapping defined in
+ * the Mapping UI.
  *
  * @author Antoniy Kunchev
  */
-public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
+public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse> {
 
   private final String project;
   private final String mapping;
   private final ResultFormat format;
 
-  private ExportRdfCommand(String project, String mapping, ResultFormat format) {
+  private DefaultExportRdfCommand(String project, String mapping, ResultFormat format) {
     this.project = project;
     this.mapping = mapping;
     this.format = format;
@@ -80,7 +80,7 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
   }
 
   /**
-   * Builder for {@link ExportRdfCommand}.
+   * Builder for {@link DefaultExportRdfCommand}.
    *
    * @author Antoniy Kunchev
    */
@@ -106,15 +106,15 @@ public class ExportRdfCommand implements RefineCommand<ExportRdfResponse> {
     }
 
     /**
-     * Builds a {@link ExportRdfCommand}.
+     * Builds a {@link DefaultExportRdfCommand}.
      *
      * @return a command
      */
-    public ExportRdfCommand build() {
+    public DefaultExportRdfCommand build() {
       notBlank(project, "Missing 'project' argument");
       notBlank(mapping, "Missing 'mapping' argument");
       notNull(format, "Missing 'format' argument");
-      return new ExportRdfCommand(project, mapping, format);
+      return new DefaultExportRdfCommand(project, mapping, format);
     }
   }
 }

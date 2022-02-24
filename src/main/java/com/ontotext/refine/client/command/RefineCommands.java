@@ -10,7 +10,8 @@ import com.ontotext.refine.client.command.operations.GetOperationsCommand;
 import com.ontotext.refine.client.command.preferences.GetPreferenceCommand;
 import com.ontotext.refine.client.command.preferences.SetPreferenceCommand;
 import com.ontotext.refine.client.command.processes.GetProcessesCommand;
-import com.ontotext.refine.client.command.rdf.ExportRdfCommand;
+import com.ontotext.refine.client.command.rdf.DefaultExportRdfCommand;
+import com.ontotext.refine.client.command.rdf.SparqlBasedExportRdfCommand;
 import com.ontotext.refine.client.command.reconcile.GuessColumnTypeCommand;
 import com.ontotext.refine.client.command.reconcile.ReconServiceRegistrationCommand;
 import com.ontotext.refine.client.command.reconcile.ReconcileCommand;
@@ -103,12 +104,21 @@ public interface RefineCommands {
   }
 
   /**
-   * Provides a builder instance for the {@link ExportRdfCommand}.
+   * Provides a builder instance for the {@link DefaultExportRdfCommand}.
    *
    * @return new builder instance
    */
-  static ExportRdfCommand.Builder exportRdf() {
-    return new ExportRdfCommand.Builder();
+  static DefaultExportRdfCommand.Builder exportRdf() {
+    return new DefaultExportRdfCommand.Builder();
+  }
+
+  /**
+   * Provides a builder instance for the {@link SparqlBasedExportRdfCommand}.
+   *
+   * @return new builder instance
+   */
+  static SparqlBasedExportRdfCommand.Builder exportRdfUsingSparql() {
+    return new SparqlBasedExportRdfCommand.Builder();
   }
 
   /**

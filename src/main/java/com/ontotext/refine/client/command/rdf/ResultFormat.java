@@ -3,8 +3,8 @@ package com.ontotext.refine.client.command.rdf;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * Contains values for the result format of the {@link ExportRdfCommand}. Basically it is a proxy
- * for the {@link RDFFormat} values, which decouples the 'RDF4J' dependency from the client.
+ * Contains values for the result format of the export RDF commands. Basically it is a proxy for the
+ * {@link RDFFormat} values, which decouples the 'RDF4J' dependency from the client.
  *
  * @author Antoniy Kunchev
  */

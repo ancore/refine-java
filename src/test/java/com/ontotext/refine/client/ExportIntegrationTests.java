@@ -1,5 +1,6 @@
 package com.ontotext.refine.client;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,12 +14,16 @@ import com.ontotext.refine.client.command.operations.ApplyOperationsResponse;
 import com.ontotext.refine.client.command.rdf.ExportRdfResponse;
 import com.ontotext.refine.client.command.rdf.ResultFormat;
 import com.ontotext.refine.client.exceptions.RefineException;
+import com.ontotext.refine.client.util.RdfTestUtils;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,7 +41,7 @@ class ExportIntegrationTests extends CommandIntegrationTest {
   private static final String RESTAURANTS_CSV = "integration/reduced_netherlands_restaurants.csv";
 
   /**
-   * Note the scenario uses reduced dataset in order to complete the operations over it quickly!
+   * Note the scenario uses reduced dataset in order to complete the operations quickly!
    *
    * <p>Scenario 1:<br>
    * <br>
@@ -97,7 +102,7 @@ class ExportIntegrationTests extends CommandIntegrationTest {
   }
 
   /**
-   * Note the scenario uses reduced dataset in order to complete the operations over it quickly!
+   * Note the scenario uses reduced dataset in order to complete the operations quickly!
    *
    * <p>Scenario 2:<br>
    * <br>
@@ -122,12 +127,16 @@ class ExportIntegrationTests extends CommandIntegrationTest {
 
     ExportRdfResponse exportRdfResponse = exportAsRdf(projectId);
 
-    String expected = IOUtils.resourceToString(
-        "/integration/expected/scenario_2_reduced_netherlands_restaurants_exportRdf.ttl",
-        StandardCharsets.UTF_8);
+    InputStream expected = getClass().getResourceAsStream(
+        "/integration/expected/scenario_2_reduced_netherlands_restaurants_exportRdf.ttl");
+    
+    boolean areEqual =
+        RdfTestUtils.compareAsRdf(
+            expected,
+            new ByteArrayInputStream(exportRdfResponse.getResult().getBytes()),
+            RDFFormat.TURTLE);
 
-    // the files cannot be compared directly because of the IRI generation
-    assertEquals(expected.length(), exportRdfResponse.getResult().length());
+    assertTrue("The expected result different then the acual one.", areEqual);
 
     DeleteProjectResponse deleteResponse = deleteProject(projectId);
     assertEquals(ResponseCode.OK, deleteResponse.getCode());

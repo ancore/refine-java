@@ -24,11 +24,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
 /**
- * Test for {@link ExportRdfCommand}.
+ * Test for {@link DefaultExportRdfCommand}.
  *
  * @author Antoniy Kunchev
  */
-class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, ExportRdfCommand> {
+class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, DefaultExportRdfCommand> {
 
   @Captor
   private ArgumentCaptor<HttpUriRequest> requestCaptor;
@@ -41,7 +41,7 @@ class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, ExportRdfC
   }
 
   @Override
-  protected ExportRdfCommand command() {
+  protected DefaultExportRdfCommand command() {
     return RefineCommands.exportRdf()
         .setProject(PROJECT_ID)
         .setMapping(mapping)

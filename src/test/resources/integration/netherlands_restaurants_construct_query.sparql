@@ -1,0 +1,39 @@
+BASE <http://example/base/>
+PREFIX mapper: <http://www.ontotext.com/mapper/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX amsterdam: <https://data/amsterdam/nl/resource/>
+PREFIX sf: <http://www.opengis.net/ont/sf#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+    ?s1 a schema:Restaurant ;
+        schema:title ?o_title, ?o_title_2 ;
+        schema:description ?o_description ;
+        schema:latitude ?o_latitude ;
+        amsterdam:zipcode ?o_zipcode ;
+        schema:image ?o_image ;
+        geo:hasGeometry ?o_hasGeometry .
+    ?o_hasGeometry a sf:Point ;
+        geo:asWKT ?o_asWKT .
+    ?s1 amsterdam:uniquelocation [amsterdam:address ?o_Adres] .
+    ?s1 amsterdam:valuelocation [amsterdam:city ?o_City] .
+} WHERE {
+    SERVICE <rdf-mapper:ontorefine:#project_placeholder#> {
+        BIND(IRI(mapper:encode_iri(amsterdam:restaurant\/, ?c_Trcid)) as ?s1)
+        BIND(STR(?c_Title) as ?o_title)
+        BIND(STRLANG(?c_TitleEN, "english") as ?o_title_2)
+        BIND(STR(?c_Shortdescription) as ?o_description)
+        (?row_index "value.replace(',','.')") mapper:grel ?o_latitude_grel .
+        BIND(STRDT(?o_latitude_grel, xsd:float) as ?o_latitude)
+        BIND(STR(?c_Zipcode) as ?o_zipcode)
+        BIND(IRI(mapper:encode_iri(?c_Media)) as ?o_image)
+        BIND(IRI(mapper:encode_iri(amsterdam:geometry\/, ?c_Trcid)) as ?o_hasGeometry)
+        (?row_index "\"<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (\" + cells[\"Longitude\"].value.replace(',', '.') + \" \" + cells[\"Latitude\"].value.replace(',', '.')  + \")\"") mapper:grel ?o_asWKT_grel .
+        BIND(STRDT(?o_asWKT_grel, geo:wktLiteral) as ?o_asWKT)
+        BIND(STR(?c_Adres) as ?o_Adres)
+        BIND(STR(?c_City) as ?o_City)    
+    }
+}

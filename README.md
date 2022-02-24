@@ -53,6 +53,7 @@ The operations that are currently supported:
 - Project deletion - deletes existing project in OntoRefine
 - Project data export - exports the data of a OntoRefine project
 - Exporting project data in RDF format - exports the data of a OntoRefine project in RDF format using the RDF mapping defined with the Mapping UI tool
+- Exporting project data in RDF format via SPARQL - exports the data of a OntoRefine project in RDF format using a SPARQL CONSTRUCT query
 - Applying of operations over project data - applies set of operation to OntoRefine project. The operations are represented via JSON configuration
 - Project operations exporting - exports the operations that are applied to OntoRefine project. The result is in JSON format and can be directly used in different project
 - Version retrieval - provides information about the version of the OntoRefine tool

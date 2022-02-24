@@ -23,6 +23,12 @@ public abstract class CommandIntegrationTest extends IntegrationTest {
 
   private static final long WAIT_FOR_PROCESSES = 20;
 
+  // For transparency reason
+  @Override
+  protected void security(Turn turn) {
+    super.security(turn);
+  }
+
   /**
    * Provides CSRF tokens, retrieved from OntoRefine tool.
    *

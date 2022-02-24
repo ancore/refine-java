@@ -73,7 +73,7 @@
         <junit.jupiter.version>5.8.1</junit.jupiter.version>
         <mockito.version>3.8.0</mockito.version>
         <testcontainers.version>1.16.0</testcontainers.version>
-        <e2e.graphdb.docker.image>ontotext/graphdb:9.10.0-ee</e2e.graphdb.docker.image>
+        <e2e.graphdb.docker.image>ontotext/graphdb:10.0.0-M1</e2e.graphdb.docker.image>
 
         <checkstyle.enabled>true</checkstyle.enabled>
     </properties>
@@ -164,6 +164,13 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-rio-turtle</artifactId>
+            <version>${rdf4j.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
