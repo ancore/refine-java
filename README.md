@@ -23,7 +23,7 @@ complete given operation.
  <dependency>
      <groupId>com.ontotext</groupId>
      <artifactId>ontorefine-client</artifactId>
-     <version>1.4.0</version>
+     <version>1.5.0</version>
  </dependency>
 ```
 
