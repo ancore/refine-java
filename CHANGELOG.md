@@ -23,6 +23,9 @@
 
 ### Bug fixes
 
+ - Added logic which allow usage of the RDF mapping JSON in different format in the export RDF and apply operations commands. It fixes usability issue related to the
+   extraction of the RDF mapping from different places in the user interface in the OntoRefine or Mapping UI.
+
 
 ## Version 1.4
 

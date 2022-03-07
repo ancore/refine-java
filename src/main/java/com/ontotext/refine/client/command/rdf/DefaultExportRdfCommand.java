@@ -11,6 +11,7 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
+import com.ontotext.refine.client.util.mappings.MappingsNormalizer;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -50,7 +51,7 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
       BasicHttpEntity entity = new BasicHttpEntity();
       entity.setContentType(APPLICATION_JSON.getMimeType());
       entity.setContentEncoding(APPLICATION_JSON.getCharset().toString());
-      entity.setContent(IOUtils.toInputStream(mapping, UTF_8));
+      entity.setContent(IOUtils.toInputStream(MappingsNormalizer.forRdfExport(mapping), UTF_8));
 
       RDFFormat rdfFormat = format.getRdfFormat();
       String acceptHeader = rdfFormat.getDefaultMIMEType() + ";charset=" + rdfFormat.getCharset();

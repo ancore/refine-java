@@ -17,6 +17,7 @@ import com.ontotext.refine.client.Operation;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
+import com.ontotext.refine.client.util.mappings.MappingsNormalizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +67,11 @@ public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResp
       form.add(new BasicNameValuePair(Constants.PROJECT, projectId));
 
       String ops =
-          Arrays.stream(operations).map(Operation::asJson).collect(Collectors.joining(","));
+          Arrays.stream(operations)
+              .map(Operation::asJson)
+              .map(MappingsNormalizer::forApplyOperations)
+              .collect(Collectors.joining(","));
+
       String opsAsJsonArray = appendIfMissing(prependIfMissing(ops, "["), "]");
       form.add(new BasicNameValuePair("operations", opsAsJsonArray));
 

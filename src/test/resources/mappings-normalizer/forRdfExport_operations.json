@@ -1,0 +1,385 @@
+{
+  "entries": [
+    {
+      "description": "Save RDF Mapping",
+      "operation": {
+        "op": "mapping-editor/save-rdf-mapping",
+        "mapping": {
+          "baseIRI": "http://example/base/",
+          "namespaces": {
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "schema": "http://schema.org/",
+            "geo": "http://www.opengis.net/ont/geosparql#",
+            "amsterdam": "https://data/amsterdam/nl/resource/",
+            "sf": "http://www.opengis.net/ont/sf#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+          },
+          "subjectMappings": [
+            {
+              "propertyMappings": [
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "schema",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "title"
+                    }
+                  },
+                  "values": [
+                    {
+                      "valueSource": {
+                        "columnName": "Title",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "type": "literal"
+                      }
+                    },
+                    {
+                      "valueSource": {
+                        "columnName": "TitleEN",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "type": "language_literal",
+                        "language": {
+                          "valueSource": {
+                            "source": "constant",
+                            "constant": "english"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "schema",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "description"
+                    }
+                  },
+                  "values": [
+                    {
+                      "valueSource": {
+                        "columnName": "Shortdescription",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "type": "literal"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "schema",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "latitude"
+                    }
+                  },
+                  "values": [
+                    {
+                      "transformation": {
+                        "expression": "value.replace(',','.')",
+                        "language": "grel"
+                      },
+                      "valueSource": {
+                        "source": "row_index"
+                      },
+                      "valueType": {
+                        "type": "datatype_literal",
+                        "datatype": {
+                          "transformation": {
+                            "expression": "xsd",
+                            "language": "prefix"
+                          },
+                          "valueSource": {
+                            "source": "constant",
+                            "constant": "float"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "amsterdam",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "zipcode"
+                    }
+                  },
+                  "values": [
+                    {
+                      "valueSource": {
+                        "columnName": "Zipcode",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "type": "literal"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "schema",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "image"
+                    }
+                  },
+                  "values": [
+                    {
+                      "valueSource": {
+                        "columnName": "Media",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "propertyMappings": [],
+                        "type": "iri",
+                        "typeMappings": []
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "geo",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "hasGeometry"
+                    }
+                  },
+                  "values": [
+                    {
+                      "transformation": {
+                        "expression": "amsterdam:geometry/",
+                        "language": "prefix"
+                      },
+                      "valueSource": {
+                        "columnName": "Trcid",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "propertyMappings": [
+                          {
+                            "property": {
+                              "transformation": {
+                                "expression": "geo",
+                                "language": "prefix"
+                              },
+                              "valueSource": {
+                                "source": "constant",
+                                "constant": "asWKT"
+                              }
+                            },
+                            "values": [
+                              {
+                                "transformation": {
+                                  "expression": "\"<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (\" + cells[\"Longitude\"].value.replace(',', '.') + \" \" + cells[\"Latitude\"].value.replace(',', '.')  + \")\"",
+                                  "language": "grel"
+                                },
+                                "valueSource": {
+                                  "source": "row_index"
+                                },
+                                "valueType": {
+                                  "type": "datatype_literal",
+                                  "datatype": {
+                                    "transformation": {
+                                      "expression": "geo",
+                                      "language": "prefix"
+                                    },
+                                    "valueSource": {
+                                      "source": "constant",
+                                      "constant": "wktLiteral"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "type": "iri",
+                        "typeMappings": [
+                          {
+                            "transformation": {
+                              "expression": "sf",
+                              "language": "prefix"
+                            },
+                            "valueSource": {
+                              "source": "constant",
+                              "constant": "Point"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "amsterdam",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "uniquelocation"
+                    }
+                  },
+                  "values": [
+                    {
+                      "valueSource": {
+                        "columnName": "Trcid",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "propertyMappings": [
+                          {
+                            "property": {
+                              "transformation": {
+                                "expression": "amsterdam",
+                                "language": "prefix"
+                              },
+                              "valueSource": {
+                                "source": "constant",
+                                "constant": "address"
+                              }
+                            },
+                            "values": [
+                              {
+                                "valueSource": {
+                                  "columnName": "Adres",
+                                  "source": "column"
+                                },
+                                "valueType": {
+                                  "type": "literal"
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "type": "unique_bnode"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "property": {
+                    "transformation": {
+                      "expression": "amsterdam",
+                      "language": "prefix"
+                    },
+                    "valueSource": {
+                      "source": "constant",
+                      "constant": "valuelocation"
+                    }
+                  },
+                  "values": [
+                    {
+                      "valueSource": {
+                        "columnName": "Trcid",
+                        "source": "column"
+                      },
+                      "valueType": {
+                        "propertyMappings": [
+                          {
+                            "property": {
+                              "transformation": {
+                                "expression": "amsterdam",
+                                "language": "prefix"
+                              },
+                              "valueSource": {
+                                "source": "constant",
+                                "constant": "city"
+                              }
+                            },
+                            "values": [
+                              {
+                                "valueSource": {
+                                  "columnName": "City",
+                                  "source": "column"
+                                },
+                                "valueType": {
+                                  "type": "literal"
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "type": "value_bnode"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "subject": {
+                "transformation": {
+                  "expression": "amsterdam:restaurant/",
+                  "language": "prefix"
+                },
+                "valueSource": {
+                  "columnName": "Trcid",
+                  "source": "column"
+                }
+              },
+              "typeMappings": [
+                {
+                  "transformation": {
+                    "expression": "schema",
+                    "language": "prefix"
+                  },
+                  "valueSource": {
+                    "source": "constant",
+                    "constant": "Restaurant"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Save RDF Mapping"
+      }
+    },
+    {
+      "description": "Text transform on 725 cells in column City: value.toTitlecase()",
+      "operation": {
+        "op": "core/text-transform",
+        "engineConfig": {
+          "facets": [],
+          "mode": "row-based"
+        },
+        "columnName": "City",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column City using expression value.toTitlecase()"
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides logic for JSON parsing.
@@ -22,6 +22,11 @@ public enum JsonParser {
 
   private static final ObjectMapper OBJECT_MAPPER =
       new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+  private static final ObjectMapper STRICT_OBJECT_MAPPER =
+      new ObjectMapper().disable(
+          DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES,
+          DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
   /**
    * Parses given JSON to specific type using {@link ObjectMapper}.
@@ -109,5 +114,26 @@ public enum JsonParser {
       throw new RefineException("Node with path '" + path + "' is missing: " + jsonNode);
     }
     return node;
+  }
+
+  /**
+   * Checks whether the input JSON can be materialized into the given type.
+   *
+   * @param <T> the class of the type
+   * @param clazz reference to the actual type
+   * @return <code>true</code> if the provided JSON can be materialized to the specified class,
+   *         <code>false</code> otherwise
+   */
+  public <T> boolean isAssignable(String json, Class<T> clazz) {
+    if (StringUtils.isBlank(json) || "{}".equals(json.trim())) {
+      return false;
+    }
+
+    try {
+      STRICT_OBJECT_MAPPER.readValue(json, clazz);
+      return true;
+    } catch (IOException ioe) { // NOSONAR
+      return false;
+    }
   }
 }
