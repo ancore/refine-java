@@ -24,7 +24,7 @@
 
 <https://data/amsterdam/nl/resource/geometry/669d7d82-8962-4e88-b2e1-7b8706633aa0>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9003230 52.3775440)"^^geo:wktLiteral .
 
 _:node1 amsterdam:address "Stationsplein 10" .
 
@@ -42,7 +42,7 @@ _:node2 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/8d9eb314-4433-477e-84b7-35a3552b6fbe>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9108380 52.3703240)"^^geo:wktLiteral .
 
 _:node3 amsterdam:address "Rapenburgerplein 6 HS" .
 
@@ -60,7 +60,7 @@ _:node4 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/ca0e88a6-5cd2-4dc0-8d6a-4273f84721bd>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8819140 52.3652890)"^^geo:wktLiteral .
 
 _:node5 amsterdam:address "Korte Leidsedwarsstraat 15" .
 
@@ -79,7 +79,7 @@ _:node6 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/adcd917e-a472-4aed-aace-999c95e97006>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8979420 52.3644210)"^^geo:wktLiteral .
 
 _:node7 amsterdam:address "Utrechtsestraat 32" .
 
@@ -98,7 +98,7 @@ _:node8 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/8c83496c-0b8b-41f2-987c-21ddb78b2978>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8890150 52.3723020)"^^geo:wktLiteral .
 
 _:node9 amsterdam:address "Paleisstraat 16" .
 
@@ -117,7 +117,7 @@ _:node10 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/56b1dd7d-4ac3-4e24-826e-cb8b55617f42>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9054970 52.3600380)"^^geo:wktLiteral .
 
 _:node11 amsterdam:address "Professor Tulpplein 1" .
 
@@ -135,7 +135,7 @@ _:node12 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/2760a2d8-0404-45df-aa6e-fd88c602d5b9>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8904390 52.3736470)"^^geo:wktLiteral .
 
 _:node13 amsterdam:address "Nieuwezijds Voorburgwal 182" .
 
@@ -154,7 +154,7 @@ _:node14 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/17d5d8e4-80c9-459a-8dd2-c59a1eb87618>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8925680 52.3736560)"^^geo:wktLiteral .
 
 _:node15 amsterdam:address "Nieuwendijk 224" .
 
@@ -173,7 +173,7 @@ _:node16 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/6c176a7d-04ba-4b4f-83dd-eab89961f971>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8251040 52.3417330)"^^geo:wktLiteral .
 
 _:node17 amsterdam:address "John M. Keynesplein 2" .
 
@@ -192,7 +192,7 @@ _:node18 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/9792d7d2-6aa9-4317-b9ff-71d673084e61>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8816340 52.3782390)"^^geo:wktLiteral .
 
 _:node19 amsterdam:address "Westerstraat 186" .
 
@@ -211,7 +211,7 @@ _:node20 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/586d2ccd-de3d-4354-86d2-3b37a2820d39>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8938650 52.3732480)"^^geo:wktLiteral .
 
 _:node21 amsterdam:address "Dam 1" .
 
@@ -230,7 +230,7 @@ _:node22 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/81fc539d-4d17-4ffe-8e6c-e87de32ace78>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8995560 52.3765520)"^^geo:wktLiteral .
 
 _:node23 amsterdam:address "Prins Hendrikkade 52-57" .
 
@@ -249,7 +249,7 @@ _:node24 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/43ad34d9-3571-4721-9382-ffe860fe8755>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8964230 52.3656790)"^^geo:wktLiteral .
 
 _:node25 amsterdam:address "Rembrandtplein 42" .
 
@@ -268,7 +268,7 @@ _:node26 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/07eeee9b-9d1d-40a3-afe3-2119982dda85>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8118490 52.4718770)"^^geo:wktLiteral .
 
 _:node27 amsterdam:address "Lagedijk 32-34" .
 
@@ -286,7 +286,7 @@ _:node28 amsterdam:city "ZAANDIJK" .
 
 <https://data/amsterdam/nl/resource/geometry/e526f228-83f7-4a81-9cda-0d137d1ef2db>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8956800 52.3780830)"^^geo:wktLiteral .
 
 _:node29 amsterdam:address "Nieuwendijk 40" .
 
@@ -305,7 +305,7 @@ _:node30 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/40c53f2a-cc32-4007-9e86-dd15b7cd1df7>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8840520 52.3637490)"^^geo:wktLiteral .
 
 _:node31 amsterdam:address "Korte Leidsedwarsstraat 95" .
 
@@ -324,7 +324,7 @@ _:node32 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/a9e3ddff-6863-427f-a049-f243974d8586>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9128770 52.3496410)"^^geo:wktLiteral .
 
 _:node33 amsterdam:address "Weesperzijde 135" .
 
@@ -343,7 +343,7 @@ _:node34 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/a6e96853-6403-49fa-9d0e-39eeff555a56>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8900800 52.3731270)"^^geo:wktLiteral .
 
 _:node35 amsterdam:address "Dam 3-7" .
 
@@ -362,7 +362,7 @@ _:node36 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/e1b97cca-b08a-4639-b56b-1c93d4777b48>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8173360 52.3372140)"^^geo:wktLiteral .
 
 _:node37 amsterdam:address "Oude Haagseweg 20" .
 
@@ -381,7 +381,7 @@ _:node38 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/eafa02c5-812c-49cb-bf41-3571a507c9b7>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9416950 52.3130940)"^^geo:wktLiteral .
 
 _:node39 amsterdam:address "Arena boulevard 61-75" .
 
@@ -400,7 +400,7 @@ _:node40 amsterdam:city "AMSTERDAM ZUIDOOST" .
 
 <https://data/amsterdam/nl/resource/geometry/2a3ba197-69ab-4be0-931e-1a57f5d14242>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8954940 52.3782540)"^^geo:wktLiteral .
 
 _:node41 amsterdam:address "Nieuwendijk 31" .
 
@@ -419,7 +419,7 @@ _:node42 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/215f8ef9-44f2-421b-8f0e-210153e4a25a>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8888240 52.3633790)"^^geo:wktLiteral .
 
 _:node43 amsterdam:address "Kerkstraat 148" .
 
@@ -438,7 +438,7 @@ _:node44 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/28e4f3e5-13d9-4655-9032-e644ac310d6c>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8971930 52.3657750)"^^geo:wktLiteral .
 
 _:node45 amsterdam:address "Rembrandtplein 44" .
 
@@ -457,7 +457,7 @@ _:node46 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/ba2df677-faad-427a-942f-25fc69869af2>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.9025420 52.3653120)"^^geo:wktLiteral .
 
 _:node47 amsterdam:address "Amstel 51" .
 
@@ -476,7 +476,7 @@ _:node48 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/0dc430b8-f08c-47c9-beac-318bf1d0d6e5>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.7927380 52.3420810)"^^geo:wktLiteral .
 
 _:node49 amsterdam:address "Akersluis 8" .
 
@@ -495,7 +495,7 @@ _:node50 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/fd2ed47c-627c-40da-95b1-dfdca832be62>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8921870 52.3661890)"^^geo:wktLiteral .
 
 _:node51 amsterdam:address "Reguliersdwarsstraat 38" .
 
@@ -514,7 +514,7 @@ _:node52 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/d82a6238-0837-43c7-bf66-851fa1895707>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8986440 52.3632830)"^^geo:wktLiteral .
 
 _:node53 amsterdam:address "Utrechtsestraat 75" .
 
@@ -533,7 +533,7 @@ _:node54 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/672b71ac-b3e7-42c8-ad73-39f54fab6957>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8833480 52.3527450)"^^geo:wktLiteral .
 
 _:node55 amsterdam:address "Roelof Hartstraat 1" .
 
@@ -552,7 +552,7 @@ _:node56 amsterdam:city "AMSTERDAM" .
 
 <https://data/amsterdam/nl/resource/geometry/e27ade8b-ec67-4e34-8b71-d61cc17bb2aa>
   a sf:Point;
-  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT ("^^geo:wktLiteral .
+  geo:asWKT "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (4.8784460 52.3579310)"^^geo:wktLiteral .
 
 _:node57 amsterdam:address "Van Baerlestraat 52" .
 

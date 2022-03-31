@@ -13,6 +13,7 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
+import java.net.URLEncoder;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -106,7 +107,8 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
    */
   private String buildRequestContent() {
     String fixedQuery = query.replaceFirst(projectPlaceholder, project);
-    return StringUtils.prependIfMissing(fixedQuery, "query=");
+    String encodedQuery = URLEncoder.encode(fixedQuery, UTF_8);
+    return StringUtils.prependIfMissing(encodedQuery, "query=");
   }
 
   @Override

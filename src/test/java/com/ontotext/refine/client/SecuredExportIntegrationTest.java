@@ -66,7 +66,7 @@ class SecuredExportIntegrationTest extends CommandIntegrationTest {
             new ByteArrayInputStream(exportRdfResponse.getResult().getBytes()),
             RDFFormat.TURTLE);
 
-    assertTrue("The expected result different then the acual one.", areEqual);
+    assertTrue("The expected result is different then the acual one.", areEqual);
 
     DeleteProjectResponse deleteResponse = deleteProject(projectId);
     assertEquals(ResponseCode.OK, deleteResponse.getCode());

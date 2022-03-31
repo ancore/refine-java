@@ -2,11 +2,19 @@
 
 ## Version 1.6
 
-### New 
+### New
+
+ - Move the project to Java 11. Initially it was on 11, but after a while it was downgraded to 8, because of internal projects that were still developed on 8. Now we can
+   proceed with the initial plan.
 
 ### Changes
 
+ - Updated the version of the ``jackson-databind`` library to the latest. The previous is detected as vulnerable by the security scans. 
+
 ### Bug fixes
+
+ - Fixed a major bug in the `SparqlBasedRdfExportCommand`. The problem was that the payload for the request (the actual SPARQL query) was not encoded, which in
+   different cases caused an execution of malformed query. 
 
 
 ## Version 1.5
