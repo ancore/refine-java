@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command.rdf;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -13,16 +14,19 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.util.List;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.message.BasicNameValuePair;
 import org.eclipse.rdf4j.rio.RDFFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A command that exports the data of specific project in RDF format using a SPARQL Construct query.
@@ -35,6 +39,8 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  * @author Antoniy Kunchev
  */
 public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfResponse> {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SparqlBasedExportRdfCommand.class);
 
   private final String project;
   private final String projectPlaceholder;
@@ -87,9 +93,7 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
    * repeatable so that it can be retried.
    */
   private HttpEntity buildEntity() throws IOException {
-    BasicHttpEntity entity = new BasicHttpEntity();
-    entity.setContent(IOUtils.toInputStream(buildRequestContent(), UTF_8));
-    return new BufferedHttpEntity(entity);
+    return new BufferedHttpEntity(new UrlEncodedFormEntity(buildRequestContent(), UTF_8));
   }
 
   /**
@@ -105,10 +109,10 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
    * </pre>
    * And prepends the expected field for the request.
    */
-  private String buildRequestContent() {
+  private List<NameValuePair> buildRequestContent() {
     String fixedQuery = query.replaceFirst(projectPlaceholder, project);
-    String encodedQuery = URLEncoder.encode(fixedQuery, UTF_8);
-    return StringUtils.prependIfMissing(encodedQuery, "query=");
+    LOGGER.debug("The query that will be used for RDF export is: {}", fixedQuery);
+    return singletonList(new BasicNameValuePair("query", fixedQuery));
   }
 
   @Override
