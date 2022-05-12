@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
-import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -24,7 +24,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 
 /**
  * A command to preview expressions on a project.
@@ -82,7 +81,8 @@ public class ExpressionPreviewCommand implements RefineCommand<ExpressionPreview
           .post(client.createUri(endpoint()))
           .addParameter(Constants.CSRF_TOKEN, token)
           .setHeader(ACCEPT, APPLICATION_JSON.getMimeType())
-          .setEntity(new UrlEncodedFormEntity(form, Consts.UTF_8))
+          .setEntity(new UrlEncodedFormEntity(form,
+              UTF_8))
           .build();
 
       return client.execute(request, this);
@@ -97,7 +97,7 @@ public class ExpressionPreviewCommand implements RefineCommand<ExpressionPreview
   @Override
   public ExpressionPreviewResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
-    String responseBody = EntityUtils.toString(response.getEntity());
+    String responseBody = EntityUtils.toString(response.getEntity(), UTF_8);
     return parseExpressionPreviewResponse(responseBody);
   }
 

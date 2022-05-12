@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command.operations;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 import static org.apache.commons.lang3.Validate.noNullElements;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -75,7 +75,7 @@ public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResp
       String opsAsJsonArray = appendIfMissing(prependIfMissing(ops, "["), "]");
       form.add(new BasicNameValuePair("operations", opsAsJsonArray));
 
-      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, UTF_8);
 
       HttpUriRequest request = RequestBuilder
           .post(client.createUri(endpoint()))
@@ -97,7 +97,7 @@ public class ApplyOperationsCommand implements RefineCommand<ApplyOperationsResp
   @Override
   public ApplyOperationsResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
-    String responseBody = EntityUtils.toString(response.getEntity());
+    String responseBody = EntityUtils.toString(response.getEntity(), UTF_8);
     return parseApplyOperationsResponse(responseBody);
   }
 

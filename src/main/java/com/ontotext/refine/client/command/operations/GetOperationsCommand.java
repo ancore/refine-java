@@ -9,13 +9,13 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-
 
 /**
  * A command that retrieves the operations history for specified project.
@@ -53,12 +53,14 @@ public class GetOperationsCommand implements RefineCommand<GetOperationsResponse
   @Override
   public GetOperationsResponse handleResponse(HttpResponse response) throws IOException {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-    JsonMapper mapper = new JsonMapper();
-    JsonNode responseJson = mapper.readTree(response.getEntity().getContent());
-    List<JsonNode> operations = responseJson.findValues("operation");
-    return new GetOperationsResponse()
-        .setContent(mapper.createArrayNode().addAll(operations))
-        .setProject(project);
+    try (InputStream stream = response.getEntity().getContent()) {
+      JsonMapper mapper = new JsonMapper();
+      JsonNode responseJson = mapper.readTree(stream);
+      List<JsonNode> operations = responseJson.findValues("operation");
+      return new GetOperationsResponse()
+          .setContent(mapper.createArrayNode().addAll(operations))
+          .setProject(project);
+    }
   }
 
   /**

@@ -1,13 +1,11 @@
 package com.ontotext.refine.client.command.rdf;
 
-import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
 
 import com.ontotext.refine.client.RefineClient;
@@ -15,7 +13,6 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -117,10 +114,7 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
 
   @Override
   public ExportRdfResponse handleResponse(HttpResponse response) throws IOException {
-    HTTP_PARSER.assureStatusCode(response, SC_OK);
-    return new ExportRdfResponse()
-        .setProject(project)
-        .setResult(IOUtils.toString(response.getEntity().getContent(), UTF_8));
+    return RdfExportResponseHandler.handle(project, format, response);
   }
 
   /**

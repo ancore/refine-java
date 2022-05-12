@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -16,7 +17,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 
 /**
  * A command to retrieve project meta data.
@@ -52,7 +52,7 @@ public class GetProjectMetadataCommand implements RefineCommand<GetProjectMetada
   @Override
   public GetProjectMetadataResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
-    String responseBody = EntityUtils.toString(response.getEntity());
+    String responseBody = EntityUtils.toString(response.getEntity(), UTF_8);
     return new GetProjectMetadataResponse(JSON_PARSER.read(responseBody, ProjectMetadata.class));
   }
 

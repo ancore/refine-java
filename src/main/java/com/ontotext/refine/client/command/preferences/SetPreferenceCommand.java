@@ -2,13 +2,14 @@ package com.ontotext.refine.client.command.preferences;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.Validate;
@@ -19,7 +20,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
-
 
 /**
  * A command to set preference for specific property.
@@ -53,7 +53,7 @@ public class SetPreferenceCommand implements RefineCommand<SetPreferenceCommandR
       HttpUriRequest request = RequestBuilder
           .post(client.createUri(endpoint()))
           .addParameter("name", property)
-          .setEntity(new UrlEncodedFormEntity(form, StandardCharsets.UTF_8))
+          .setEntity(new UrlEncodedFormEntity(form, UTF_8))
           .build();
 
       return client.execute(request, this);
@@ -70,18 +70,20 @@ public class SetPreferenceCommand implements RefineCommand<SetPreferenceCommandR
   @Override
   public SetPreferenceCommandResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-    JsonNode node = JSON_PARSER.parseJson(response.getEntity().getContent());
-    String code = JSON_PARSER.findExistingPath(node, "code").asText();
-    switch (code) {
-      case "ok":
-        return SetPreferenceCommandResponse.ok();
-      case "error":
-        String message = JSON_PARSER.findExistingPath(node, "message").asText();
-        return SetPreferenceCommandResponse.error(message);
-      default:
-        throw new RefineException(
-            "Failed to parse the response from the set preference operation for property: %s",
-            property);
+    try (InputStream stream = response.getEntity().getContent()) {
+      JsonNode node = JSON_PARSER.parseJson(stream);
+      String code = JSON_PARSER.findExistingPath(node, "code").asText();
+      switch (code) {
+        case "ok":
+          return SetPreferenceCommandResponse.ok();
+        case "error":
+          String message = JSON_PARSER.findExistingPath(node, "message").asText();
+          return SetPreferenceCommandResponse.error(message);
+        default:
+          throw new RefineException(
+              "Failed to parse the response from the set preference operation for property: %s",
+              property);
+      }
     }
   }
 

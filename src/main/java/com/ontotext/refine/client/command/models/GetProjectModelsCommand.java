@@ -6,6 +6,7 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import com.ontotext.refine.client.util.HttpParser;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
@@ -49,8 +50,9 @@ public class GetProjectModelsCommand implements RefineCommand<GetProjectModelsRe
   @Override
   public GetProjectModelsResponse handleResponse(HttpResponse response) throws IOException {
     HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-    return new JsonMapper()
-        .readValue(response.getEntity().getContent(), GetProjectModelsResponse.class);
+    try (InputStream stream = response.getEntity().getContent()) {
+      return new JsonMapper().readValue(stream, GetProjectModelsResponse.class);
+    }
   }
 
   /**

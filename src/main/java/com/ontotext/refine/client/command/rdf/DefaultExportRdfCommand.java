@@ -10,12 +10,10 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
-import com.ontotext.refine.client.util.HttpParser;
 import com.ontotext.refine.client.util.mappings.MappingsNormalizer;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.BasicHttpEntity;
@@ -74,10 +72,7 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
 
   @Override
   public ExportRdfResponse handleResponse(HttpResponse response) throws IOException {
-    HttpParser.HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-    return new ExportRdfResponse()
-        .setProject(project)
-        .setResult(IOUtils.toString(response.getEntity().getContent(), UTF_8));
+    return RdfExportResponseHandler.handle(project, format, response);
   }
 
   /**

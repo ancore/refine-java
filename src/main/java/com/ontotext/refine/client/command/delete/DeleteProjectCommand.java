@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command.delete;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -13,14 +14,12 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 
 /**
  * A command to delete a project.
@@ -50,7 +49,7 @@ public class DeleteProjectCommand implements RefineCommand<DeleteProjectResponse
   public DeleteProjectResponse execute(RefineClient client) throws RefineException {
     try {
       UrlEncodedFormEntity entity = new UrlEncodedFormEntity(
-          singletonList(new BasicNameValuePair("project", projectId)), StandardCharsets.UTF_8);
+          singletonList(new BasicNameValuePair("project", projectId)), UTF_8);
 
       HttpUriRequest request = RequestBuilder
           .post(client.createUri(endpoint()))
@@ -70,7 +69,7 @@ public class DeleteProjectCommand implements RefineCommand<DeleteProjectResponse
   @Override
   public DeleteProjectResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
-    String responseBody = EntityUtils.toString(response.getEntity());
+    String responseBody = EntityUtils.toString(response.getEntity(), UTF_8);
     return parseDeleteProjectResponse(responseBody);
   }
 

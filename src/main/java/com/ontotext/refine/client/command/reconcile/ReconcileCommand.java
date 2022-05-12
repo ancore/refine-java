@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command.reconcile;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -13,14 +14,13 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
-
 
 /**
  * A command that performs reconciliation process over the project data.
@@ -30,7 +30,7 @@ import org.apache.http.entity.ContentType;
 public class ReconcileCommand implements RefineCommand<ReconcileCommandResponse> {
 
   private static final String CONTENT_TYPE =
-      ContentType.APPLICATION_FORM_URLENCODED.withCharset(StandardCharsets.UTF_8).toString();
+      ContentType.APPLICATION_FORM_URLENCODED.withCharset(UTF_8).toString();
 
   private static final JsonNode CONFIG;
   private static final JsonNode ENGINE;
@@ -97,19 +97,22 @@ public class ReconcileCommand implements RefineCommand<ReconcileCommandResponse>
   @Override
   public ReconcileCommandResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-    JsonNode node = JSON_PARSER.parseJson(response.getEntity().getContent());
-    String code = JSON_PARSER.findExistingPath(node, "code").asText();
-    switch (code) {
-      case "ok":
-        return ReconcileCommandResponse.ok();
-      case "pending":
-        return ReconcileCommandResponse.pending();
-      case "error":
-        String message = JSON_PARSER.findExistingPath(node, "message").asText();
-        return ReconcileCommandResponse.error(message);
-      default:
-        throw new RefineException(
-            "Failed to reconcile column: '%s' for project: '%s'", column, project);
+    try (InputStream stream = response.getEntity().getContent()) {
+      JsonNode node = JSON_PARSER.parseJson(stream);
+      String code = JSON_PARSER.findExistingPath(node, "code").asText();
+      switch (code) {
+        case "ok":
+          return ReconcileCommandResponse.ok();
+        case "pending":
+          return ReconcileCommandResponse.pending();
+        case "error":
+          String message = JSON_PARSER.findExistingPath(node, "message").asText();
+          return ReconcileCommandResponse.error(message);
+        default:
+          throw new RefineException("Failed to reconcile column: '%s' for project: '%s'",
+              column,
+              project);
+      }
     }
   }
 

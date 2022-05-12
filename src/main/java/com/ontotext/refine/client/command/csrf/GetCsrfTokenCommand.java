@@ -2,6 +2,7 @@ package com.ontotext.refine.client.command.csrf;
 
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static com.ontotext.refine.client.util.JsonParser.JSON_PARSER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.HttpHeaders.ACCEPT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -51,7 +52,7 @@ public class GetCsrfTokenCommand implements RefineCommand<GetCsrfTokenResponse> 
   @Override
   public GetCsrfTokenResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
-    String responseBody = EntityUtils.toString(response.getEntity());
+    String responseBody = EntityUtils.toString(response.getEntity(), UTF_8);
     return parseGetCsrfTokenResponse(responseBody);
   }
 

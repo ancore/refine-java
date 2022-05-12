@@ -8,12 +8,12 @@ import com.ontotext.refine.client.RefineClient;
 import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
+import java.io.InputStream;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-
 
 /**
  * A command to retrieve the preference for specific property.
@@ -50,8 +50,10 @@ public class GetPreferenceCommand implements RefineCommand<GetPreferenceCommandR
   @Override
   public GetPreferenceCommandResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-    JsonNode json = JSON_PARSER.parseJson(response.getEntity().getContent());
-    return new GetPreferenceCommandResponse(json);
+    try (InputStream stream = response.getEntity().getContent()) {
+      JsonNode json = JSON_PARSER.parseJson(stream);
+      return new GetPreferenceCommandResponse(json);
+    }
   }
 
   /**

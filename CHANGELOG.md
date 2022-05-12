@@ -1,12 +1,25 @@
 # Ontotext OntoRefine Client Library
 
-## Version 1.7
+## Version 1.6.2
 
 ### New
 
+ - Introduced additional return types for the SPARQL based RDF export. Previously the result was returned only as ``String``. There are cases, where the produced RDF
+   is quite large and if there is no enough memory to for buffering, the command throws OOM exception, while consuming the stream. With the additional types the users
+   can avoid that problem by writing the stream in the file or directly consuming it from the response object.
+   The return types are also applied for the default command for RDF export, which uses the mapping JSON from the generated from the Mapping UI.
+   The users can control the return type by providing different ``ResultType`` to the ``ResultFormat#as(ResultType)``. The default is ``STRING`` to keep the
+   library compatible and to ease the migration effort.
+
 ### Changes
 
+ - All stream IO operations are now done in ``UTF-8``. There are some utility libraries that have different default charset. To keep the library consistent and
+   the behavior predictable, we explicitly set the charset to ``UTF-8``.
+
 ### Bug fixes
+
+ - There were places, where some of the streams were not closed properly, which may cause memory leaks in specific cases. To ensure that the resources are handled
+   correctly, we've updated the logic to explicitly close all of the streams that we touch.
 
 
 ## Version 1.6.1

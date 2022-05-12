@@ -1,5 +1,6 @@
 package com.ontotext.refine.client.command.rdf;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,11 +11,13 @@ import static org.mockito.Mockito.when;
 
 import com.ontotext.refine.client.command.BaseCommandTest;
 import com.ontotext.refine.client.command.RefineCommands;
+import com.ontotext.refine.client.command.rdf.ResultFormat.ResultType;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -42,11 +45,14 @@ class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, DefaultExp
 
   @Override
   protected DefaultExportRdfCommand command() {
+    return commandBuilder().build();
+  }
+
+  private DefaultExportRdfCommand.Builder commandBuilder() {
     return RefineCommands.exportRdf()
         .setProject(PROJECT_ID)
         .setMapping(mapping)
-        .setFormat(ResultFormat.TURTLE)
-        .build();
+        .setFormat(ResultFormat.TURTLE);
   }
 
   @Override
@@ -83,10 +89,33 @@ class ExportRdfCommandTest extends BaseCommandTest<ExportRdfResponse, DefaultExp
   }
 
   @Test
-  void handleResponse() throws IOException {
+  void handleResponse_asString() throws IOException {
     try (InputStream is = new ByteArrayInputStream("dummy RDF data".getBytes())) {
-      ExportRdfResponse response = command().handleResponse(okResponse(is));
+      DefaultExportRdfCommand command =
+          commandBuilder().setFormat(ResultFormat.TURTLE.as(ResultType.STRING)).build();
+      ExportRdfResponse response = command.handleResponse(okResponse(is));
       assertEquals("dummy RDF data", response.getResult());
+    }
+  }
+
+  @Test
+  void handleResponse_asFile() throws IOException {
+    try (InputStream is = new ByteArrayInputStream("dummy RDF data".getBytes())) {
+      DefaultExportRdfCommand command =
+          commandBuilder().setFormat(ResultFormat.TURTLE.as(ResultType.FILE)).build();
+      ExportRdfResponse response = command.handleResponse(okResponse(is));
+      assertEquals("dummy RDF data", FileUtils.readFileToString(response.getResultFile(), UTF_8));
+      FileUtils.deleteQuietly(response.getResultFile());
+    }
+  }
+
+  @Test
+  void handleResponse_asStream() throws IOException {
+    try (InputStream is = new ByteArrayInputStream("dummy RDF data".getBytes())) {
+      DefaultExportRdfCommand command =
+          commandBuilder().setFormat(ResultFormat.TURTLE.as(ResultType.STREAM)).build();
+      ExportRdfResponse response = command.handleResponse(okResponse(is));
+      assertEquals("dummy RDF data", IOUtils.toString(response.getResultStream(), UTF_8));
     }
   }
 }

@@ -11,13 +11,13 @@ import com.ontotext.refine.client.command.RefineCommand;
 import com.ontotext.refine.client.command.reconcile.GuessColumnTypeCommandResponse.ReconciliationType;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-
 
 /**
  * A command that exports the data of specific project in RDF format.
@@ -74,23 +74,26 @@ public class GuessColumnTypeCommand implements RefineCommand<GuessColumnTypeComm
   @Override
   public GuessColumnTypeCommandResponse handleResponse(HttpResponse response) throws IOException {
     HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
+    try (InputStream stream = response.getEntity().getContent()) {
+      JsonNode node = JSON_PARSER.parseJson(stream);
+      String code = JSON_PARSER.findExistingPath(node, "code").asText();
 
-    JsonNode node = JSON_PARSER.parseJson(response.getEntity().getContent());
-    String code = JSON_PARSER.findExistingPath(node, "code").asText();
+      if ("ok".equals(code)) {
+        String typesAsStr = JSON_PARSER.findExistingPath(node, "types").toString();
+        List<ReconciliationType> types = JSON_PARSER.read(typesAsStr, TYPES);
+        return GuessColumnTypeCommandResponse.ok(project, column, types);
+      }
 
-    if ("ok".equals(code)) {
-      String typesAsStr = JSON_PARSER.findExistingPath(node, "types").toString();
-      List<ReconciliationType> types = JSON_PARSER.read(typesAsStr, TYPES);
-      return GuessColumnTypeCommandResponse.ok(project, column, types);
+      if ("error".equals(code)) {
+        String message = JSON_PARSER.findExistingPath(node, "message").asText();
+        return GuessColumnTypeCommandResponse.error(project, column, message);
+      }
+
+      throw new RefineException(
+          "Failed to guess the type of the column: '%s' for project: '%s'",
+          column,
+          project);
     }
-
-    if ("error".equals(code)) {
-      String message = JSON_PARSER.findExistingPath(node, "message").asText();
-      return GuessColumnTypeCommandResponse.error(project, column, message);
-    }
-
-    throw new RefineException(
-        "Failed to guess the type of the column: '%s' for project: '%s'", column, project);
   }
 
   /**

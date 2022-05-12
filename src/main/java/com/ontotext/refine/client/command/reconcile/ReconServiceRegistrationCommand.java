@@ -14,6 +14,7 @@ import com.ontotext.refine.client.command.preferences.GetPreferenceCommandRespon
 import com.ontotext.refine.client.command.preferences.SetPreferenceCommandResponse;
 import com.ontotext.refine.client.exceptions.RefineException;
 import java.io.IOException;
+import java.io.InputStream;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -96,7 +97,9 @@ public class ReconServiceRegistrationCommand {
     HttpUriRequest request = RequestBuilder.get(service).build();
     return client.execute(request, response -> {
       HTTP_PARSER.assureStatusCode(response, HttpStatus.SC_OK);
-      return JSON_PARSER.parseJson(response.getEntity().getContent());
+      try (InputStream stream = response.getEntity().getContent()) {
+        return JSON_PARSER.parseJson(stream);
+      }
     });
   }
 
