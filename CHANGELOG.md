@@ -1,5 +1,14 @@
 # Ontotext OntoRefine Client Library
 
+## Version 1.7
+
+### New
+
+### Changes
+
+### Bug fixes
+
+
 ## Version 1.6.2
 
 ### New
@@ -15,6 +24,9 @@
 
  - All stream IO operations are now done in ``UTF-8``. There are some utility libraries that have different default charset. To keep the library consistent and
    the behavior predictable, we explicitly set the charset to ``UTF-8``.
+ - All third party and utility libraries are not updated to the latest version. There were issues with the artifact deployment so in order to solve it some of the
+   libraries had to be updated, but in the process we ended up updating all.
+ - Updated the versions of the actions used in the CI and Release processes.
 
 ### Bug fixes
 

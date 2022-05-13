@@ -7,7 +7,7 @@
 
     <groupId>com.ontotext</groupId>
     <artifactId>ontorefine-client</artifactId>
-    <version>1.6.2</version>
+    <version>1.7.0-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>An OntoRefine Client Library</description>
@@ -56,23 +56,22 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>../ontorefine-client/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
-        <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
-        <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
-        <dependency.check.plugin.version>6.3.2</dependency.check.plugin.version>
-        <jacoco.version>0.8.7</jacoco.version>
+        <maven.surefire.plugin.version>3.0.0-M6</maven.surefire.plugin.version>
+        <dependency.check.plugin.version>7.1.0</dependency.check.plugin.version>
+        <jacoco.version>0.8.8</jacoco.version>
 
         <httpcomponents.version>4.5.13</httpcomponents.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
-        <commons.io.version>2.10.0</commons.io.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <jackson.databind.version>2.13.2.2</jackson.databind.version>
-        <rdf4j.version>3.7.2</rdf4j.version>
+        <rdf4j.version>4.0.0</rdf4j.version>
 
-        <junit.jupiter.version>5.8.1</junit.jupiter.version>
-        <mockito.version>3.8.0</mockito.version>
-        <testcontainers.version>1.16.0</testcontainers.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <mockito.version>4.5.1</mockito.version>
+        <testcontainers.version>1.17.1</testcontainers.version>
         <e2e.graphdb.docker.image>ontotext/graphdb:10.0.0-M1</e2e.graphdb.docker.image>
 
         <checkstyle.enabled>true</checkstyle.enabled>
