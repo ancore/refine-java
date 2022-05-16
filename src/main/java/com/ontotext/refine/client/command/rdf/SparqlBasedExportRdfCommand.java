@@ -159,6 +159,11 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
       return this;
     }
 
+    public Builder setOutput(OutputType output) {
+      this.output = output;
+      return this;
+    }
+
     /**
      * Builds a {@link SparqlBasedExportRdfCommand}.
      *

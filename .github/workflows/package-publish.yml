@@ -33,7 +33,7 @@ jobs:
       run: mvn -B package -DskipTests -Dcheckstyle.skip --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -DskipTests -Dcheckstyle.skip -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn --batch-mode deploy -DskipTests -Dcheckstyle.skip -s $GITHUB_WORKSPACE/settings.xml
       env:
         ONTO_MVN_USER_REF: ${{ secrets.ONTO_MAVEN_REPO_USER }}
         ONTO_MVN_TOKEN_REF: ${{ secrets.ONTO_MAVEN_REPO_PASSWORD }}
