@@ -44,18 +44,21 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
   private final String query;
   private final ResultFormat format;
   private final String repository;
+  private final OutputType output;
 
   private SparqlBasedExportRdfCommand(
       String project,
       String projectPlaceholder,
       String query,
       ResultFormat format,
-      String repository) {
+      String repository,
+      OutputType output) {
     this.project = project;
     this.projectPlaceholder = projectPlaceholder;
     this.query = query;
     this.format = format;
     this.repository = repository;
+    this.output = output;
   }
 
   @Override
@@ -114,7 +117,7 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
 
   @Override
   public ExportRdfResponse handleResponse(HttpResponse response) throws IOException {
-    return RdfExportResponseHandler.handle(project, format, response);
+    return RdfExportResponseHandler.handle(project, response, output);
   }
 
   /**
@@ -129,6 +132,7 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
     private String query;
     private ResultFormat format;
     private String repository;
+    private OutputType output;
 
     public Builder setProject(String project) {
       this.project = project;
@@ -167,7 +171,7 @@ public class SparqlBasedExportRdfCommand implements RefineCommand<ExportRdfRespo
       notNull(format, "Missing 'format' argument");
       notBlank(repository, "Missing 'repository' argument");
       return new SparqlBasedExportRdfCommand(
-          project, projectPlaceholder, query, format, repository);
+          project, projectPlaceholder, query, format, repository, output);
     }
   }
 }

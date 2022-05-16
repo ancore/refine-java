@@ -31,11 +31,14 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
   private final String project;
   private final String mapping;
   private final ResultFormat format;
+  private final OutputType output;
 
-  private DefaultExportRdfCommand(String project, String mapping, ResultFormat format) {
+  private DefaultExportRdfCommand(
+      String project, String mapping, ResultFormat format, OutputType output) {
     this.project = project;
     this.mapping = mapping;
     this.format = format;
+    this.output = output;
   }
 
   @Override
@@ -72,7 +75,7 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
 
   @Override
   public ExportRdfResponse handleResponse(HttpResponse response) throws IOException {
-    return RdfExportResponseHandler.handle(project, format, response);
+    return RdfExportResponseHandler.handle(project, response, output);
   }
 
   /**
@@ -85,6 +88,7 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
     private String project;
     private String mapping;
     private ResultFormat format;
+    private OutputType output;
 
     public Builder setProject(String project) {
       this.project = project;
@@ -101,6 +105,11 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
       return this;
     }
 
+    public Builder setOutput(OutputType output) {
+      this.output = output;
+      return this;
+    }
+
     /**
      * Builds a {@link DefaultExportRdfCommand}.
      *
@@ -110,7 +119,7 @@ public class DefaultExportRdfCommand implements RefineCommand<ExportRdfResponse>
       notBlank(project, "Missing 'project' argument");
       notBlank(mapping, "Missing 'mapping' argument");
       notNull(format, "Missing 'format' argument");
-      return new DefaultExportRdfCommand(project, mapping, format);
+      return new DefaultExportRdfCommand(project, mapping, format, output);
     }
   }
 }

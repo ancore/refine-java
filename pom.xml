@@ -30,8 +30,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/Ontotext-AD/ontorefine-client.git</connection>
-        <developerConnection>scm:git:https://github.com/Ontotext-AD/ontorefine-client.git</developerConnection>
+        <connection>scm:git:git@github.com/Ontotext-AD/ontorefine-client.git</connection>
+        <developerConnection>scm:git:git@github.com/Ontotext-AD/ontorefine-client.git</developerConnection>
         <url>https://github.com/Ontotext-AD/ontorefine-client</url>
     </scm>
 

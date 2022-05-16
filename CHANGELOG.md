@@ -9,6 +9,18 @@
 ### Bug fixes
 
 
+## Version 1.6.3
+
+### Changes
+
+ - Changed the logic related to the RDF export return type introduced in ``1.6.2``. Now the output type is moved as property of the command, instead of sub-property of
+   the ``ResultFormat``. This way the setting of the options is more transparent and explicit for the user.
+ - Changed the handling of the different result return types from the ``ExportRdfResponse``. Now the result can be retrieved by each of the methods which is more
+   convenient for the usage. The actual result is converted from either from the in-memory buffered ``String`` or temporary file.
+   **Note**: when retrieving the result as ``String``, but it exceeds the buffer size, OOM will be thrown by underlining library used for the conversion. In such cases,
+   it is recommended to work with the file based result.
+
+
 ## Version 1.6.2
 
 ### New

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.ontotext.refine.client.RefineClient;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -71,9 +72,21 @@ public abstract class BaseCommandTest<T, R extends RefineCommand<T>> {
    * @return HTTP response instance
    */
   protected HttpResponse okResponse(InputStream body) {
+    return okResponse(body, BigInteger.valueOf(-1));
+  }
+
+  /**
+   * Creates response with status 'OK'.
+   *
+   * @param body for the response
+   * @param contentLength used to explicitly set the length of the content
+   * @return HTTP response instance
+   */
+  protected HttpResponse okResponse(InputStream body, BigInteger contentLength) {
     BasicStatusLine statusLine = new BasicStatusLine(HttpVersion.HTTP_1_1, 200, "OK");
     BasicHttpEntity entity = new BasicHttpEntity();
     entity.setContent(body);
+    entity.setContentLength(contentLength.longValue());
     BasicHttpResponse response = new BasicHttpResponse(statusLine);
     response.setEntity(entity);
     return response;

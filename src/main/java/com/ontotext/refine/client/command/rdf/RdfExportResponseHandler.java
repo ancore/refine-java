@@ -1,5 +1,6 @@
 package com.ontotext.refine.client.command.rdf;
 
+import static com.ontotext.refine.client.command.rdf.RdfExportFileUtils.createTempFile;
 import static com.ontotext.refine.client.util.HttpParser.HTTP_PARSER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -8,9 +9,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,28 +32,42 @@ class RdfExportResponseHandler {
    * Handles the response from RDF export command.
    *
    * @param project identifier which data was exported
-   * @param format in which the data was exported. Provides the settings for the
-   *        {@link ResultFormat.ResultType}
    * @param response that was returned from the request execution
+   * @param output the type of the output that should be used for the result
    * @return {@link ExportRdfResponse} object containing the result from the export command
    * @throws IOException when there is a problem during the response handling
    */
-  static ExportRdfResponse handle(String project, ResultFormat format, HttpResponse response)
+  static ExportRdfResponse handle(String project, HttpResponse response, OutputType output)
       throws IOException {
     HTTP_PARSER.assureStatusCode(response, SC_OK);
-    try (InputStream stream = response.getEntity().getContent()) {
+
+    HttpEntity entity = response.getEntity();
+    try (InputStream stream = entity.getContent()) {
       ExportRdfResponse rdfResponse = new ExportRdfResponse().setProject(project);
-      switch (format.getAs()) {
-        case STRING:
-          return toStr(stream, rdfResponse);
-        case FILE:
-          return toFile(stream, rdfResponse);
-        case STREAM:
-          return rdfResponse.setResultStream(IOUtils.toBufferedInputStream(stream));
-        default:
-          return toStr(stream, rdfResponse);
+
+      if (OutputType.FILE.equals(output)) {
+        return toFile(stream, rdfResponse);
       }
+
+      boolean buffer = canBuffer(entity.getContentLength(), project);
+      if (OutputType.STRING.equals(output) && buffer) {
+        return toStr(stream, rdfResponse);
+      }
+
+      return buffer ? toStr(stream, rdfResponse) : toFile(stream, rdfResponse);
     }
+  }
+
+  private static boolean canBuffer(long length, String project) {
+    if (length > 0 && length < Integer.MAX_VALUE) {
+      return true;
+    }
+
+    LOGGER.warn(
+        "The result from the RDF export of project '{}' cannot be buffered in-memory."
+            + " As fallback the result will be stored in temporary file.",
+        project);
+    return false;
   }
 
   private static ExportRdfResponse toStr(InputStream stream, ExportRdfResponse response)
@@ -63,10 +77,7 @@ class RdfExportResponseHandler {
 
   private static ExportRdfResponse toFile(InputStream stream, ExportRdfResponse response)
       throws IOException {
-    Path tempDirectory = Files.createTempDirectory("ontorefine-client");
-    String suffix = "project-" + response.getProject() + "-rdfExport-";
-    File tempFile = Files.createTempFile(tempDirectory, suffix, ".tmp").toFile();
-    LOGGER.trace("Writing the exported RDF in file: {}", tempFile.getAbsolutePath());
+    File tempFile = createTempFile(response.getProject()).toFile();
     try (FileOutputStream fos = new FileOutputStream(tempFile)) {
       IOUtils.copyLarge(stream, fos);
     }
