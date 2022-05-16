@@ -5,6 +5,6 @@ package com.ontotext.refine.client.command.rdf;
  *
  * @author Antoniy Kunchev
  */
-enum OutputType {
+public enum OutputType {
   STRING, FILE
 }
