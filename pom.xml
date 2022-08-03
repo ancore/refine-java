@@ -10,7 +10,7 @@
     <version>1.7.0-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>An OntoRefine Client Library</description>
+    <description>An Ontotext Refine Client Library</description>
     <url>https://github.com/Ontotext-AD/ontorefine-client</url>
 
     <licenses>
@@ -23,7 +23,7 @@
     <developers>
         <developer>
             <name>The Ontotext Team</name>
-            <email><!-- TODO --></email>
+            <email>refine-support@ontotext.com</email>
             <organization>Ontotext-AD</organization>
             <organizationUrl>https://github.com/Ontotext-AD</organizationUrl>
         </developer>
@@ -57,21 +57,21 @@
         <sonar.coverage.jacoco.xmlReportPaths>../ontorefine-client/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
-        <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
+        <maven.resources.plugin.version>3.3.0</maven.resources.plugin.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
-        <maven.surefire.plugin.version>3.0.0-M6</maven.surefire.plugin.version>
-        <dependency.check.plugin.version>7.1.0</dependency.check.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
+        <dependency.check.plugin.version>7.1.1</dependency.check.plugin.version>
         <jacoco.version>0.8.8</jacoco.version>
 
         <httpcomponents.version>4.5.13</httpcomponents.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <jackson.databind.version>2.13.2.2</jackson.databind.version>
-        <rdf4j.version>4.0.0</rdf4j.version>
+        <jackson.databind.version>2.13.3</jackson.databind.version>
+        <rdf4j.version>4.1.0</rdf4j.version>
 
-        <junit.jupiter.version>5.8.2</junit.jupiter.version>
-        <mockito.version>4.5.1</mockito.version>
-        <testcontainers.version>1.17.1</testcontainers.version>
+        <junit.jupiter.version>5.9.0</junit.jupiter.version>
+        <mockito.version>4.6.1</mockito.version>
+        <testcontainers.version>1.17.3</testcontainers.version>
         <e2e.graphdb.docker.image>ontotext/graphdb:10.0.0-M1</e2e.graphdb.docker.image>
 
         <checkstyle.enabled>true</checkstyle.enabled>

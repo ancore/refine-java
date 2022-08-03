@@ -23,7 +23,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'adopt'
+        distribution: 'temurin'
         server-id: all-onto # Value of the distributionManagement/repository/id field of the pom.xml
         server-username: ONTO_MVN_USER_REF
         server-password: ONTO_MVN_TOKEN_REF

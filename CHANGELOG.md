@@ -6,6 +6,11 @@
 
 ### Changes
 
+ - Updates the version of all third party dependencies used by the project. This is done in order to keep the project up-to-date and avoid potential security issues due
+   vulnerabilities in the libraries.
+ - Updated the CI and release workflow configurations to use `temurin` Java distribution instead of `adopt`. The main reason for this change is the fact that `adopt`
+   actually moved to `temurin` and it won't be supported anymore.
+
 ### Bug fixes
 
 
@@ -36,7 +41,7 @@
 
  - All stream IO operations are now done in ``UTF-8``. There are some utility libraries that have different default charset. To keep the library consistent and
    the behavior predictable, we explicitly set the charset to ``UTF-8``.
- - All third party and utility libraries are not updated to the latest version. There were issues with the artifact deployment so in order to solve it some of the
+ - All third party and utility libraries are now updated to the latest version. There were issues with the artifact deployment so in order to solve it some of the
    libraries had to be updated, but in the process we ended up updating all.
  - Updated the versions of the actions used in the CI and Release processes.
 

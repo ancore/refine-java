@@ -25,7 +25,7 @@ public interface RefineClients {
    * @return new default {@link RefineClient} instance
    * @throws URISyntaxException when the input <code>uri</code> argument is invalid
    */
-  @Deprecated
+  @Deprecated(since = "1.4", forRemoval = true)
   static RefineClient create(String uri) throws URISyntaxException {
     return standard(uri);
   }
