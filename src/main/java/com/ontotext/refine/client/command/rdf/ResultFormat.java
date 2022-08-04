@@ -32,11 +32,8 @@ public enum ResultFormat {
 
   JSONLD(RDFFormat.JSONLD),
 
-  RDFJSON(RDFFormat.RDFJSON),
+  RDFJSON(RDFFormat.RDFJSON);
 
-  RDFA(RDFFormat.RDFA),
-
-  HDT(RDFFormat.HDT);
 
   private final RDFFormat rdfFormat;
 
